@@ -1,0 +1,125 @@
+# Car Repasse — Contexto do Projeto
+
+Este arquivo é lido automaticamente pelo Claude Code em toda sessão. Ele define **o que é o projeto, como ele deve parecer e como o código deve ser escrito**. A especificação funcional completa está em `SPEC.md`.
+
+---
+
+## 1. O produto
+
+**Car Repasse** é um marketplace brasileiro de compra e venda de veículos, focado em carros na **modalidade repasse** (abaixo da tabela FIPE), mas que também aceita anúncios com **preço final** para o consumidor.
+
+- **Slogan:** "Preço baixo. Verdade sempre."
+- **Problema que resolve:** lojistas, corretores e particulares reclamam da OLX — muito anúncio genérico, pouca transparência, golpes frequentes e nenhuma ferramenta pensada para quem trabalha com repasse.
+- **Públicos (todos compram E vendem):**
+  - **Lojista** — revenda com estoque, quer girar carro rápido.
+  - **Corretor** — intermediário, compra no repasse e revende.
+  - **Particular** — pessoa física vendendo ou comprando o próprio carro.
+- **Diferenciais:**
+  1. Cadastro inteligente: digita a placa e o sistema preenche marca, modelo, versão, ano e FIPE.
+  2. FIPE e % de desconto sempre visíveis em todo anúncio.
+  3. Descrição honesta do estado do veículo é obrigatória.
+  4. Duas modalidades de preço no mesmo anúncio: repasse e preço final.
+  5. Postura ativa contra golpes: aviso de isenção, dicas de segurança, botão de denúncia, incentivo à vistoria cautelar.
+- **Modelo de negócio atual:** anunciar é **100% gratuito** para todos. Não criar telas de planos, pagamentos ou anúncios pagos. Apenas deixar a arquitetura sem impedimentos para isso no futuro.
+- **Canal de aquisição:** Instagram @carrepasse01. A maior parte dos acessos virá do celular, por links compartilhados no Instagram e WhatsApp.
+
+---
+
+## 2. Stack e restrições
+
+- **Next.js 14+ (App Router)**, **TypeScript em modo strict**, **Tailwind CSS**.
+- **Sem backend nesta fase.** Toda persistência é simulada com `localStorage`, atrás de uma camada de repositórios (ver seção 5). Nenhum componente acessa `localStorage` diretamente.
+- Única API externa real permitida: **FIPE pública da Parallelum** (`https://parallelum.com.br/fipe/api/v1`), com fallback para mock se falhar.
+- A consulta por **placa é mockada** (provedores reais são pagos e exigem backend).
+- Bibliotecas aprovadas: `lucide-react` (ícones), `react-hook-form` + `zod` (formulários e validação), `clsx` + `tailwind-merge` (classes), `embla-carousel-react` (galeria). Pedir confirmação antes de adicionar qualquer outra dependência.
+- Não usar bibliotecas de componentes prontas (shadcn, MUI, Chakra). Os componentes base são próprios, em `components/ui`.
+- Gerenciador de pacotes: **npm**.
+
+---
+
+## 3. Design system
+
+### Direção visual
+Esportiva, premium e confiável. Dark mode como padrão e único tema no MVP. Inspiração na logo: escudo verde-limão, letras cromadas, silhueta de carro esportivo sobre fundo preto. Evitar visual de "classificado barato" — o site precisa transmitir que é sério e seguro.
+
+### Cores (definir como tokens no `tailwind.config.ts`)
+| Token | Valor | Uso |
+|---|---|---|
+| `bg` | `#0A0A0A` | Fundo da página |
+| `surface` | `#141414` | Cards, header, modais |
+| `surface-2` | `#1E1E1E` | Inputs, hovers, blocos internos |
+| `border` | `#2A2A2A` | Bordas e divisores |
+| `brand` | `#7ED321` | Cor principal: CTAs, preços, links ativos |
+| `brand-dark` | `#4CAF1A` | Hover e final do gradiente |
+| `chrome` | `#E5E5E5` | Títulos e texto principal |
+| `chrome-muted` | `#A3A3A3` | Texto secundário |
+| `danger` | `#EF4444` | Erros, denúncia |
+| `warning` | `#F59E0B` | Avisos (leilão, sinistro) |
+
+- Gradiente de marca: `linear-gradient(135deg, #7ED321, #4CAF1A)` em botões primários e badges de desconto.
+- Efeito "cromado" opcional em títulos grandes: gradiente de `#FFFFFF` a `#9CA3AF` com `background-clip: text`.
+- Contraste mínimo WCAG AA em todo texto.
+
+### Tipografia (via `next/font/google`)
+- **Títulos:** `Exo 2`, pesos 700–800, levemente condensada e esportiva, com `tracking-tight`.
+- **Texto e UI:** `Inter`, pesos 400–600.
+- **Preços:** `Exo 2` 700, sempre na cor `brand`.
+
+### Forma e movimento
+- Bordas arredondadas: `rounded-xl` em cards, `rounded-lg` em inputs e botões.
+- Sombras discretas; realce com borda `brand` em hover/foco em vez de sombra pesada.
+- Transições curtas (150–200ms). Respeitar `prefers-reduced-motion`.
+- Estados de foco sempre visíveis (anel verde).
+
+### Logo
+- A logo original está em `logo/` na raiz do projeto. Copiar para `public/brand/` e usar via `next/image`.
+- A imagem atual tem fundo preto; ela funciona sobre o fundo `bg`. Não aplicar sobre fundos claros.
+- Gerar a partir dela: favicon, ícones do PWA (192 e 512) e imagem padrão de Open Graph (1200×630).
+
+---
+
+## 4. Convenções de código
+
+- **Idioma:** toda a interface em **português do Brasil**. Nomes de variáveis, funções, tipos e arquivos em **inglês**. Comentários em português quando forem necessários.
+- **Server Components por padrão**; `"use client"` só onde houver estado, eventos ou `localStorage`.
+- Componentes pequenos e focados. Um componente por arquivo, nome em PascalCase.
+- Tipos centralizados em `types/`. Nada de `any`.
+- Formatação sempre pelos helpers de `lib/format.ts`: moeda em BRL (`R$ 45.900`), quilometragem (`87.500 km`), datas relativas ("há 2 dias").
+- Placas: aceitar formato antigo (`ABC-1234`) e Mercosul (`ABC1D23`), normalizando para maiúsculas sem hífen.
+- Acessibilidade: `alt` em toda imagem, `label` em todo input, navegação completa por teclado, HTML semântico.
+- Responsivo **mobile-first**, testado a partir de 360px de largura.
+- Todo estado assíncrono tem loading (skeleton), vazio e erro tratados.
+
+---
+
+## 5. Arquitetura
+
+```
+app/                 # Rotas (App Router)
+components/
+  ui/                # Botão, Input, Select, Badge, Modal, Skeleton...
+  listing/           # Cards, galeria, bloco de preço, ficha técnica...
+  layout/            # Header, Footer, BottomNav mobile
+  forms/             # Wizard de anúncio e seus passos
+lib/                 # format.ts, plate.ts, fipe-math.ts, cn.ts
+services/            # Integrações: fipeApi.ts, plateLookup.ts (mock)
+repositories/        # Persistência: listingRepository.ts, userRepository.ts...
+mocks/               # Dados iniciais (seed)
+types/               # Interfaces de domínio
+hooks/               # useAuth, useFavorites, useListings...
+public/brand/        # Logo, ícones, OG
+```
+
+- **Repositórios** expõem funções assíncronas (`list`, `getById`, `create`, `update`, `remove`) que hoje usam `localStorage` com seed de `mocks/`. No futuro serão trocados por chamadas HTTP sem alterar nenhum componente.
+- **Serviços** simulam latência realista (300–900ms) para que os estados de loading sejam exercitados.
+
+---
+
+## 6. Git e fluxo de trabalho
+
+- Repositório: `https://github.com/evoxioprofissional-code/carrepasse.git`, branch principal `main`.
+- Commits pequenos e frequentes, no padrão **Conventional Commits** em português: `feat: cadastro de anúncio por placa`, `fix: formatação de km`, `chore: configura tailwind`.
+- Fazer commit ao final de cada fase do `SPEC.md` e dar push.
+- Antes de cada commit: `npm run lint` e `npm run build` precisam passar sem erros.
+- Nunca commitar `.env`, chaves ou `node_modules`.
+- Ao terminar uma fase, resumir o que foi feito e o que falta antes de seguir para a próxima.
