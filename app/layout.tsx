@@ -4,6 +4,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 // Fontes variáveis (sem lista de pesos): cobrem 400–600 e 700–800 e evitam
@@ -21,6 +22,7 @@ const exo2 = Exo_2({
 });
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl(),
   title: {
     default: "Car Repasse — Preço baixo. Verdade sempre.",
     template: "%s | Car Repasse",
