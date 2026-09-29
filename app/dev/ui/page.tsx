@@ -16,6 +16,7 @@ import { ChipsDemo } from "./_components/ChipsDemo";
 import { DemoSection } from "./_components/DemoSection";
 import { FormDemo } from "./_components/FormDemo";
 import { ModalDemo } from "./_components/ModalDemo";
+import { ServicesDemo } from "./_components/ServicesDemo";
 
 export const metadata: Metadata = {
   title: "Componentes",
@@ -120,6 +121,10 @@ export default function DevUiPage() {
 
       <DemoSection title="Modal e drawer">
         <ModalDemo />
+      </DemoSection>
+
+      <DemoSection title="Serviços: placa (mock) + FIPE (real)">
+        <ServicesDemo />
       </DemoSection>
 
       <DemoSection title="Tooltip">
