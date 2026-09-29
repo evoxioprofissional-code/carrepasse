@@ -26,6 +26,20 @@ const config: Config = {
         },
         danger: "#EF4444",
         warning: "#F59E0B",
+        // Tema claro da vitrine (home): header/hero escuros, anúncios em fundo claro.
+        night: "#0F1113",
+        paper: "#F4F5F7",
+        ink: {
+          DEFAULT: "#15171A",
+          muted: "#5E6570",
+        },
+        line: "#E1E4E8",
+        lime: {
+          DEFAULT: "#7ED321",
+          hover: "#8FE03A",
+          ink: "#2F6B0C",
+          soft: "#EAF6DC",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],

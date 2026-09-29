@@ -1,23 +1,12 @@
-import { AudienceSection } from "@/components/home/AudienceSection";
-import { BrowseShortcuts } from "@/components/home/BrowseShortcuts";
-import { DealsCarousel } from "@/components/home/DealsCarousel";
-import { FinalCta } from "@/components/home/FinalCta";
 import { HomeHero } from "@/components/home/HomeHero";
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { RecentListings } from "@/components/home/RecentListings";
-import { TrustStrip } from "@/components/home/TrustStrip";
+import { HomeMarketplace } from "@/components/home/HomeMarketplace";
 
 export default function HomePage() {
   return (
-    <>
+    // Área clara vai até o footer (anula o espaçamento inferior do <main>).
+    <div className="-mb-20 bg-paper">
       <HomeHero />
-      <TrustStrip />
-      <DealsCarousel />
-      <BrowseShortcuts />
-      <RecentListings />
-      <HowItWorks />
-      <AudienceSection />
-      <FinalCta />
-    </>
+      <HomeMarketplace />
+    </div>
   );
 }

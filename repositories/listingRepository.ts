@@ -8,8 +8,29 @@ import { readUsersSync, toSellerSummary } from "./userRepository";
 const KEY = "listings";
 const DEFAULT_LIMIT = 12;
 
+let photosMigrated = false;
+
+/**
+ * Quem abriu o site antes das fotos reais tem os anúncios de demonstração
+ * salvos com as ilustrações SVG. Troca só essas fotos, sem mexer no resto.
+ */
+function migrateSeedPhotos(listings: Listing[]): Listing[] {
+  if (photosMigrated) return listings;
+  photosMigrated = true;
+  const seedPhotos = new Map(createSeedListings().map((listing) => [listing.id, listing.photos]));
+  let changed = false;
+  const migrated = listings.map((listing) => {
+    const fresh = seedPhotos.get(listing.id);
+    if (!fresh || !listing.photos.every((photo) => photo.startsWith("/placeholders/"))) return listing;
+    changed = true;
+    return { ...listing, photos: fresh };
+  });
+  if (changed) writeValue(KEY, migrated);
+  return migrated;
+}
+
 function readAll(): Listing[] {
-  return readValue<Listing[]>(KEY, () => createSeedListings());
+  return migrateSeedPhotos(readValue<Listing[]>(KEY, () => createSeedListings()));
 }
 
 function withSellers(listings: Listing[]): ListingWithSeller[] {

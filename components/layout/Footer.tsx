@@ -33,13 +33,14 @@ const columns: { title: string; links: NavLink[] }[] = [
       { href: "/como-funciona", label: "Como funciona" },
       { href: "/termos", label: "Termos de uso" },
       { href: "/privacidade", label: "Política de privacidade" },
+      { href: "/creditos", label: "Créditos das imagens" },
     ],
   },
 ];
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-border bg-[#070707]">
+    <footer className="border-t border-border bg-[#070707]">
       <Container className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="flex flex-col items-start gap-4">
           <Image src={logo} alt="Car Repasse" className="h-auto w-24" />

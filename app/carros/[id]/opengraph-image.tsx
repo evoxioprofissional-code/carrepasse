@@ -1,11 +1,12 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { illustrationColorFor, renderCarSvg } from "@/lib/car-illustration";
+import { illustrationColorFor, isIllustrativePhoto, renderCarSvg } from "@/lib/car-illustration";
 import { compareWithFipe, mainPrice } from "@/lib/fipe-math";
 import { formatBRL, formatKm, formatYears } from "@/lib/format";
 import { loadExo2 } from "@/lib/og-font";
 import { getSeedListing, getSeedListingIds } from "@/repositories/seedSnapshot";
+import type { BodyType } from "@/types/listing";
 
 export const alt = "Anúncio no Car Repasse";
 export const size = { width: 1200, height: 630 };
@@ -16,6 +17,20 @@ export function generateStaticParams() {
 }
 
 const BG = "#0A0A0A";
+
+/** Foto do anúncio embutida na imagem; sem foto local, usa a ilustração. */
+async function photoDataUrl(photo: string | undefined, bodyType: BodyType, color: string): Promise<string> {
+  if (photo?.startsWith("/demo/")) {
+    try {
+      const file = await readFile(join(process.cwd(), "public", photo));
+      return `data:image/jpeg;base64,${file.toString("base64")}`;
+    } catch {
+      // cai na ilustração abaixo
+    }
+  }
+  const svg = renderCarSvg(bodyType, illustrationColorFor(color), 1);
+  return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
+}
 const BRAND = "#7ED321";
 
 // Imagem que aparece quando o link do anúncio é colado no WhatsApp/Instagram.
@@ -48,8 +63,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
     ...(bold ? [{ name: "Exo 2", data: bold, weight: 800 as const, style: "normal" as const }] : []),
     ...(medium ? [{ name: "Exo 2", data: medium, weight: 500 as const, style: "normal" as const }] : []),
   ];
-  const car = renderCarSvg(listing.bodyType, illustrationColorFor(listing.color), 1);
-  const carSrc = `data:image/svg+xml;base64,${Buffer.from(car).toString("base64")}`;
+  const carSrc = await photoDataUrl(listing.photos[0], listing.bodyType, listing.color);
 
   return new ImageResponse(
     (
@@ -88,8 +102,15 @@ export default async function Image({ params }: { params: Promise<{ id: string }
           </div>
         </div>
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={carSrc} width={580} height={435} alt="" style={{ borderRadius: 24 }} />
+          <div style={{ display: "flex", position: "relative" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={carSrc} width={540} height={405} alt="" style={{ borderRadius: 24, objectFit: "cover" }} />
+            {isIllustrativePhoto(listing.photos[0]) && (
+              <div style={{ position: "absolute", left: 16, bottom: 16, display: "flex", fontSize: 18, color: "#FFFFFF", background: "rgba(0,0,0,0.6)", padding: "4px 10px", borderRadius: 6 }}>
+                Imagem ilustrativa
+              </div>
+            )}
+          </div>
         </div>
       </div>
     ),

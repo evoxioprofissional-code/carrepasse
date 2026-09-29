@@ -14,7 +14,7 @@ export interface NavLink {
 }
 
 export const MAIN_NAV: NavLink[] = [
-  { href: "/carros", label: "Comprar" },
+  { href: "/carros", label: "Comprar carros" },
+  { href: "/anunciar", label: "Vender meu carro" },
   { href: "/como-funciona", label: "Como funciona" },
-  { href: "/seguranca", label: "Segurança" },
 ];

@@ -1,64 +1,43 @@
-import Link from "next/link";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { searchHref, type SearchFilters } from "@/lib/listing-query";
-import { SITE } from "@/lib/site";
-import { FeaturedDeal } from "./FeaturedDeal";
-import { HeroSearch } from "./HeroSearch";
 
-const QUICK_SEARCHES: { label: string; filters: SearchFilters }[] = [
-  { label: "Até R$ 50 mil", filters: { priceMax: 50000 } },
-  { label: "SUVs", filters: { bodyType: "suv" } },
-  { label: "Picapes", filters: { bodyType: "picape" } },
-  { label: "Automáticos", filters: { transmission: "automatico" } },
-  { label: "Sem leilão e sem sinistro", filters: { noAuction: true, noAccident: true } },
-  { label: "Só repasse", filters: { priceMode: "repasse" } },
-];
+// Foto de fundo do hero (Wikimedia Commons, créditos em /creditos).
+// Sem o arquivo, o hero fica no fundo escuro liso — nada de carro desenhado.
+const HERO_PHOTO = "/demo/hero.jpg";
 
 export function HomeHero() {
+  const hasHeroPhoto = existsSync(join(process.cwd(), "public", HERO_PHOTO));
+
   return (
-    <section className="relative overflow-hidden border-b border-border">
-      {/* Brilho verde de fundo, discreto */}
+    <section className="relative isolate overflow-hidden bg-night">
+      {hasHeroPhoto && (
+        <div aria-hidden className="absolute inset-y-0 right-0 -z-20 w-full sm:w-[70%] lg:w-[52%]">
+          <Image
+            src={HERO_PHOTO}
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1024px) 52vw, (min-width: 640px) 70vw, 100vw"
+            className="object-cover object-[60%_42%]"
+          />
+        </div>
+      )}
+      {/* Camada escura: sólida à esquerda (texto) e abrindo para a foto à direita */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-40 -top-40 size-[640px] rounded-full bg-brand/10 blur-[120px]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#0F1113_0%,#0F1113_40%,rgba(15,17,19,0.78)_58%,rgba(15,17,19,0.35)_80%,rgba(15,17,19,0.15)_100%)] max-sm:bg-[linear-gradient(90deg,rgba(15,17,19,0.9)_0%,rgba(15,17,19,0.62)_100%)]"
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]"
-      />
-
-      <Container className="relative grid items-center gap-10 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-16">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand">{SITE.slogan}</p>
-          <h1 className="text-chrome-gradient mt-3 text-4xl font-extrabold leading-[1.05] sm:text-5xl xl:text-6xl">
-            Carros abaixo da FIPE. Sem enrolação.
-          </h1>
-          <p className="mt-4 max-w-xl text-base text-chrome-muted sm:text-lg">
-            Repasse e preço final de lojistas, corretores e particulares, com a FIPE e o estado real de
-            cada carro à vista.
-          </p>
-
-          <div className="mt-8">
-            <HeroSearch />
-          </div>
-
-          <ul className="mt-5 flex flex-wrap gap-2" aria-label="Buscas rápidas">
-            {QUICK_SEARCHES.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={searchHref(item.filters)}
-                  className="inline-flex h-8 items-center rounded-full border border-border bg-surface px-3 text-sm text-chrome transition duration-150 hover:border-brand hover:text-brand"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="hidden lg:block">
-          <FeaturedDeal />
-        </div>
+      <Container className="pb-[88px] pt-7 sm:pt-9 lg:pb-[78px] lg:pt-7">
+        <h1 className="max-w-3xl text-[34px] font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[52px] lg:leading-[1.02]">
+          Seu próximo carro.
+          <br />
+          Um negócio mais justo.
+        </h1>
+        <p className="mt-3 max-w-3xl text-base text-white/85 sm:text-lg lg:text-xl">
+          Compare preços, confira os detalhes e negocie direto com o vendedor.
+        </p>
       </Container>
     </section>
   );

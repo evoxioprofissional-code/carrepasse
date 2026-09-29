@@ -113,7 +113,7 @@ export function ListingGallery({ photos, title }: ListingGalleryProps) {
                   index === selected ? "border-brand" : "border-transparent opacity-70 hover:opacity-100",
                 )}
               >
-                <ListingPhoto src={photo} alt="" sizes="120px" />
+                <ListingPhoto src={photo} alt="" sizes="120px" showIllustrativeLabel={false} />
               </button>
             </li>
           ))}

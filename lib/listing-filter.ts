@@ -1,5 +1,5 @@
 import type { ListingQuery, ListingWithSeller } from "@/types/listing";
-import { listingDiscount, mainPrice } from "./fipe-math";
+import { compareWithFipe, listingDiscount, mainPrice } from "./fipe-math";
 
 function normalizeText(value: string): string {
   return value
@@ -32,6 +32,8 @@ export function matchesQuery(listing: ListingWithSeller, query: ListingQuery): b
   if (query.sellerId && listing.sellerId !== query.sellerId) return false;
   if (query.noAuction && listing.condition.hasAuctionHistory) return false;
   if (query.noAccident && listing.condition.hasAccidentHistory) return false;
+  if (query.automatic && listing.transmission === "manual") return false;
+  if (query.belowFipe && compareWithFipe(listing.fipePrice, price).kind !== "below") return false;
 
   if (query.priceMode === "repasse" && listing.priceMode === "final") return false;
   if (query.priceMode === "final" && listing.priceMode === "repasse") return false;

@@ -155,7 +155,6 @@ export function renderCarSvg(bodyType: BodyType, color: IllustrationColor, view:
     ${wheel(rearX, wheelY, shape.wheelRadius)}
     ${wheel(frontX, wheelY, shape.wheelRadius)}
   </g>
-  <text x="24" y="578" font-family="Arial, sans-serif" font-size="15" fill="#6f6f6f">Imagem ilustrativa</text>
 </svg>`;
 }
 
@@ -168,6 +167,14 @@ export function illustrationPhotos(bodyType: BodyType, color: IllustrationColor,
   return ILLUSTRATION_VIEWS.slice(0, Math.max(1, Math.min(count, 4))).map((view) =>
     illustrationPath(bodyType, color, view),
   );
+}
+
+/**
+ * Fotos de demonstração (ilustrações do seed ou fotos de banco em /demo/).
+ * Só elas recebem o selo "Imagem ilustrativa"; fotos enviadas pelo vendedor não.
+ */
+export function isIllustrativePhoto(src: string | undefined): boolean {
+  return Boolean(src && (src.startsWith("/placeholders/") || src.startsWith("/demo/")));
 }
 
 /** "Prata" → "prata"; cores sem ilustração caem em "prata". */

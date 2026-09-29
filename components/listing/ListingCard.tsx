@@ -38,7 +38,7 @@ export function ListingCard({ listing, priority, className }: ListingCardProps) 
           priority={priority}
           className="transition duration-300 group-hover:scale-[1.03]"
         />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/50 to-transparent" />
 
         {comparison.kind === "below" && (
           <Badge variant="discount" className="absolute left-3 top-3 px-2.5 py-1 text-sm shadow-lg shadow-black/30">
@@ -53,12 +53,14 @@ export function ListingCard({ listing, priority, className }: ListingCardProps) 
 
         <FavoriteButton listingId={listing.id} listingTitle={title} className="absolute right-3 top-3 z-10" />
 
-        <span className="absolute bottom-2.5 left-3 inline-flex items-center gap-1 text-xs font-medium text-white">
-          <Camera aria-hidden className="size-3.5" />
-          {listing.photos.length}
-        </span>
-        <span className="absolute bottom-2.5 right-3 rounded bg-black/60 px-1.5 py-0.5 text-[0.7rem] font-semibold uppercase tracking-wide text-chrome">
-          {listing.priceMode === "ambos" ? "Repasse + final" : priceLabel}
+        <span className="absolute bottom-2 right-3 flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-1 rounded bg-black/60 px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">
+            <Camera aria-hidden className="size-3" />
+            {listing.photos.length}
+          </span>
+          <span className="rounded bg-black/60 px-1.5 py-0.5 text-[0.7rem] font-semibold uppercase tracking-wide text-chrome">
+            {listing.priceMode === "ambos" ? "Repasse + final" : priceLabel}
+          </span>
         </span>
       </div>
 

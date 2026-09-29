@@ -48,7 +48,7 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
         <SkipLink />
         <Header />
-        <main id="conteudo" className="flex-1">
+        <main id="conteudo" className="flex-1 pb-20">
           {children}
         </main>
         <Footer />

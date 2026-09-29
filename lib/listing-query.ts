@@ -30,6 +30,8 @@ const PARAM = {
   bodyType: "carroceria",
   noAuction: "semLeilao",
   noAccident: "semSinistro",
+  automatic: "automatico",
+  belowFipe: "abaixoFipe",
   text: "busca",
   sort: "ordem",
 } as const satisfies Record<keyof SearchFilters, string>;
@@ -70,6 +72,8 @@ export function parseSearchFilters(params: Reader): SearchFilters {
     bodyType: readEnum<BodyType>(params, PARAM.bodyType, BODY_TYPE_LABEL),
     noAuction: params.get(PARAM.noAuction) === "1" || undefined,
     noAccident: params.get(PARAM.noAccident) === "1" || undefined,
+    automatic: params.get(PARAM.automatic) === "1" || undefined,
+    belowFipe: params.get(PARAM.belowFipe) === "1" || undefined,
     text: readText(params, PARAM.text),
     sort: readEnum<ListingSort>(params, PARAM.sort, SORT_LABEL),
   };

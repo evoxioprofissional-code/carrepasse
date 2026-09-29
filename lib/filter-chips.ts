@@ -35,6 +35,8 @@ export function filterChips(filters: SearchFilters): FilterChip[] {
   if (filters.priceMode) add(filters.priceMode === "repasse" ? "Repasse" : "Preço final", { priceMode: undefined });
   if (filters.noAuction) add("Sem leilão", { noAuction: undefined });
   if (filters.noAccident) add("Sem sinistro", { noAccident: undefined });
+  if (filters.automatic) add("Automáticos", { automatic: undefined });
+  if (filters.belowFipe) add("Abaixo da FIPE", { belowFipe: undefined });
   if (filters.state) add(filters.state, { state: undefined, city: undefined });
   if (filters.city) add(filters.city, { city: undefined });
   if (filters.sellerType) add(SELLER_TYPE_LABEL[filters.sellerType], { sellerType: undefined });

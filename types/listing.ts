@@ -82,6 +82,10 @@ export interface ListingQuery {
   bodyType?: BodyType;
   noAuction?: boolean;
   noAccident?: boolean;
+  /** Qualquer câmbio que não seja manual (automático, CVT, automatizado). */
+  automatic?: boolean;
+  /** Preço principal pelo menos 1% abaixo da FIPE. */
+  belowFipe?: boolean;
   /** Busca livre em marca/modelo/versão. */
   text?: string;
   sellerId?: string;
