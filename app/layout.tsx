@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Exo_2, Inter } from "next/font/google";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { SkipLink } from "@/components/layout/SkipLink";
 import "./globals.css";
 
 // Fontes variáveis (sem lista de pesos): cobrem 400–600 e 700–800 e evitam
@@ -29,6 +33,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: "#0A0A0A",
   colorScheme: "dark",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -38,7 +43,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${exo2.variable}`}>
-      <body className="min-h-dvh">{children}</body>
+      <body className="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
+        <SkipLink />
+        <Header />
+        <main id="conteudo" className="flex-1">
+          {children}
+        </main>
+        <Footer />
+        <BottomNav />
+      </body>
     </html>
   );
 }

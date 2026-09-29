@@ -38,6 +38,20 @@ const config: Config = {
       transitionDuration: {
         DEFAULT: "150ms",
       },
+      keyframes: {
+        "fade-in": {
+          from: { opacity: "0", transform: "scale(0.98)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        "sheet-in": {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 150ms ease-out",
+        "sheet-in": "sheet-in 200ms ease-out",
+      },
     },
   },
   plugins: [],

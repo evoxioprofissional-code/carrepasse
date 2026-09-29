@@ -19,7 +19,7 @@ const swatches = [
 
 export default function Home() {
   return (
-    <main className="mx-auto flex max-w-3xl flex-col items-center gap-10 px-4 py-12">
+    <div className="mx-auto flex max-w-3xl flex-col items-center gap-10 px-4 py-12">
       <Image
         src={logo}
         alt="Car Repasse — Preço baixo. Verdade sempre."
@@ -68,6 +68,6 @@ export default function Home() {
           </li>
         ))}
       </ul>
-    </main>
+    </div>
   );
 }
