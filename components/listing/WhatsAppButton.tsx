@@ -6,9 +6,11 @@ import type { ListingWithSeller } from "@/types/listing";
 interface WhatsAppButtonProps {
   listing: ListingWithSeller;
   className?: string;
+  /** Em telas bem estreitas mostra só "WhatsApp". */
+  compact?: boolean;
 }
 
-export function WhatsAppButton({ listing, className }: WhatsAppButtonProps) {
+export function WhatsAppButton({ listing, className, compact = false }: WhatsAppButtonProps) {
   return (
     <a
       href={whatsappLink(listing.seller.phone, whatsappMessage(listing))}
@@ -19,8 +21,11 @@ export function WhatsAppButton({ listing, className }: WhatsAppButtonProps) {
         className,
       )}
     >
-      <MessageCircle aria-hidden className="size-5" strokeWidth={2.5} />
-      Chamar no WhatsApp
+      <MessageCircle aria-hidden className="size-5 shrink-0" strokeWidth={2.5} />
+      <span className="whitespace-nowrap">
+        <span className={compact ? "max-[389px]:sr-only" : undefined}>Chamar no </span>
+        WhatsApp
+      </span>
     </a>
   );
 }

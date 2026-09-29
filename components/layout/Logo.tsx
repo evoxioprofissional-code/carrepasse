@@ -16,7 +16,7 @@ export function Logo({ className }: LogoProps) {
     <Link
       href="/"
       aria-label="Car Repasse — página inicial"
-      className={cn("flex shrink-0 items-center gap-2.5 rounded-lg", className)}
+      className={cn("flex min-h-11 shrink-0 items-center gap-2.5 rounded-lg", className)}
     >
       <Image src={logoMark} alt="" priority className="h-8 w-auto lg:h-10" />
       <span

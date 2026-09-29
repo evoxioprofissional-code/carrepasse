@@ -84,7 +84,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label="Fechar"
-            className="-m-1 rounded-lg p-1 text-chrome-muted transition duration-150 hover:bg-surface-2 hover:text-chrome"
+            className="-m-2.5 rounded-lg p-2.5 text-chrome-muted transition duration-150 hover:bg-surface-2 hover:text-chrome"
           >
             <X aria-hidden className="size-5" />
           </button>

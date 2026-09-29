@@ -20,7 +20,7 @@ export function Header() {
           <Link
             href="/minha-conta/favoritos"
             aria-label="Favoritos"
-            className="flex size-10 items-center justify-center rounded-md text-white transition duration-150 hover:text-lime"
+            className="flex size-11 items-center justify-center rounded-md text-white transition duration-150 hover:text-lime"
           >
             <Heart aria-hidden className="size-[22px]" />
           </Link>

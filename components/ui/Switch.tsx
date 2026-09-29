@@ -39,7 +39,7 @@ export function Switch({
         disabled={disabled}
         onClick={() => onCheckedChange(!checked)}
         className={cn(
-          "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full border transition duration-150 disabled:opacity-50",
+          "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full border transition duration-150 after:absolute after:-inset-2.5 after:content-[''] disabled:opacity-50",
           checked ? "border-brand bg-brand" : "border-border bg-surface-2",
         )}
       >

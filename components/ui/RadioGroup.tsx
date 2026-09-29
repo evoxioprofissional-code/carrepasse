@@ -50,7 +50,7 @@ export function RadioGroup<T extends string>({
       <div
         className={cn(
           variant === "list" && "flex flex-col gap-2",
-          variant === "cards" && "grid gap-3 sm:grid-cols-[repeat(auto-fit,minmax(10rem,1fr))]",
+          variant === "cards" && "grid gap-2 sm:grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] sm:gap-3",
         )}
       >
         {options.map((option) => {
@@ -60,7 +60,7 @@ export function RadioGroup<T extends string>({
               key={option.value}
               className={cn(
                 "flex cursor-pointer gap-3 rounded-lg border p-3 transition duration-150 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand",
-                variant === "cards" && "flex-col rounded-xl p-4",
+                variant === "cards" && "items-center rounded-xl p-3 sm:flex-col sm:items-stretch sm:p-4",
                 checked
                   ? "border-brand bg-brand/5"
                   : "border-border bg-surface-2 hover:border-chrome-muted/50",

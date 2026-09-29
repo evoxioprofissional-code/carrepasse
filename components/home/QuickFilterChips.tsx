@@ -54,7 +54,7 @@ export function QuickFilterChips({ value, onChange }: QuickFilterChipsProps) {
               aria-pressed={active}
               onClick={() => toggle(chip)}
               className={cn(
-                "inline-flex h-[34px] items-center gap-1.5 rounded-full border px-4 text-sm font-medium transition duration-150",
+                "inline-flex h-10 items-center sm:h-[34px] gap-1.5 rounded-full border px-4 text-sm font-medium transition duration-150",
                 active
                   ? "border-lime-ink bg-lime-soft text-lime-ink"
                   : "border-line bg-white text-ink hover:border-ink-muted/60",

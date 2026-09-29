@@ -30,6 +30,11 @@ export function Input({
 }: InputProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
+  // Teclado do celular: e-mail e senha sem maiúscula automática nem corretor.
+  const keyboardHints =
+    props.type === "email" || props.type === "password"
+      ? { autoCapitalize: "none", autoCorrect: "off", spellCheck: false }
+      : {};
 
   return (
     <Field
@@ -48,6 +53,7 @@ export function Input({
         )}
         <input
           id={inputId}
+          {...keyboardHints}
           required={required}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy(inputId, error, hint)}

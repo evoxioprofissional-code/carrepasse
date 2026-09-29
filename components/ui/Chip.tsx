@@ -15,7 +15,7 @@ export function Chip({ label, onRemove, className }: ChipProps) {
       onClick={onRemove}
       aria-label={`Remover filtro: ${label}`}
       className={cn(
-        "inline-flex h-8 items-center gap-1.5 rounded-full border border-border bg-surface-2 pl-3 pr-2 text-sm text-chrome transition duration-150 hover:border-brand",
+        "inline-flex h-10 items-center sm:h-8 gap-1.5 rounded-full border border-border bg-surface-2 pl-3 pr-2 text-sm text-chrome transition duration-150 hover:border-brand",
         className,
       )}
     >

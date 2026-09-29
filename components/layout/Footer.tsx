@@ -52,7 +52,7 @@ export function Footer() {
             href={SITE.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-chrome transition duration-150 hover:border-brand hover:text-brand"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-chrome transition duration-150 hover:border-brand hover:text-brand"
           >
             <InstagramIcon className="size-4" />
             {SITE.instagramHandle}
@@ -64,12 +64,12 @@ export function Footer() {
             <h2 className="mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-chrome-muted">
               {column.title}
             </h2>
-            <ul className="flex flex-col gap-2.5">
+            <ul className="flex flex-col gap-0.5 sm:gap-2.5">
               {column.links.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="rounded text-sm text-chrome transition duration-150 hover:text-brand"
+                    className="inline-block rounded py-2.5 text-sm text-chrome transition duration-150 hover:text-brand sm:py-0"
                   >
                     {link.label}
                   </Link>

@@ -105,7 +105,7 @@ export function VehicleCard({ listing, priority, className }: VehicleCardProps) 
           href={`/carros/${listing.id}`}
           aria-label={`Ver anúncio: ${title} ${listing.modelYear || ""}`.trim()}
           className={cn(
-            "mt-4 flex h-9 items-center justify-center gap-2 rounded-md border border-lime text-sm font-semibold text-lime-ink transition duration-150",
+            "mt-4 flex h-11 items-center sm:h-9 justify-center gap-2 rounded-md border border-lime text-sm font-semibold text-lime-ink transition duration-150",
             "hover:bg-lime-soft focus-visible:outline-none",
             // Link esticado: o card inteiro abre o anúncio; o coração fica por cima (z-10).
             "after:absolute after:inset-0 after:content-['']",

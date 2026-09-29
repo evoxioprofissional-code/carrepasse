@@ -23,14 +23,14 @@ export default function CreditsPage() {
             <span className="text-sm text-chrome-muted">
               Foto de {credit.author} ·{" "}
               {credit.licenseUrl ? (
-                <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-brand hover:underline">
+                <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer" className="inline-block py-1.5 underline-offset-2 hover:text-brand hover:underline">
                   {credit.license}
                 </a>
               ) : (
                 credit.license
               )}{" "}
               ·{" "}
-              <a href={credit.source} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:text-brand hover:underline">
+              <a href={credit.source} target="_blank" rel="noopener noreferrer" className="inline-block py-1.5 underline-offset-2 hover:text-brand hover:underline">
                 original
               </a>
             </span>

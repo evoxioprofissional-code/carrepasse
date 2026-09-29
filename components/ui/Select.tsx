@@ -22,6 +22,8 @@ type SelectProps = ComponentProps<"select"> & {
   tone?: FieldTone;
   /** Ícone à esquerda do valor (tema claro da busca). */
   icon?: ReactNode;
+  /** Classes extras do ícone (ex.: "max-sm:hidden" para ganhar espaço no celular). */
+  iconClassName?: string;
 };
 
 export function Select({
@@ -36,6 +38,7 @@ export function Select({
   containerClassName,
   tone = "dark",
   icon,
+  iconClassName,
   ...props
 }: SelectProps) {
   const generatedId = useId();
@@ -58,6 +61,7 @@ export function Select({
             className={cn(
               "pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 [&>svg]:size-[18px]",
               tone === "dark" ? "text-chrome-muted" : "text-ink-muted",
+              iconClassName,
             )}
           >
             {icon}

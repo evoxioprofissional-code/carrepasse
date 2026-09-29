@@ -92,7 +92,7 @@ export function ListingGallery({ photos, title }: ListingGalleryProps) {
         <button
           type="button"
           onClick={() => setFullscreen(true)}
-          className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-md bg-black/65 px-2.5 py-1.5 text-xs font-semibold text-white backdrop-blur transition duration-150 hover:bg-black/85"
+          className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 min-h-10 rounded-md bg-black/65 px-3 py-2 text-xs font-semibold text-white backdrop-blur transition duration-150 hover:bg-black/85"
         >
           <Expand aria-hidden className="size-3.5" />
           Tela cheia

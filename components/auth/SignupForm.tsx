@@ -63,7 +63,7 @@ export function SignupForm() {
       footer={
         <>
           Já tem conta?{" "}
-          <Link href={loginHref} className="font-semibold text-brand hover:text-brand-dark">
+          <Link href={loginHref} className="inline-block py-2 font-semibold text-brand hover:text-brand-dark">
             Entrar
           </Link>
         </>

@@ -58,12 +58,13 @@ export function HomeSearchPanel({ options, quickFilters }: HomeSearchPanelProps)
           }),
         );
       }}
-      className="grid grid-cols-1 gap-3 rounded-[10px] bg-white p-4 shadow-[0_10px_30px_rgba(15,17,19,0.14)] sm:grid-cols-2 sm:gap-4 sm:p-5 lg:grid-cols-[repeat(4,minmax(0,1fr))_216px] lg:items-end lg:gap-5 lg:px-6 lg:py-5"
+      className="grid grid-cols-1 gap-3 rounded-[10px] bg-white p-3.5 shadow-[0_10px_30px_rgba(15,17,19,0.14)] min-[360px]:grid-cols-2 sm:gap-4 sm:p-5 lg:grid-cols-[repeat(4,minmax(0,1fr))_216px] lg:items-end lg:gap-5 lg:px-6 lg:py-5"
     >
       <Select
         tone="light"
         label="Marca"
         icon={<Car />}
+        iconClassName="max-sm:hidden"
         placeholder="Todas"
         options={(options?.brands ?? []).map(({ brand: name }) => ({ value: name, label: name }))}
         value={brand}
@@ -72,7 +73,7 @@ export function HomeSearchPanel({ options, quickFilters }: HomeSearchPanelProps)
           setBrand(next);
           if (model && !(modelsByBrand[next] ?? []).includes(model)) setModel("");
         }}
-        className="h-10"
+        className="h-11 max-sm:pl-3 sm:h-10"
       />
       <Select
         tone="light"
@@ -85,31 +86,33 @@ export function HomeSearchPanel({ options, quickFilters }: HomeSearchPanelProps)
           setModel(next);
           if (next && !brand) setBrand(brandOfModel(next));
         }}
-        className="h-10"
+        className="h-11 max-sm:pl-3 sm:h-10"
       />
       <Select
         tone="light"
         label="Até quanto?"
         icon={<CircleDollarSign />}
+        iconClassName="max-sm:hidden"
         placeholder="Qualquer valor"
         options={PRICE_OPTIONS}
         value={priceMax}
         onChange={(event) => setPriceMax(event.target.value)}
-        className="h-10"
+        className="h-11 max-sm:pl-3 sm:h-10"
       />
       <Select
         tone="light"
         label="Localização"
         icon={<MapPin />}
+        iconClassName="max-sm:hidden"
         placeholder="Todo o Brasil"
         options={STATE_OPTIONS}
         value={state}
         onChange={(event) => setState(event.target.value)}
-        className="h-10"
+        className="h-11 max-sm:pl-3 sm:h-10"
       />
       <button
         type="submit"
-        className="flex h-11 items-center justify-center gap-2.5 rounded-md bg-lime text-[15px] font-semibold text-ink transition duration-150 hover:bg-lime-hover sm:col-span-2 lg:col-span-1"
+        className="flex h-11 items-center justify-center gap-2.5 rounded-md bg-lime text-[15px] font-semibold text-ink transition duration-150 hover:bg-lime-hover min-[360px]:col-span-2 lg:col-span-1"
       >
         <Search aria-hidden className="size-5" strokeWidth={2.5} />
         Buscar carros

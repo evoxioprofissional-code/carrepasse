@@ -28,7 +28,7 @@ export function FavoriteButton({ listingId, listingTitle, className, variant = "
         toggle(listingId);
       }}
       className={cn(
-        "flex size-9 items-center justify-center rounded-full transition duration-150",
+        "flex size-11 items-center justify-center rounded-full transition duration-150 sm:size-9",
         variant === "badge" && "bg-black/55 backdrop-blur-sm hover:bg-black/75",
         variant === "plain" && "hover:scale-110 [filter:drop-shadow(0_1px_2px_rgba(0,0,0,0.6))]",
         active ? "text-danger" : "text-white",

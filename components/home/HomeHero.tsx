@@ -29,13 +29,13 @@ export function HomeHero() {
         aria-hidden
         className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#0F1113_0%,#0F1113_40%,rgba(15,17,19,0.78)_58%,rgba(15,17,19,0.35)_80%,rgba(15,17,19,0.15)_100%)] max-sm:bg-[linear-gradient(90deg,rgba(15,17,19,0.9)_0%,rgba(15,17,19,0.62)_100%)]"
       />
-      <Container className="pb-[88px] pt-7 sm:pt-9 lg:pb-[78px] lg:pt-7">
-        <h1 className="max-w-3xl text-[34px] font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[52px] lg:leading-[1.02]">
+      <Container className="pb-[76px] pt-6 sm:pb-[88px] sm:pt-9 lg:pb-[78px] lg:pt-7">
+        <h1 className="max-w-3xl text-[28px] font-extrabold leading-[1.1] tracking-tight text-white min-[375px]:text-[32px] sm:text-5xl lg:text-[52px] lg:leading-[1.02]">
           Seu próximo carro.
           <br />
           Um negócio mais justo.
         </h1>
-        <p className="mt-3 max-w-3xl text-base text-white/85 sm:text-lg lg:text-xl">
+        <p className="mt-3 max-w-3xl text-[15px] leading-snug text-white/85 sm:text-lg lg:text-xl">
           Compare preços, confira os detalhes e negocie direto com o vendedor.
         </p>
       </Container>

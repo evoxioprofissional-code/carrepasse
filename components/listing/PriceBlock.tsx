@@ -65,13 +65,13 @@ export function PriceBlock({ listing }: PriceBlockProps) {
             {listing.fipeCode && <p className="text-xs text-chrome-muted">Código {listing.fipeCode}</p>}
           </div>
           {comparison.kind === "below" && (
-            <span className="inline-flex items-center gap-1 rounded-md bg-brand-gradient px-2.5 py-1 text-sm font-bold text-bg">
+            <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md bg-brand-gradient px-2.5 py-1 text-sm font-bold text-bg">
               <TrendingDown aria-hidden className="size-4" />
               {comparison.percent}% abaixo
             </span>
           )}
           {comparison.kind === "above" && (
-            <span className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-sm text-chrome-muted">
+            <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-border px-2.5 py-1 text-sm text-chrome-muted">
               <TrendingUp aria-hidden className="size-4" />
               {comparison.percent}% acima
             </span>

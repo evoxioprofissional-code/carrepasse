@@ -13,7 +13,7 @@ interface ListingActionsProps {
 }
 
 const actionClass =
-  "inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-lg border border-border bg-surface px-3 text-sm font-semibold text-chrome transition duration-150 hover:border-chrome-muted/60";
+  "inline-flex h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-border bg-surface px-2.5 text-sm font-semibold text-chrome transition duration-150 hover:border-chrome-muted/60";
 
 export function ListingActions({ listingId, title, className }: ListingActionsProps) {
   const { isFavorite, toggle } = useFavorites();
@@ -41,10 +41,19 @@ export function ListingActions({ listingId, title, className }: ListingActionsPr
   };
 
   return (
-    <div className={cn("flex gap-2", className)}>
+    <div className={cn("grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-2", className)}>
       <button type="button" onClick={() => void share()} className={actionClass}>
         {copied ? <Check aria-hidden className="size-4 text-brand" /> : <Share2 aria-hidden className="size-4" />}
-        <span aria-live="polite">{copied ? "Link copiado" : "Compartilhar"}</span>
+        <span aria-live="polite" className="truncate">
+          {copied ? (
+            "Link copiado"
+          ) : (
+            <>
+              <span className="max-[359px]:hidden">Compartilhar</span>
+              <span className="min-[360px]:hidden">Enviar</span>
+            </>
+          )}
+        </span>
       </button>
       <button
         type="button"
@@ -52,13 +61,13 @@ export function ListingActions({ listingId, title, className }: ListingActionsPr
         aria-pressed={favorite}
         className={cn(actionClass, favorite && "border-danger/50 text-danger")}
       >
-        <Heart aria-hidden className={cn("size-4", favorite && "fill-current")} />
-        {favorite ? "Favoritado" : "Favoritar"}
+        <Heart aria-hidden className={cn("size-4 shrink-0", favorite && "fill-current")} />
+        <span className="truncate">{favorite ? "Favoritado" : "Favoritar"}</span>
       </button>
       <button
         type="button"
         onClick={() => setReportOpen(true)}
-        className={cn(actionClass, "w-10 flex-none px-0 text-chrome-muted hover:border-danger/50 hover:text-danger")}
+        className={cn(actionClass, "w-11 px-0 text-chrome-muted hover:border-danger/50 hover:text-danger")}
         aria-label="Denunciar anúncio"
         title="Denunciar anúncio"
       >

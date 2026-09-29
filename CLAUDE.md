@@ -87,7 +87,11 @@ Esportiva, premium e confiável. Dark mode como padrão e único tema no MVP. In
 - Formatação sempre pelos helpers de `lib/format.ts`: moeda em BRL (`R$ 45.900`), quilometragem (`87.500 km`), datas relativas ("há 2 dias").
 - Placas: aceitar formato antigo (`ABC-1234`) e Mercosul (`ABC1D23`), normalizando para maiúsculas sem hífen.
 - Acessibilidade: `alt` em toda imagem, `label` em todo input, navegação completa por teclado, HTML semântico.
-- Responsivo **mobile-first**, testado a partir de 360px de largura.
+- **O site é usado principalmente no celular.** Toda tela é pensada primeiro para o celular e testada em 320, 360, 375, 390, 412 e 430px antes do desktop:
+  - nenhuma rolagem horizontal;
+  - alvos de toque com pelo menos 44px (mínimo aceitável 40px);
+  - campos com fonte de 16px no celular (abaixo disso o iPhone dá zoom sozinho);
+  - barras fixas (navegação inferior, contato) nunca cobrindo conteúdo e respeitando a área segura (`env(safe-area-inset-*)`).
 - Todo estado assíncrono tem loading (skeleton), vazio e erro tratados.
 
 ---

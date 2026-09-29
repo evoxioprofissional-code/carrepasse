@@ -12,16 +12,16 @@ interface SortSelectProps {
 /** "Ordenar por" com o rótulo ao lado do campo, como na vitrine. */
 export function SortSelect({ value, onChange }: SortSelectProps) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex w-full items-center gap-3 sm:w-auto">
       <label htmlFor="home-sort" className="shrink-0 text-sm text-ink-muted">
         Ordenar por
       </label>
-      <div className="relative">
+      <div className="relative flex-1 sm:flex-none">
         <select
           id="home-sort"
           value={value}
           onChange={(event) => onChange(event.target.value as ListingSort)}
-          className="h-10 w-full min-w-[160px] appearance-none rounded-md border border-line bg-white pl-3 pr-10 text-sm text-ink transition duration-150 hover:border-ink-muted/50 focus-visible:border-lime-ink focus-visible:ring-1 focus-visible:ring-lime-ink focus-visible:ring-offset-0"
+          className="h-11 w-full min-w-[160px] appearance-none rounded-md border border-line bg-white pl-3 pr-10 text-base text-ink sm:h-10 sm:text-sm transition duration-150 hover:border-ink-muted/50 focus-visible:border-lime-ink focus-visible:ring-1 focus-visible:ring-lime-ink focus-visible:ring-offset-0"
         >
           {optionsFrom(SORT_LABEL).map((option) => (
             <option key={option.value} value={option.value}>

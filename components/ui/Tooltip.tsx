@@ -61,7 +61,7 @@ export function Tooltip({ label, children, align = "center", className }: Toolti
         onKeyDown={(event) => {
           if (event.key === "Escape") setOpen(false);
         }}
-        className="rounded-full text-chrome-muted transition duration-150 hover:text-brand"
+        className="-m-2 rounded-full p-2 text-chrome-muted transition duration-150 hover:text-brand"
       >
         <Info aria-hidden className="size-4" />
       </button>
