@@ -24,8 +24,10 @@ export interface VehicleCondition {
 export interface Listing {
   id: string;
   sellerId: string;
-  /** Armazenada completa, exibida mascarada: ABC**** */
-  plate: string;
+  /** Placa completa: só vem para o dono do anúncio (tabela privada). */
+  plate?: string;
+  /** 3 primeiras letras, públicas: exibidas como ABC**** */
+  platePrefix?: string;
   brand: string;
   model: string;
   version: string;

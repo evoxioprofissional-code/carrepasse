@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
 import { SellerProfile } from "@/components/seller/SellerProfile";
 import { SELLER_TYPE_LABEL } from "@/lib/labels";
-import { getSeedUser, getSeedUserIds } from "@/repositories/seedSnapshot";
+import { getPublicProfile, getPublicProfileIds } from "@/repositories/serverData";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export function generateStaticParams() {
-  return getSeedUserIds().map((id) => ({ id }));
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getPublicProfileIds()).map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const user = getSeedUser(id);
+  const user = await getPublicProfile(id);
   if (!user) return { title: "Vendedor" };
 
   const name = user.storeName ?? user.name;

@@ -2,21 +2,23 @@ import type { Metadata } from "next";
 import { ListingDetail } from "@/components/listing/ListingDetail";
 import { compareWithFipe, mainPrice } from "@/lib/fipe-math";
 import { formatBRL, formatKm } from "@/lib/format";
-import { getSeedListing, getSeedListingIds } from "@/repositories/seedSnapshot";
+import { getPublicListing, getPublicListingIds } from "@/repositories/serverData";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-// Anúncios de demonstração são pré-gerados; os criados no navegador
-// abrem sob demanda (dados vêm do localStorage, no cliente).
-export function generateStaticParams() {
-  return getSeedListingIds().map((id) => ({ id }));
+// Anúncios ativos são pré-gerados no build; os novos abrem sob demanda.
+// Metadados de anúncios novos aparecem sem novo deploy (revalida a cada 5 min).
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getPublicListingIds()).map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const listing = getSeedListing(id);
+  const listing = await getPublicListing(id);
 
   if (!listing) {
     return {

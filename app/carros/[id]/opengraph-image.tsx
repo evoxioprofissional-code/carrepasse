@@ -5,15 +5,17 @@ import { illustrationColorFor, isIllustrativePhoto, renderCarSvg } from "@/lib/c
 import { compareWithFipe, mainPrice } from "@/lib/fipe-math";
 import { formatBRL, formatKm, formatYears } from "@/lib/format";
 import { loadExo2 } from "@/lib/og-font";
-import { getSeedListing, getSeedListingIds } from "@/repositories/seedSnapshot";
+import { getPublicListing, getPublicListingIds } from "@/repositories/serverData";
 import type { BodyType } from "@/types/listing";
 
 export const alt = "Anúncio no Car Repasse";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export function generateStaticParams() {
-  return getSeedListingIds().map((id) => ({ id }));
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getPublicListingIds()).map((id) => ({ id }));
 }
 
 const BG = "#0A0A0A";
@@ -36,7 +38,7 @@ const BRAND = "#7ED321";
 // Imagem que aparece quando o link do anúncio é colado no WhatsApp/Instagram.
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const listing = getSeedListing(id);
+  const listing = await getPublicListing(id);
   const logo = await readFile(join(process.cwd(), "public/brand/logo-mark.png"));
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 

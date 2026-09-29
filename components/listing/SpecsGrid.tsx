@@ -1,6 +1,5 @@
 import { formatKm, formatYears } from "@/lib/format";
 import { BODY_TYPE_LABEL, FUEL_LABEL, TRANSMISSION_LABEL } from "@/lib/labels";
-import { maskPlate } from "@/lib/plate";
 import type { Listing } from "@/types/listing";
 
 interface SpecsGridProps {
@@ -18,7 +17,7 @@ export function SpecsGrid({ listing }: SpecsGridProps) {
     ["Combustível", FUEL_LABEL[listing.fuel]],
     ["Cor", listing.color],
     ["Carroceria", BODY_TYPE_LABEL[listing.bodyType]],
-    ["Placa", maskPlate(listing.plate)],
+    ["Placa", listing.platePrefix ? `${listing.platePrefix}****` : "Não informada"],
     ["Cidade", `${listing.city}/${listing.state}`],
   ];
 

@@ -3,7 +3,7 @@ import type { User } from "@/types/user";
 // Telefones fictícios (prefixo 9 0000-xxxx) para não cair em números reais.
 export const SEED_USERS: User[] = [
   {
-    id: "u-recife-motors",
+    id: "00000000-0000-4000-8000-000000000101",
     name: "Carlos Albuquerque",
     email: "carlos@recifemotors.com.br",
     phone: "81900000101",
@@ -14,7 +14,7 @@ export const SEED_USERS: User[] = [
     createdAt: "2025-02-10T12:00:00.000Z",
   },
   {
-    id: "u-fortal-veiculos",
+    id: "00000000-0000-4000-8000-000000000102",
     name: "Ana Paula Menezes",
     email: "ana@fortalveiculos.com.br",
     phone: "85900000102",
@@ -25,7 +25,7 @@ export const SEED_USERS: User[] = [
     createdAt: "2025-04-22T12:00:00.000Z",
   },
   {
-    id: "u-campinas-car",
+    id: "00000000-0000-4000-8000-000000000103",
     name: "Rogério Tanaka",
     email: "rogerio@campinascar.com.br",
     phone: "19900000103",
@@ -36,7 +36,7 @@ export const SEED_USERS: User[] = [
     createdAt: "2025-07-03T12:00:00.000Z",
   },
   {
-    id: "u-marcio-santana",
+    id: "00000000-0000-4000-8000-000000000104",
     name: "Márcio Santana",
     email: "marcio.santana@email.com",
     phone: "71900000104",
@@ -46,7 +46,7 @@ export const SEED_USERS: User[] = [
     createdAt: "2025-05-15T12:00:00.000Z",
   },
   {
-    id: "u-juliana-freitas",
+    id: "00000000-0000-4000-8000-000000000105",
     name: "Juliana Freitas",
     email: "juliana.freitas@email.com",
     phone: "31900000105",
@@ -56,7 +56,7 @@ export const SEED_USERS: User[] = [
     createdAt: "2025-09-01T12:00:00.000Z",
   },
   {
-    id: "u-pedro-lima",
+    id: "00000000-0000-4000-8000-000000000106",
     name: "Pedro Henrique Lima",
     email: "pedrohlima@email.com",
     phone: "83900000106",
@@ -66,7 +66,7 @@ export const SEED_USERS: User[] = [
     createdAt: "2026-01-18T12:00:00.000Z",
   },
   {
-    id: "u-fernanda-rocha",
+    id: "00000000-0000-4000-8000-000000000107",
     name: "Fernanda Rocha",
     email: "fernanda.rocha@email.com",
     phone: "84900000107",
@@ -76,7 +76,7 @@ export const SEED_USERS: User[] = [
     createdAt: "2026-03-09T12:00:00.000Z",
   },
   {
-    id: "u-lucas-oliveira",
+    id: "00000000-0000-4000-8000-000000000108",
     name: "Lucas Oliveira",
     email: "lucas.oliveira@email.com",
     phone: "62900000108",
