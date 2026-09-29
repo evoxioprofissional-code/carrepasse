@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Exo_2, Inter } from "next/font/google";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -46,13 +47,15 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${inter.variable} ${exo2.variable}`}>
       <body className="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
-        <SkipLink />
-        <Header />
-        <main id="conteudo" className="flex-1 pb-20">
-          {children}
-        </main>
-        <Footer />
-        <BottomNav />
+        <AuthProvider>
+          <SkipLink />
+          <Header />
+          <main id="conteudo" className="flex-1 pb-20">
+            {children}
+          </main>
+          <Footer />
+          <BottomNav />
+        </AuthProvider>
       </body>
     </html>
   );

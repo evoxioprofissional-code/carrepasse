@@ -1,23 +1,33 @@
 "use client";
 
-import { Heart, LogIn, Menu, Plus } from "lucide-react";
+import { Heart, LogIn, LogOut, Megaphone, Menu, Plus, UserRound } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Modal } from "@/components/ui/Modal";
+import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/cn";
 import { MAIN_NAV } from "@/lib/site";
 
-const EXTRA_LINKS = [
+const GUEST_LINKS = [
   { href: "/minha-conta/favoritos", label: "Favoritos", Icon: Heart },
   { href: "/entrar", label: "Entrar", Icon: LogIn },
+];
+
+const ACCOUNT_LINKS = [
+  { href: "/minha-conta/perfil", label: "Minha conta", Icon: UserRound },
+  { href: "/minha-conta/anuncios", label: "Meus anúncios", Icon: Megaphone },
+  { href: "/minha-conta/favoritos", label: "Favoritos", Icon: Heart },
 ];
 
 /** Menu do celular: os mesmos links do header num painel que sobe de baixo. */
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { state, signOut } = useAuth();
   const close = () => setOpen(false);
+  const extraLinks = state.status === "authenticated" ? ACCOUNT_LINKS : GUEST_LINKS;
 
   return (
     <>
@@ -49,7 +59,7 @@ export function MobileMenu() {
                 </Link>
               </li>
             ))}
-            {EXTRA_LINKS.map(({ href, label, Icon }) => (
+            {extraLinks.map(({ href, label, Icon }) => (
               <li key={href}>
                 <Link
                   href={href}
@@ -61,6 +71,23 @@ export function MobileMenu() {
                 </Link>
               </li>
             ))}
+            {state.status === "authenticated" && (
+              <li>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    close();
+                    await signOut();
+                    router.replace("/");
+                    router.refresh();
+                  }}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-3 text-left text-base font-medium text-chrome transition duration-150 hover:bg-surface-2"
+                >
+                  <LogOut aria-hidden className="size-5 text-chrome-muted" />
+                  Sair
+                </button>
+              </li>
+            )}
           </ul>
           <Link
             href="/anunciar"

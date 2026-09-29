@@ -1,15 +1,21 @@
+import { createBrowserClient } from "@supabase/ssr";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "./config";
 
-let client: SupabaseClient | null = null;
+let browserClient: SupabaseClient | null = null;
+let publicServerClient: SupabaseClient | null = null;
 
 /**
- * Cliente único, usado no navegador e no servidor (leituras públicas).
- * A sessão de login entra na Fase 6.
+ * No navegador: cliente com a sessão do usuário (cookies, renovação automática).
+ * No servidor: cliente anônimo, só para leituras públicas (metadados, build).
  */
 export function supabase(): SupabaseClient {
-  client ??= createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-    auth: { persistSession: typeof window !== "undefined" },
+  if (typeof window !== "undefined") {
+    browserClient ??= createBrowserClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    return browserClient;
+  }
+  publicServerClient ??= createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false },
   });
-  return client;
+  return publicServerClient;
 }
