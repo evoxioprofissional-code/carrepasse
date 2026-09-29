@@ -16,12 +16,12 @@ export function Logo({ className }: LogoProps) {
     <Link
       href="/"
       aria-label="Car Repasse — página inicial"
-      className={cn("flex items-center gap-2 rounded-lg", className)}
+      className={cn("flex shrink-0 items-center gap-2.5 rounded-lg", className)}
     >
-      <Image src={logoMark} alt="" priority className="h-7 w-auto sm:h-8" />
+      <Image src={logoMark} alt="" priority className="h-8 w-auto lg:h-10" />
       <span
         aria-hidden
-        className="flex flex-col font-display text-[0.8rem] font-extrabold italic leading-[0.9] tracking-tight sm:text-sm"
+        className="flex flex-col font-display text-sm font-extrabold italic leading-[0.9] tracking-tight lg:text-base"
       >
         <span className="text-chrome-gradient">CAR</span>
         <span className="text-brand">REPASSE</span>

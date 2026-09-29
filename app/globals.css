@@ -37,6 +37,14 @@
   .text-chrome-gradient {
     @apply bg-chrome-gradient bg-clip-text text-transparent;
   }
+
+  /* Carrosséis horizontais: rolagem sem barra visível */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
