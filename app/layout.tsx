@@ -61,8 +61,9 @@ export default function RootLayout({
           <Footer />
           <BottomNav />
         </AuthProvider>
-        {/* Visitas por página e origem (ex.: Instagram), sem cookies. */}
-        <Analytics />
+        {/* Visitas e origem (ex.: Instagram), sem cookies. Ligar só depois de ativar
+            o Analytics no painel da Vercel (senão o script dá 404 no console). */}
+        {process.env.NEXT_PUBLIC_VERCEL_ANALYTICS === "1" && <Analytics />}
       </body>
     </html>
   );
