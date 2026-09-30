@@ -13,6 +13,8 @@ Projeto `carrepasse` (ref `xpsklsfvbvzxsibesylf`, região `sa-east-1`).
 - `seed.sql` — anúncios de demonstração, gerado a partir de `mocks/`.
   Os 8 vendedores são usuários `demo+...@example.com` com senha aleatória descartada
   (IDs fixos `00000000-0000-4000-8000-0000000001xx`), criados antes pela API admin do Auth.
+  Eles precisam de `app_metadata.demo = true` (só a API admin grava esse campo); sem isso,
+  o gatilho de cadastro tentaria criar o perfil a partir do formulário.
 
 ## Como aplicar
 

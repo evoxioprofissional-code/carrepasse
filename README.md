@@ -56,6 +56,7 @@ Esquema, regras de acesso e seed ficam em [`supabase/`](./supabase/README.md):
 - `migrations/0001_schema.sql` — perfis, anúncios, placa privada, favoritos, denúncias, bucket de fotos
 - `migrations/0002_plate_prefix.sql` — prefixo público da placa (ABC****)
 - `migrations/0003_profile_on_signup.sql` — perfil criado junto com o cadastro
+- `migrations/0004_security_hardening.sql` — travas extras: perfil demo, visualizações/data e origem das fotos
 - `seed.sql` — 30 anúncios e 8 vendedores de demonstração (gerado a partir de `mocks/`)
 
 Para montar um projeto novo: rode as migrações em ordem e depois o seed no SQL Editor da Supabase.
