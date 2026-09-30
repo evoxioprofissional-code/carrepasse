@@ -90,7 +90,7 @@ export function ListingSearch() {
       </header>
 
       {/* Barra mobile: filtros + ordenação */}
-      <div className="sticky top-16 z-30 -mx-4 mb-4 flex items-end gap-3 border-b border-border bg-bg/95 px-4 pb-3 pt-1 backdrop-blur lg:hidden">
+      <div className="sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-30 -mx-4 mb-4 flex items-end gap-3 border-b border-border bg-bg/95 px-4 pb-3 pt-1 backdrop-blur lg:hidden">
         <Button variant="secondary" className="h-11 shrink-0" onClick={() => setDrawerOpen(true)}>
           <SlidersHorizontal aria-hidden className="size-4" />
           Filtros{activeCount > 0 && ` (${activeCount})`}

@@ -27,11 +27,11 @@ Este arquivo é lido automaticamente pelo Claude Code em toda sessão. Ele defin
 
 ## 2. Stack e restrições
 
-- **Next.js 14+ (App Router)**, **TypeScript em modo strict**, **Tailwind CSS**.
-- **Sem backend nesta fase.** Toda persistência é simulada com `localStorage`, atrás de uma camada de repositórios (ver seção 5). Nenhum componente acessa `localStorage` diretamente.
-- Única API externa real permitida: **FIPE pública da Parallelum** (`https://parallelum.com.br/fipe/api/v1`), com fallback para mock se falhar.
-- A consulta por **placa é mockada** (provedores reais são pagos e exigem backend).
-- Bibliotecas aprovadas: `lucide-react` (ícones), `react-hook-form` + `zod` (formulários e validação), `clsx` + `tailwind-merge` (classes), `embla-carousel-react` (galeria). Pedir confirmação antes de adicionar qualquer outra dependência.
+- **Next.js 16 (App Router)**, **TypeScript em modo strict**, **Tailwind CSS 3.4** (tokens em `tailwind.config.ts`).
+- **Backend: Supabase** (projeto `carrepasse`, região `sa-east-1`): Postgres com RLS, Auth (e-mail e senha) e Storage (fotos). Esquema versionado em `supabase/migrations/` (ver `supabase/README.md`). Nenhum componente acessa a Supabase ou o `localStorage` diretamente — só os repositórios (seção 5).
+- APIs externas: **FIPE pública da Parallelum** (v1 para marca/modelo/ano, v2 por código FIPE), com plano B no catálogo local; **IBGE Localidades** (cidades por UF).
+- A consulta por **placa ainda é mockada** (`services/plateLookup.ts`). A troca prevista é pelo **API Placas** (wdapi2), chamado só pelo servidor com o token em variável de ambiente. Envio de e-mail (recuperação de senha) previsto com **Resend**.
+- Bibliotecas aprovadas: `lucide-react` (ícones), `react-hook-form` + `zod` + `@hookform/resolvers` (formulários), `clsx` + `tailwind-merge@2` (classes), `embla-carousel-react` (galeria), `@supabase/supabase-js` + `@supabase/ssr` (dados e sessão). Pedir confirmação antes de adicionar qualquer outra dependência.
 - Não usar bibliotecas de componentes prontas (shadcn, MUI, Chakra). Os componentes base são próprios, em `components/ui`.
 - Gerenciador de pacotes: **npm**.
 
@@ -40,7 +40,7 @@ Este arquivo é lido automaticamente pelo Claude Code em toda sessão. Ele defin
 ## 3. Design system
 
 ### Direção visual
-Esportiva, premium e confiável. Dark mode como padrão e único tema no MVP. Inspiração na logo: escudo verde-limão, letras cromadas, silhueta de carro esportivo sobre fundo preto. Evitar visual de "classificado barato" — o site precisa transmitir que é sério e seguro.
+Esportiva, premium e confiável. Header e topo das páginas escuros; a vitrine (home) e as páginas de conteúdo usam área clara para os anúncios e textos (tokens `night`, `paper`, `ink`, `line`, `lime` no `tailwind.config.ts`). Busca, anúncio e conta ainda estão no tema escuro original. Inspiração na logo: escudo verde-limão, letras cromadas, silhueta de carro esportivo sobre fundo preto. Evitar visual de "classificado barato" — o site precisa transmitir que é sério e seguro.
 
 ### Cores (definir como tokens no `tailwind.config.ts`)
 | Token | Valor | Uso |
@@ -114,8 +114,9 @@ hooks/               # useAuth, useFavorites, useListings...
 public/brand/        # Logo, ícones, OG
 ```
 
-- **Repositórios** expõem funções assíncronas (`list`, `getById`, `create`, `update`, `remove`) que hoje usam `localStorage` com seed de `mocks/`. No futuro serão trocados por chamadas HTTP sem alterar nenhum componente.
-- **Serviços** simulam latência realista (300–900ms) para que os estados de loading sejam exercitados.
+- **Repositórios** expõem funções assíncronas (`list`, `getById`, `create`, `update`, `remove`) sobre a Supabase. `localStorage` fica só para preferências do aparelho (favoritos de visitante, rascunho do anúncio), sempre via `repositories/storage.ts`.
+- **`mocks/`** é a fonte do seed de demonstração (`supabase/seed.sql`), do catálogo FIPE de plano B e do mock de placa.
+- **Serviços** (`services/`) falam com APIs externas; os mocks simulam latência realista (300–900ms).
 
 ---
 

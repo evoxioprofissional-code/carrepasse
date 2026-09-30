@@ -31,10 +31,14 @@ export const metadata: Metadata = {
   description:
     "Carros de repasse abaixo da FIPE, com o estado real de cada veículo. Anuncie grátis.",
   applicationName: "Car Repasse",
+  // iPhone: "Adicionar à Tela de Início" abre em tela cheia, com a barra escura.
+  appleWebApp: { capable: true, title: "Car Repasse", statusBarStyle: "black-translucent" },
+  formatDetection: { telephone: false },
+  openGraph: { siteName: "Car Repasse", locale: "pt_BR", type: "website" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0A0A0A",
+  themeColor: "#0F1113",
   colorScheme: "dark",
   viewportFit: "cover",
 };

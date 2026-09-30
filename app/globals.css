@@ -32,6 +32,41 @@
   }
 }
 
+@layer components {
+  /* Texto corrido das páginas institucionais (fundo claro) */
+  .content-prose {
+    @apply text-[15px] leading-relaxed text-ink sm:text-base;
+  }
+  .content-prose h2 {
+    @apply mb-3 mt-10 font-sans text-xl font-extrabold tracking-tight text-ink first:mt-0 sm:text-2xl;
+  }
+  .content-prose h3 {
+    @apply mb-2 mt-6 font-sans text-base font-bold text-ink;
+  }
+  .content-prose p {
+    @apply mb-4 text-ink-muted;
+  }
+  .content-prose ul,
+  .content-prose ol {
+    @apply mb-4 flex flex-col gap-2 pl-5 text-ink-muted;
+  }
+  .content-prose ul {
+    @apply list-disc;
+  }
+  .content-prose ol {
+    @apply list-decimal;
+  }
+  .content-prose li::marker {
+    @apply text-lime-ink;
+  }
+  .content-prose strong {
+    @apply font-semibold text-ink;
+  }
+  .content-prose a {
+    @apply font-semibold text-lime-ink underline underline-offset-2;
+  }
+}
+
 @layer utilities {
   /* Efeito cromado para títulos grandes */
   .text-chrome-gradient {

@@ -15,7 +15,7 @@ const variants: Record<BadgeVariant, string> = {
   brand: "border border-brand/40 bg-brand/10 text-brand",
   neutral: "border border-border bg-surface-2 text-chrome-muted",
   warning: "border border-warning/40 bg-warning/10 text-warning",
-  danger: "border border-danger/40 bg-danger/10 text-danger",
+  danger: "border border-danger/40 bg-danger/10 text-[#F87171]",
 };
 
 export function Badge({ variant = "neutral", icon, className, children }: BadgeProps) {

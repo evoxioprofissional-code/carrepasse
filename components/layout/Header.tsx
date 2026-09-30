@@ -8,7 +8,7 @@ import { UserMenu } from "./UserMenu";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-night">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-night pt-[env(safe-area-inset-top)]">
       <Container className="flex h-14 items-center justify-between gap-4 lg:h-[58px]">
         <Logo />
 
