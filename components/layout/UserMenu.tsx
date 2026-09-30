@@ -1,10 +1,11 @@
 "use client";
 
-import { ChevronDown, Heart, LogOut, Megaphone, UserRound } from "lucide-react";
+import { ChevronDown, Flag, Heart, LogOut, Megaphone, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useOpenReports } from "@/hooks/useOpenReports";
 
 const LINKS = [
   { href: "/minha-conta/perfil", label: "Minha conta", Icon: UserRound },
@@ -20,6 +21,7 @@ function initials(name: string): string {
 /** "Entrar" para visitantes; avatar com menu para quem está logado. */
 export function UserMenu() {
   const { state, signOut } = useAuth();
+  const openReports = useOpenReports();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -68,8 +70,9 @@ export function UserMenu() {
         aria-haspopup="menu"
         className="flex h-10 items-center gap-2 rounded-md px-2 text-[15px] font-medium text-white transition duration-150 hover:bg-white/10"
       >
-        <span aria-hidden className="flex size-8 items-center justify-center rounded-full bg-lime text-sm font-bold text-ink">
+        <span aria-hidden className="relative flex size-8 items-center justify-center rounded-full bg-lime text-sm font-bold text-ink">
           {initials(user.name)}
+          {openReports > 0 && <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-danger ring-2 ring-night" />}
         </span>
         <span className="max-w-[120px] truncate">{firstName}</span>
         <ChevronDown aria-hidden className="size-4 text-white/70" />
@@ -93,6 +96,20 @@ export function UserMenu() {
               {label}
             </Link>
           ))}
+          {state.isAdmin && (
+            <Link
+              href="/admin/denuncias"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2.5 border-t border-border px-4 py-2.5 text-sm text-chrome transition duration-150 hover:bg-surface-2"
+            >
+              <Flag aria-hidden className="size-4 text-chrome-muted" />
+              Denúncias
+              {openReports > 0 && (
+                <span className="ml-auto rounded-full bg-danger px-2 py-0.5 text-xs font-bold text-white">{openReports}</span>
+              )}
+            </Link>
+          )}
           <button
             type="button"
             role="menuitem"

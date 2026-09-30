@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { safeRedirect } from "@/lib/redirect";
 import { readSession } from "@/lib/supabase/session";
 
-const PROTECTED_PREFIXES = ["/anunciar", "/minha-conta"];
+const PROTECTED_PREFIXES = ["/anunciar", "/minha-conta", "/admin"];
 const AUTH_PAGES = ["/entrar", "/cadastro"];
 
 
@@ -26,5 +26,5 @@ export async function proxy(request: NextRequest) {
 
 // Só nas páginas que dependem de login: o resto do site continua estático.
 export const config = {
-  matcher: ["/anunciar/:path*", "/minha-conta/:path*", "/entrar", "/cadastro"],
+  matcher: ["/anunciar/:path*", "/minha-conta/:path*", "/admin/:path*", "/entrar", "/cadastro"],
 };

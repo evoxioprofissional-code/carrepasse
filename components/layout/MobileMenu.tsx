@@ -1,11 +1,12 @@
 "use client";
 
-import { Heart, LogIn, LogOut, Megaphone, Menu, Plus, UserRound } from "lucide-react";
+import { Flag, Heart, LogIn, LogOut, Megaphone, Menu, Plus, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
+import { useOpenReports } from "@/hooks/useOpenReports";
 import { cn } from "@/lib/cn";
 import { MAIN_NAV } from "@/lib/site";
 
@@ -26,6 +27,7 @@ export function MobileMenu() {
   const pathname = usePathname();
   const router = useRouter();
   const { state, signOut } = useAuth();
+  const openReports = useOpenReports();
   const close = () => setOpen(false);
   const extraLinks = state.status === "authenticated" ? ACCOUNT_LINKS : GUEST_LINKS;
 
@@ -71,6 +73,21 @@ export function MobileMenu() {
                 </Link>
               </li>
             ))}
+            {state.status === "authenticated" && state.isAdmin && (
+              <li>
+                <Link
+                  href="/admin/denuncias"
+                  onClick={close}
+                  className="flex items-center gap-2 rounded-lg px-3 py-3 text-base font-medium text-chrome transition duration-150 hover:bg-surface-2"
+                >
+                  <Flag aria-hidden className="size-5 text-chrome-muted" />
+                  Denúncias
+                  {openReports > 0 && (
+                    <span className="ml-auto rounded-full bg-danger px-2 py-0.5 text-xs font-bold text-white">{openReports}</span>
+                  )}
+                </Link>
+              </li>
+            )}
             {state.status === "authenticated" && (
               <li>
                 <button

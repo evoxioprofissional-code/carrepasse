@@ -3,7 +3,7 @@
 
 const EVENT = "carrepasse:data-changed";
 
-export type DataTopic = "listings" | "profiles";
+export type DataTopic = "listings" | "profiles" | "reports";
 
 export function emitDataChanged(topic: DataTopic): void {
   if (typeof window === "undefined") return;

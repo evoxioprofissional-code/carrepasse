@@ -9,7 +9,7 @@ import type { User } from "@/types/user";
 export type AuthState =
   | { status: "loading"; user: null }
   | { status: "anonymous"; user: null }
-  | { status: "authenticated"; user: User };
+  | { status: "authenticated"; user: User; isAdmin: boolean };
 
 export interface AuthContextValue {
   state: AuthState;
@@ -31,10 +31,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setState({ status: "anonymous", user: null });
       return;
     }
-    const profile = await userRepository.getById(authUser.id).catch(() => null);
+    const [profile, isAdmin] = await Promise.all([
+      userRepository.getById(authUser.id).catch(() => null),
+      userRepository.isAdmin(),
+    ]);
     setState(
       profile
-        ? { status: "authenticated", user: { ...profile, email: authUser.email } }
+        ? { status: "authenticated", user: { ...profile, email: authUser.email }, isAdmin }
         : { status: "anonymous", user: null },
     );
   }, []);

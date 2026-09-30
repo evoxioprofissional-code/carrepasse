@@ -10,6 +10,12 @@ export const userRepository = {
     return data ? toUser(data as ProfileRow) : null;
   },
 
+  /** O usuário logado é administrador (painel de moderação)? */
+  async isAdmin(): Promise<boolean> {
+    const { data, error } = await supabase().rpc("is_admin");
+    return !error && data === true;
+  },
+
   // Edição do próprio perfil exige login (RLS): usada na Fase 6.
   async update(
     id: string,

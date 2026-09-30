@@ -1,4 +1,5 @@
 import type { BodyType, Fuel, ListingSort, PriceMode, Transmission } from "@/types/listing";
+import type { ReportReason } from "@/types/report";
 import type { SellerType } from "@/types/user";
 
 export const SELLER_TYPE_LABEL: Record<SellerType, string> = {
@@ -41,6 +42,13 @@ export const SORT_LABEL: Record<ListingSort, string> = {
   "menor-preco": "Menor preço",
   "maior-desconto": "Maior desconto na FIPE",
   "menor-km": "Menor km",
+};
+
+export const REPORT_REASON_LABEL: Record<ReportReason, string> = {
+  golpe: "Parece golpe",
+  informacao_falsa: "Informação falsa",
+  carro_vendido: "Carro já vendido",
+  outro: "Outro motivo",
 };
 
 export function optionsFrom<T extends string>(labels: Record<T, string>) {
