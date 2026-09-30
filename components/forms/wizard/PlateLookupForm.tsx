@@ -33,12 +33,13 @@ export function PlateLookupForm({ initialPlate, onFound, onManual }: PlateLookup
       setStatus("plate");
       const vehicle = await plateLookup.lookup(plate);
       setStatus("fipe");
-      // A API de placa já pode trazer a FIPE; senão, consulta pelo código FIPE.
-      const quote =
-        vehicle.fipe ??
-        (vehicle.fipeCode && vehicle.fipeYearCode
+      // FIPE do mês pela tabela pública (grátis); o valor que veio com a placa
+      // pode ser de um mês anterior e fica como plano B.
+      const current =
+        vehicle.fipeCode && vehicle.fipeYearCode
           ? await fipeApi.getQuoteByCode(vehicle.fipeCode, vehicle.fipeYearCode).catch(() => null)
-          : null);
+          : null;
+      const quote = current && !current.fromFallback ? current : (vehicle.fipe ?? current);
       onFound({
         plate: vehicle.plate,
         brand: vehicle.brand,

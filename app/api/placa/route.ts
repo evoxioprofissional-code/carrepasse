@@ -1,20 +1,33 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isValidPlate, normalizePlate } from "@/lib/plate";
 import { createRouteClient } from "@/lib/supabase/server";
-import { PlateProviderError, apiPlacasLookup } from "@/services/apiPlacas";
+import { PlateProviderError, apiPlacasLookup, type PlateParseResult } from "@/services/apiPlacas";
 import { mockPlateLookup } from "@/services/plateMock";
-import type { PlateLookupResult } from "@/types/fipe";
 
 // Consulta de placa pelo servidor: o token da API nunca vai para o navegador.
 // Só para quem está logado, com cache por usuário e limite diário de
 // consultas pagas (tabela plate_lookups, migração 0009).
 
 const DAILY_LIMIT = 10;
+const NOT_FOUND = "Não encontramos essa placa. Confira os caracteres ou preencha pela tabela FIPE.";
 const CACHE_DAYS = 180;
 const DAY = 24 * 60 * 60 * 1000;
 
 function fail(status: number, message: string) {
   return NextResponse.json({ message }, { status });
+}
+
+function respond(parsed: PlateParseResult) {
+  switch (parsed.kind) {
+    case "ok":
+      return NextResponse.json(parsed.result);
+    case "not-car":
+      return fail(422, "Essa placa não é de um carro. O Car Repasse aceita só carros e picapes.");
+    case "stolen":
+      return fail(422, "Esta placa tem registro de roubo ou furto e não pode ser anunciada. Se for um engano, procure o Detran.");
+    default:
+      return fail(404, NOT_FOUND);
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -32,10 +45,11 @@ export async function POST(request: NextRequest) {
   // Sem token (desenvolvimento ou antes de contratar): simulação, sem custo.
   if (!token) {
     const simulated = await mockPlateLookup(plate);
-    return simulated ? NextResponse.json(simulated) : fail(404, "Não encontramos essa placa. Confira os caracteres ou preencha pela tabela FIPE.");
+    return simulated ? NextResponse.json(simulated) : fail(404, NOT_FOUND);
   }
 
-  // 1) Cache: a mesma pessoa consultando a mesma placa não paga de novo.
+  // 1) Cache: a mesma pessoa consultando a mesma placa não paga de novo
+  //    (inclusive "não encontrada", que também é cobrada pela API).
   const { data: cached } = await supabase
     .from("plate_lookups")
     .select("result, fetched_at")
@@ -43,10 +57,10 @@ export async function POST(request: NextRequest) {
     .eq("plate", plate)
     .maybeSingle();
   if (cached && Date.now() - new Date(cached.fetched_at).getTime() < CACHE_DAYS * DAY) {
-    return NextResponse.json(cached.result as PlateLookupResult);
+    return respond(cached.result as PlateParseResult);
   }
 
-  // 2) Limite diário de consultas pagas.
+  // 2) Limite diário de consultas pagas (toda consulta paga grava uma linha).
   const { count } = await supabase
     .from("plate_lookups")
     .select("plate", { count: "exact", head: true })
@@ -58,12 +72,11 @@ export async function POST(request: NextRequest) {
 
   // 3) Consulta paga.
   try {
-    const result = await apiPlacasLookup(plate, token);
-    if (!result) return fail(404, "Não encontramos essa placa. Confira os caracteres ou preencha pela tabela FIPE.");
+    const parsed = await apiPlacasLookup(plate, token);
     await supabase
       .from("plate_lookups")
-      .upsert({ user_id: user.id, plate, result, provider: "apiplacas" }, { onConflict: "user_id,plate" });
-    return NextResponse.json(result);
+      .upsert({ user_id: user.id, plate, result: parsed, provider: "apiplacas" }, { onConflict: "user_id,plate" });
+    return respond(parsed);
   } catch (error) {
     if (error instanceof PlateProviderError && error.configuration) console.error("[api/placa]", error.message);
     return fail(503, "A consulta de placa está fora do ar agora. Preencha pela tabela FIPE.");
