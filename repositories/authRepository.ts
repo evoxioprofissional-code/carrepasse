@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase/client";
 import type { SellerType } from "@/types/user";
+import { photoRepository } from "./photoRepository";
 
 export interface SignUpInput {
   email: string;
@@ -57,6 +58,46 @@ export const authRepository = {
   async signIn(email: string, password: string): Promise<void> {
     const { error } = await supabase().auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
     if (error) throw new Error(translateAuthError(error.message));
+  },
+
+  /**
+   * Envia o link de redefinição. Não revela se o e-mail tem conta: a tela
+   * mostra a mesma mensagem nos dois casos.
+   */
+  async requestPasswordReset(email: string): Promise<void> {
+    const { error } = await supabase().auth.resetPasswordForEmail(email.trim().toLowerCase(), {
+      redirectTo: `${window.location.origin}/auth/confirm?next=/redefinir-senha`,
+    });
+    if (error && /rate limit|too many/i.test(error.message)) throw new Error(translateAuthError(error.message));
+  },
+
+  /** Troca a senha de quem entrou pelo link de recuperação (ou já está logado). */
+  async updatePassword(password: string): Promise<void> {
+    const { error } = await supabase().auth.updateUser({ password });
+    if (error) {
+      if (/different from the old|same.*password/i.test(error.message)) {
+        throw new Error("A nova senha precisa ser diferente da atual.");
+      }
+      if (/session|jwt|not authenticated/i.test(error.message)) {
+        throw new Error("O link expirou. Peça um novo link de redefinição.");
+      }
+      throw new Error(translateAuthError(error.message));
+    }
+  },
+
+  /**
+   * Exclui a conta de quem está logado: primeiro as fotos dos anúncios no
+   * Storage, depois a conta (o banco apaga perfil, anúncios e favoritos).
+   */
+  async deleteAccount(userId: string): Promise<void> {
+    const { data } = await supabase().from("listings").select("photos").eq("seller_id", userId);
+    const photos = (data ?? []).flatMap((row: { photos: string[] }) => row.photos);
+    await photoRepository.remove(photos).catch(() => {
+      // Foto que sobrar não impede a exclusão da conta.
+    });
+    const { error } = await supabase().rpc("delete_own_account");
+    if (error) throw new Error("Não foi possível excluir a conta agora. Tente de novo.");
+    await supabase().auth.signOut();
   },
 
   async signOut(): Promise<void> {

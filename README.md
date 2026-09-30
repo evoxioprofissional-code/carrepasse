@@ -57,6 +57,7 @@ Esquema, regras de acesso e seed ficam em [`supabase/`](./supabase/README.md):
 - `migrations/0002_plate_prefix.sql` — prefixo público da placa (ABC****)
 - `migrations/0003_profile_on_signup.sql` — perfil criado junto com o cadastro
 - `migrations/0004_security_hardening.sql` — travas extras: perfil demo, visualizações/data e origem das fotos
+- `migrations/0005_delete_own_account.sql` — o usuário exclui a própria conta (LGPD)
 - `seed.sql` — 30 anúncios e 8 vendedores de demonstração (gerado a partir de `mocks/`)
 
 Para montar um projeto novo: rode as migrações em ordem e depois o seed no SQL Editor da Supabase.
@@ -84,5 +85,6 @@ O site tem manifesto e ícones: no Android, “Adicionar à tela inicial”; no 
 ## O que ainda falta
 
 - Consulta de placa real (API Placas) — hoje simulada.
-- “Esqueci minha senha” — depende de um provedor de e-mail (Resend).
+- E-mail próprio (Resend como SMTP da Supabase): sem ele, a Supabase só envia 2 e-mails por hora e
+  só para a equipe do projeto — o “Esqueci minha senha” já existe, mas depende disso.
 - Revisão jurídica dos Termos e da Política de Privacidade (marcados como rascunho).

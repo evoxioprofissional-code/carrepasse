@@ -39,6 +39,19 @@ export const signInSchema = z.object({
   password: z.string().min(1, "Digite sua senha."),
 });
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().trim().email("Digite um e-mail válido."),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
+    confirm: z.string(),
+  })
+  .refine((data) => data.password === data.confirm, { path: ["confirm"], message: "As senhas não são iguais." });
+
+export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;
 export type SignUpValues = z.input<typeof signUpSchema>;
 export type SignUpData = z.output<typeof signUpSchema>;
 export type ProfileValues = z.input<typeof profileSchema>;

@@ -62,9 +62,12 @@ export function LoginForm() {
         <Button type="submit" size="lg" fullWidth loading={isSubmitting} className="mt-2">
           Entrar
         </Button>
-        <p className="text-center text-xs text-chrome-muted">
-          Esqueceu a senha? Por enquanto, fale com a gente pelo Instagram @carrepasse01.
-        </p>
+        <Link
+          href="/esqueci-senha"
+          className="mx-auto inline-block py-2 text-sm font-semibold text-lime-ink underline-offset-4 hover:underline"
+        >
+          Esqueci minha senha
+        </Link>
       </form>
     </AuthCard>
   );
