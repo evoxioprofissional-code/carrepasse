@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { KeyRound, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -9,7 +9,6 @@ import { CityField } from "@/components/forms/CityField";
 import { SellerTypeField } from "@/components/forms/SellerTypeField";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
-import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { STATE_OPTIONS } from "@/lib/brazil";
@@ -130,10 +129,6 @@ export function ProfileForm({ user, onSaved, onSignOut }: ProfileFormProps) {
       </form>
 
       <div className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center">
-        <ButtonLink href="/redefinir-senha" variant="ghost" className="self-start">
-          <KeyRound aria-hidden className="size-4" />
-          Trocar senha
-        </ButtonLink>
         <Button
           variant="ghost"
           className="self-start"

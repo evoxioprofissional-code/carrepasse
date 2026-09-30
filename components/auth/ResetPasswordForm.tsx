@@ -14,7 +14,7 @@ import { authRepository } from "@/repositories/authRepository";
 import { AuthCard } from "./AuthCard";
 import { PasswordField } from "./PasswordField";
 
-/** Nova senha, depois de entrar pelo link do e-mail (ou logado, para trocar a senha). */
+/** Nova senha, depois de entrar pelo link de recuperação enviado por e-mail. */
 export function ResetPasswordForm() {
   const { state } = useAuth();
   const [done, setDone] = useState(false);
