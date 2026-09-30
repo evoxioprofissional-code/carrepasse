@@ -54,6 +54,7 @@ export interface ListingRow {
   plate_prefix: string | null;
   created_at: string;
   updated_at: string;
+  confirmed_at: string;
 }
 
 export type ListingRowWithSeller = ListingRow & { seller: ProfileRow | null };
@@ -130,6 +131,7 @@ export function toListing(row: ListingRow): Listing {
     views: row.views,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    confirmedAt: row.confirmed_at ?? row.created_at,
   };
 }
 

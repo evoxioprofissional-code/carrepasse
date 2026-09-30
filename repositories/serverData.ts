@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase/client";
+import { expiryCutoff } from "@/lib/listing-expiry";
 import type { ListingWithSeller } from "@/types/listing";
 import type { User } from "@/types/user";
 import { SELLER_COLUMNS, toListingWithSeller, toUser, type ListingRowWithSeller, type ProfileRow } from "./mappers";
@@ -16,7 +17,7 @@ export async function getPublicListing(id: string): Promise<ListingWithSeller | 
 }
 
 export async function getPublicListingIds(): Promise<string[]> {
-  const { data } = await supabase().from("listings").select("id").eq("status", "ativo");
+  const { data } = await supabase().from("listings").select("id").eq("status", "ativo").gte("confirmed_at", expiryCutoff());
   return (data ?? []).map((row: { id: string }) => row.id);
 }
 

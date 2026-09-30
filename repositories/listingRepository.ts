@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase/client";
 import type { Listing, ListingPage, ListingQuery, ListingWithSeller } from "@/types/listing";
+import { expiryCutoff } from "@/lib/listing-expiry";
 import { emitDataChanged, subscribeToData } from "./events";
 import {
   SELLER_COLUMNS,
@@ -23,7 +24,7 @@ export interface FilterOptions {
   total: number;
 }
 
-export type ListingInput = Omit<Listing, "id" | "views" | "createdAt" | "updatedAt" | "status"> & {
+export type ListingInput = Omit<Listing, "id" | "views" | "createdAt" | "updatedAt" | "confirmedAt" | "status"> & {
   status?: Listing["status"];
 };
 
@@ -44,6 +45,8 @@ export const listingRepository = {
 
     const status = query.status ?? "ativo";
     if (status !== "todos") request = request.eq("status", status);
+    // Ativo e confirmado dentro do prazo; os vencidos só aparecem para o dono ("todos").
+    if (status === "ativo") request = request.gte("confirmed_at", expiryCutoff());
     if (query.brand) request = request.eq("brand", query.brand);
     if (query.model) request = request.eq("model", query.model);
     if (query.yearMin) request = request.gte("model_year", query.yearMin);
@@ -110,7 +113,8 @@ export const listingRepository = {
     const { data, error } = await supabase()
       .from("listings")
       .select("brand, model, state, city, model_year")
-      .eq("status", "ativo");
+      .eq("status", "ativo")
+      .gte("confirmed_at", expiryCutoff());
     if (error) throw new Error(error.message);
     const rows = (data ?? []) as Pick<ListingRow, "brand" | "model" | "state" | "city" | "model_year">[];
 
@@ -163,7 +167,20 @@ export const listingRepository = {
     return created;
   },
 
-  async update(id: string, patch: Partial<Omit<Listing, "id" | "sellerId" | "createdAt">>): Promise<Listing> {
+  /** "Ainda está à venda": renova o prazo do anúncio (o banco grava a hora atual). */
+  async confirmAvailable(id: string): Promise<Listing> {
+    const { data, error } = await supabase()
+      .from("listings")
+      .update({ confirmed_at: new Date().toISOString() })
+      .eq("id", id)
+      .select("*")
+      .single();
+    if (error) throw new Error(error.message);
+    emitDataChanged("listings");
+    return toListing(data as ListingRow);
+  },
+
+  async update(id: string, patch: Partial<Omit<Listing, "id" | "sellerId" | "createdAt" | "confirmedAt">>): Promise<Listing> {
     const { data, error } = await supabase().from("listings").update(fromListing(patch)).eq("id", id).select("*").single();
     if (error) throw new Error(error.message);
     emitDataChanged("listings");

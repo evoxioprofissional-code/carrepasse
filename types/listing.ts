@@ -57,6 +57,8 @@ export interface Listing {
   views: number;
   createdAt: string;
   updatedAt: string;
+  /** Última confirmação do vendedor de que o carro está à venda (vence em 60 dias). */
+  confirmedAt: string;
 }
 
 export interface ListingWithSeller extends Listing {

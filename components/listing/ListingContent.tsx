@@ -2,6 +2,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Alert } from "@/components/ui/Alert";
 import { Container } from "@/components/ui/Container";
+import { isExpired } from "@/lib/listing-expiry";
 import { searchHref } from "@/lib/listing-query";
 import type { ListingWithSeller } from "@/types/listing";
 import { ConditionChecklist } from "./ConditionChecklist";
@@ -18,7 +19,8 @@ import { SpecsGrid } from "./SpecsGrid";
 
 export function ListingContent({ listing }: { listing: ListingWithSeller }) {
   const title = `${listing.brand} ${listing.model}`;
-  const canContact = listing.status === "ativo";
+  const expired = isExpired(listing);
+  const canContact = listing.status === "ativo" && !expired;
 
   return (
     <>
@@ -57,6 +59,11 @@ export function ListingContent({ listing }: { listing: ListingWithSeller }) {
         {listing.status === "vendido" && (
           <Alert variant="warning" title="Este carro já foi vendido" className="mb-6">
             O anúncio fica no ar só para consulta. Veja os semelhantes logo abaixo.
+          </Alert>
+        )}
+        {expired && (
+          <Alert variant="info" title="Anúncio aguardando confirmação" className="mb-6">
+            O vendedor ainda não confirmou que este carro continua à venda. Veja carros parecidos logo abaixo.
           </Alert>
         )}
         {listing.status === "pausado" && (

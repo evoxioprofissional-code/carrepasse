@@ -1,15 +1,16 @@
 "use client";
 
-import { CheckCheck, Eye, Pause, PencilLine, Play, Trash2 } from "lucide-react";
+import { CalendarCheck, CheckCheck, Eye, Pause, PencilLine, Play, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { ListingPhoto } from "@/components/listing/ListingPhoto";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/cn";
 import { mainPrice } from "@/lib/fipe-math";
 import { formatBRL, formatNumber, formatRelativeDate } from "@/lib/format";
+import { EXPIRY_WARNING_DAYS, daysUntilExpiry, isExpired } from "@/lib/listing-expiry";
 import type { ListingStatus, ListingWithSeller } from "@/types/listing";
 
-const STATUS_BADGE: Record<ListingStatus, { label: string; variant: "brand" | "neutral" | "warning" }> = {
+const STATUS_BADGE: Record<ListingStatus, { label: string; variant: "brand" | "neutral" | "warning" | "danger" }> = {
   ativo: { label: "Ativo", variant: "brand" },
   pausado: { label: "Pausado", variant: "warning" },
   vendido: { label: "Vendido", variant: "neutral" },
@@ -19,15 +20,19 @@ interface MyListingRowProps {
   listing: ListingWithSeller;
   busy: boolean;
   onStatus: (status: ListingStatus) => void;
+  onConfirm: () => void;
   onDelete: () => void;
 }
 
 const actionClass =
   "inline-flex h-11 items-center justify-center gap-1.5 rounded-lg border border-border bg-surface-2 px-3 text-sm font-medium text-chrome transition duration-150 hover:border-chrome-muted/60 disabled:opacity-50";
 
-export function MyListingRow({ listing, busy, onStatus, onDelete }: MyListingRowProps) {
+export function MyListingRow({ listing, busy, onStatus, onConfirm, onDelete }: MyListingRowProps) {
   const title = `${listing.brand} ${listing.model}`;
-  const badge = STATUS_BADGE[listing.status];
+  const expired = isExpired(listing);
+  const daysLeft = daysUntilExpiry(listing);
+  const expiringSoon = listing.status === "ativo" && !expired && daysLeft <= EXPIRY_WARNING_DAYS;
+  const badge = expired ? { label: "Vencido", variant: "danger" as const } : STATUS_BADGE[listing.status];
 
   return (
     <li className={cn("rounded-xl border border-border bg-surface p-3 sm:p-4", busy && "opacity-60")}>
@@ -53,10 +58,28 @@ export function MyListingRow({ listing, busy, onStatus, onDelete }: MyListingRow
             </span>
             <span>Publicado {formatRelativeDate(listing.createdAt)}</span>
           </p>
+          {(expired || expiringSoon) && (
+            <p className={cn("mt-1 text-xs font-semibold", expired ? "text-danger-ink" : "text-warning-ink")}>
+              {expired
+                ? "Saiu da busca: confirme que o carro ainda está à venda."
+                : `Vence em ${daysLeft} ${daysLeft === 1 ? "dia" : "dias"}. Confirme para continuar na busca.`}
+            </p>
+          )}
         </div>
       </div>
 
       <div className="mt-3 grid grid-cols-2 gap-2 sm:flex sm:justify-end">
+        {(expired || expiringSoon) && (
+          <button
+            type="button"
+            disabled={busy}
+            onClick={onConfirm}
+            className={cn(actionClass, "col-span-2 border-lime-ink bg-lime text-ink hover:border-lime-ink sm:order-first")}
+          >
+            <CalendarCheck aria-hidden className="size-4" />
+            Ainda está à venda
+          </button>
+        )}
         <Link href={`/minha-conta/anuncios/${listing.id}/editar`} className={actionClass}>
           <PencilLine aria-hidden className="size-4" />
           Editar

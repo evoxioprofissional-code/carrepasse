@@ -34,6 +34,7 @@ export function StepReview({ values, errors, onChange, onGoTo, user, canEditVehi
     views: 0,
     createdAt: now,
     updatedAt: now,
+    confirmedAt: now,
     seller: {
       id: user.id,
       name: user.name,

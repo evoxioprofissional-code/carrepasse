@@ -11,6 +11,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useListings } from "@/hooks/useListings";
 import { cn } from "@/lib/cn";
+import { LISTING_TTL_DAYS, isExpired } from "@/lib/listing-expiry";
 import { listingRepository } from "@/repositories/listingRepository";
 import { photoRepository } from "@/repositories/photoRepository";
 import type { ListingStatus, ListingWithSeller } from "@/types/listing";
@@ -42,6 +43,7 @@ export function MyListings({ userId }: { userId: string }) {
   const [toDelete, setToDelete] = useState<ListingWithSeller | null>(null);
 
   const all = data?.items ?? [];
+  const expiredCount = all.filter((item) => isExpired(item)).length;
   const count = (value: Tab) => (value === "todos" ? all.length : all.filter((item) => item.status === value).length);
   const items = tab === "todos" ? all : all.filter((item) => item.status === tab);
 
@@ -52,6 +54,18 @@ export function MyListings({ userId }: { userId: string }) {
       setNotice({ tone: "success", text: STATUS_MESSAGE[status] });
     } catch {
       setNotice({ tone: "danger", text: "Não foi possível alterar o anúncio. Tente de novo." });
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const confirmAvailable = async (listing: ListingWithSeller) => {
+    setBusyId(listing.id);
+    try {
+      await listingRepository.confirmAvailable(listing.id);
+      setNotice({ tone: "success", text: `Confirmado! Seu anúncio fica na busca por mais ${LISTING_TTL_DAYS} dias.` });
+    } catch {
+      setNotice({ tone: "danger", text: "Não foi possível confirmar agora. Tente de novo." });
     } finally {
       setBusyId(null);
     }
@@ -109,6 +123,12 @@ export function MyListings({ userId }: { userId: string }) {
         </Alert>
       )}
 
+      {expiredCount > 0 && (
+        <Alert variant="warning" title={expiredCount === 1 ? "1 anúncio vencido" : `${expiredCount} anúncios vencidos`}>
+          Anúncios sem confirmação por {LISTING_TTL_DAYS} dias saem da busca. Toque em “Ainda está à venda” para voltar.
+        </Alert>
+      )}
+
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div role="tablist" aria-label="Filtrar por situação" className="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:px-0">
           {TABS.map((item) => (
@@ -146,6 +166,7 @@ export function MyListings({ userId }: { userId: string }) {
               listing={listing}
               busy={busyId === listing.id}
               onStatus={(status) => void changeStatus(listing, status)}
+              onConfirm={() => void confirmAvailable(listing)}
               onDelete={() => setToDelete(listing)}
             />
           ))}

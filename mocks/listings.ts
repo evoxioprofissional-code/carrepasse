@@ -255,6 +255,7 @@ export function createSeedListings(now: Date = new Date()): Listing[] {
       views: spec.views,
       createdAt: createdAt.toISOString(),
       updatedAt: createdAt.toISOString(),
+      confirmedAt: createdAt.toISOString(),
     };
   });
 }

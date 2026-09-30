@@ -1,9 +1,10 @@
-import { ArrowRight, MapPin, UserRound } from "lucide-react";
+import { ArrowRight, MapPin, TriangleAlert, UserRound } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { compareWithFipe, mainPrice } from "@/lib/fipe-math";
 import { formatBRL, formatKm } from "@/lib/format";
-import { SELLER_TYPE_LABEL } from "@/lib/labels";
+import { PRICE_MODE_LABEL, SELLER_TYPE_LABEL } from "@/lib/labels";
+import { isExpired } from "@/lib/listing-expiry";
 import type { ListingWithSeller } from "@/types/listing";
 import { FavoriteButton } from "./FavoriteButton";
 import { ListingPhoto } from "./ListingPhoto";
@@ -23,6 +24,13 @@ export function VehicleCard({ listing, priority, className }: VehicleCardProps) 
     .filter(Boolean)
     .join(" • ");
   const location = [listing.city, listing.state].filter(Boolean).join("/");
+  // Favoritos podem trazer anúncios que saíram da busca: aparecem esmaecidos.
+  const unavailable =
+    listing.status === "vendido" ? "Vendido" : listing.status === "pausado" ? "Pausado" : isExpired(listing) ? "Indisponível" : null;
+  const alerts = [
+    listing.condition.hasAuctionHistory && "Leilão",
+    listing.condition.hasAccidentHistory && "Sinistro",
+  ].filter((alert): alert is string => Boolean(alert));
 
   return (
     <article
@@ -39,8 +47,16 @@ export function VehicleCard({ listing, priority, className }: VehicleCardProps) 
           sizes="(min-width: 1280px) 340px, (min-width: 1024px) 31vw, (min-width: 640px) 47vw, 100vw"
           priority={priority}
           tone="light"
-          className="transition duration-300 group-hover:scale-[1.02]"
+          className={cn("transition duration-300 group-hover:scale-[1.02]", unavailable && "opacity-50 grayscale")}
         />
+        <span className="pointer-events-none absolute left-2 top-2 rounded-md bg-night/80 px-2 py-1 text-xs font-semibold leading-none text-white backdrop-blur-sm">
+          {PRICE_MODE_LABEL[listing.priceMode]}
+        </span>
+        {unavailable && (
+          <span className="pointer-events-none absolute inset-x-0 top-1/2 mx-auto w-max -translate-y-1/2 rounded-md bg-night px-3 py-1.5 text-sm font-bold uppercase tracking-wide text-white">
+            {unavailable}
+          </span>
+        )}
         <FavoriteButton
           listingId={listing.id}
           listingTitle={title}
@@ -56,6 +72,19 @@ export function VehicleCard({ listing, priority, className }: VehicleCardProps) 
         {details && (
           <p className="mt-0.5 truncate text-[13px] text-ink-muted" title={details}>
             {details}
+          </p>
+        )}
+        {alerts.length > 0 && (
+          <p className="mt-2 flex flex-wrap gap-1.5">
+            {alerts.map((alert) => (
+              <span
+                key={alert}
+                className="inline-flex items-center gap-1 rounded-md border border-warning/40 bg-warning/10 px-1.5 py-0.5 text-xs font-semibold text-warning-ink"
+              >
+                <TriangleAlert aria-hidden className="size-3" />
+                {alert}
+              </span>
+            ))}
           </p>
         )}
 

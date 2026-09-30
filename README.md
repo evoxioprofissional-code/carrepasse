@@ -58,6 +58,7 @@ Esquema, regras de acesso e seed ficam em [`supabase/`](./supabase/README.md):
 - `migrations/0003_profile_on_signup.sql` — perfil criado junto com o cadastro
 - `migrations/0004_security_hardening.sql` — travas extras: perfil demo, visualizações/data e origem das fotos
 - `migrations/0005_delete_own_account.sql` — o usuário exclui a própria conta (LGPD)
+- `migrations/0006_listing_expiration.sql` — anúncio vence após 60 dias sem confirmação do vendedor
 - `seed.sql` — 30 anúncios e 8 vendedores de demonstração (gerado a partir de `mocks/`)
 
 Para montar um projeto novo: rode as migrações em ordem e depois o seed no SQL Editor da Supabase.
