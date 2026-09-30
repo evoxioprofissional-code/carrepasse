@@ -3,7 +3,7 @@
 Marketplace de carros com foco em **repasse** (abaixo da FIPE) e **preço final**. FIPE e estado real
 em todo anúncio, contato direto pelo WhatsApp e anúncio grátis pela placa.
 
-**Preço baixo. Verdade sempre.** · Produção: https://carrepasse.vercel.app
+**Preço baixo. Verdade sempre.** · Produção: https://www.carrepasse.com.br
 
 ## Stack
 
@@ -36,7 +36,7 @@ Crie um `.env.local` só se quiser apontar para outro projeto ou domínio:
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | URL de outro projeto Supabase |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Chave publicável desse projeto |
-| `NEXT_PUBLIC_SITE_URL` | Domínio usado nos links de compartilhamento (na Vercel é automático) |
+| `NEXT_PUBLIC_SITE_URL` | Domínio dos links de compartilhamento (padrão em produção: https://www.carrepasse.com.br) |
 | `NEXT_PUBLIC_VERCEL_ANALYTICS` | `1` liga o Vercel Analytics (ative antes no painel da Vercel) |
 | `API_PLACAS_TOKEN` | Token da API Placas (wdapi2). Só no servidor. Sem ele, a consulta de placa é simulada |
 
@@ -67,7 +67,8 @@ Esquema, regras de acesso e seed ficam em [`supabase/`](./supabase/README.md):
 - `seed.sql` — 30 anúncios e 8 vendedores de demonstração (gerado a partir de `mocks/`)
 
 Para montar um projeto novo: rode as migrações em ordem e depois o seed no SQL Editor da Supabase.
-No painel de Auth, deixe a senha mínima em 8 caracteres e cadastre o domínio do site em *URL Configuration*.
+No painel de Auth, deixe a senha mínima em 8 caracteres e cadastre o domínio do site em *URL Configuration*
+(hoje: Site URL `https://www.carrepasse.com.br`, com `carrepasse.com.br` e `carrepasse.vercel.app` liberados).
 
 ## Estrutura
 
