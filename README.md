@@ -49,6 +49,7 @@ Nunca coloque chaves secretas (`sb_secret_…`, `service_role`) no código nem e
 | `npm run dev` | Servidor de desenvolvimento |
 | `npm run build` | Build de produção (roda antes de cada commit) |
 | `npm run lint` | ESLint (precisa passar sem erros nem avisos) |
+| `npm test` | Testes das regras (FIPE, placa, busca, formulário, API Placas) |
 | `npm start` | Serve o build de produção |
 
 ## Banco de dados
