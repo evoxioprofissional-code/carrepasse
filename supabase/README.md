@@ -24,3 +24,10 @@ em ordem e depois o `seed.sql`. As chaves secretas nunca vão para o repositóri
 No app, `lib/supabase/config.ts` usa `NEXT_PUBLIC_SUPABASE_URL` e
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` quando definidas; sem elas, usa os valores
 públicos deste projeto.
+
+## E-mails do Auth
+
+Sem SMTP próprio a Supabase envia só 2 e-mails/hora e só para a equipe do projeto, e não deixa
+editar os modelos. Depois de configurar o Resend em *Auth > SMTP Settings*, cole
+`templates/recovery.html` em *Auth > Email Templates > Reset Password*: o link com `token_hash`
+funciona mesmo abrindo o e-mail em outro navegador (ex.: app do Gmail).
