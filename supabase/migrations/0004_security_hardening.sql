@@ -9,6 +9,13 @@
 --    de demonstração (/demo, /placeholders) ficam só para os perfis demo.
 
 -- ─────────────── 1. Perfil criado no cadastro ───────────────
+-- Os usuários demo do seed foram marcados em user_metadata; a marca passa
+-- para app_metadata (só estes 8, que já têm perfil demo).
+update auth.users u
+set raw_app_meta_data = coalesce(u.raw_app_meta_data, '{}'::jsonb) || '{"demo": true}'::jsonb
+where u.raw_user_meta_data ->> 'demo' = 'true'
+  and exists (select 1 from public.profiles p where p.id = u.id and p.is_demo);
+
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 declare
