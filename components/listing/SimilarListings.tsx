@@ -4,8 +4,8 @@ import { useMemo } from "react";
 import { useListings } from "@/hooks/useListings";
 import { mainPrice } from "@/lib/fipe-math";
 import type { Listing } from "@/types/listing";
-import { ListingCard } from "./ListingCard";
-import { ListingCardSkeleton } from "./ListingCardSkeleton";
+import { VehicleCard } from "./VehicleCard";
+import { VehicleCardSkeleton } from "./VehicleCardSkeleton";
 
 interface SimilarListingsProps {
   listing: Listing;
@@ -41,16 +41,16 @@ export function SimilarListings({ listing }: SimilarListingsProps) {
       <h2 id="similar-title" className="text-2xl text-chrome">
         Anúncios semelhantes
       </h2>
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {loading && similar.length === 0
           ? Array.from({ length: 4 }, (_, index) => (
               <li key={index}>
-                <ListingCardSkeleton />
+                <VehicleCardSkeleton />
               </li>
             ))
           : similar.map((item) => (
               <li key={item.id} className="flex">
-                <ListingCard listing={item} className="w-full" />
+                <VehicleCard listing={item} className="w-full" />
               </li>
             ))}
       </ul>

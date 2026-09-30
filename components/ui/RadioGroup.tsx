@@ -59,11 +59,11 @@ export function RadioGroup<T extends string>({
             <label
               key={option.value}
               className={cn(
-                "flex cursor-pointer gap-3 rounded-lg border p-3 transition duration-150 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand",
+                "flex cursor-pointer gap-3 rounded-lg border p-3 transition duration-150 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-lime-ink",
                 variant === "cards" && "items-center rounded-xl p-3 sm:flex-col sm:items-stretch sm:p-4",
                 checked
-                  ? "border-brand bg-brand/5"
-                  : "border-border bg-surface-2 hover:border-chrome-muted/50",
+                  ? "border-lime-ink bg-lime-soft"
+                  : "border-border bg-white hover:border-chrome-muted/50",
               )}
             >
               <input
@@ -79,16 +79,16 @@ export function RadioGroup<T extends string>({
                   aria-hidden
                   className={cn(
                     "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border",
-                    checked ? "border-brand" : "border-chrome-muted/50",
+                    checked ? "border-lime-ink" : "border-chrome-muted/50",
                   )}
                 >
-                  {checked && <span className="size-2.5 rounded-full bg-brand" />}
+                  {checked && <span className="size-2.5 rounded-full bg-lime-ink" />}
                 </span>
               )}
               {variant === "cards" && option.icon && (
                 <span
                   aria-hidden
-                  className={cn("[&>svg]:size-6", checked ? "text-brand" : "text-chrome-muted")}
+                  className={cn("[&>svg]:size-6", checked ? "text-lime-ink" : "text-chrome-muted")}
                 >
                   {option.icon}
                 </span>
@@ -106,7 +106,7 @@ export function RadioGroup<T extends string>({
         })}
       </div>
       {error && (
-        <p id={errorId} role="alert" className="text-xs text-danger">
+        <p id={errorId} role="alert" className="text-xs text-danger-ink">
           {error}
         </p>
       )}

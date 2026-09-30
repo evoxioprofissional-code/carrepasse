@@ -43,7 +43,7 @@ export function AccountPage({ title, children }: AccountPageProps) {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-2 border-b-2 px-3 py-2.5 text-sm font-medium transition duration-150",
-                    active ? "border-brand text-brand" : "border-transparent text-chrome-muted hover:text-chrome",
+                    active ? "border-lime-ink text-lime-ink" : "border-transparent text-chrome-muted hover:text-chrome",
                   )}
                 >
                   <Icon aria-hidden className="size-4" />

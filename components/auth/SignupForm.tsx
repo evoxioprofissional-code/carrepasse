@@ -63,7 +63,7 @@ export function SignupForm() {
       footer={
         <>
           Já tem conta?{" "}
-          <Link href={loginHref} className="inline-block py-2 font-semibold text-brand hover:text-brand-dark">
+          <Link href={loginHref} className="inline-block py-2 font-semibold text-lime-ink hover:text-ink">
             Entrar
           </Link>
         </>
@@ -128,11 +128,11 @@ export function SignupForm() {
               label={
                 <>
                   Li e aceito os{" "}
-                  <Link href="/termos" className="text-brand underline-offset-2 hover:underline" target="_blank">
+                  <Link href="/termos" className="text-lime-ink underline-offset-2 hover:underline" target="_blank">
                     termos de uso
                   </Link>{" "}
                   e a{" "}
-                  <Link href="/privacidade" className="text-brand underline-offset-2 hover:underline" target="_blank">
+                  <Link href="/privacidade" className="text-lime-ink underline-offset-2 hover:underline" target="_blank">
                     política de privacidade
                   </Link>
                   .

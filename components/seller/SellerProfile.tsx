@@ -1,8 +1,8 @@
 "use client";
 
 import { CalendarDays, CarFront, MapPin, UserX } from "lucide-react";
-import { ListingCard } from "@/components/listing/ListingCard";
-import { ListingCardSkeleton } from "@/components/listing/ListingCardSkeleton";
+import { VehicleCard } from "@/components/listing/VehicleCard";
+import { VehicleCardSkeleton } from "@/components/listing/VehicleCardSkeleton";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -63,7 +63,7 @@ export function SellerProfile({ id }: { id: string }) {
               </ul>
             </div>
             <div className="rounded-xl border border-border bg-surface-2 px-5 py-3 text-center">
-              <p className="font-display text-3xl font-bold text-brand">{loading && !data ? "–" : (data?.total ?? 0)}</p>
+              <p className="font-display text-3xl font-bold text-lime-ink">{loading && !data ? "–" : (data?.total ?? 0)}</p>
               <p className="text-xs text-chrome-muted">{data?.total === 1 ? "anúncio ativo" : "anúncios ativos"}</p>
             </div>
           </>
@@ -79,16 +79,16 @@ export function SellerProfile({ id }: { id: string }) {
           action={<ButtonLink href="/carros">Ver outros carros</ButtonLink>}
         />
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {loading && listings.length === 0
             ? Array.from({ length: 4 }, (_, index) => (
                 <li key={index}>
-                  <ListingCardSkeleton />
+                  <VehicleCardSkeleton />
                 </li>
               ))
             : listings.map((listing) => (
                 <li key={listing.id} className="flex">
-                  <ListingCard listing={listing} className="w-full" />
+                  <VehicleCard listing={listing} className="w-full" />
                 </li>
               ))}
         </ul>

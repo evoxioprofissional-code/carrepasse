@@ -45,7 +45,7 @@ export function SellerCard({ listing, canContact }: SellerCardProps) {
 
       <Link
         href={`/vendedor/${seller.id}`}
-        className="inline-flex items-center justify-center gap-1 rounded-lg border border-border py-2.5 text-sm font-semibold text-chrome transition duration-150 hover:border-brand hover:text-brand"
+        className="inline-flex items-center justify-center gap-1 rounded-lg border border-border py-2.5 text-sm font-semibold text-chrome transition duration-150 hover:border-lime-ink hover:text-lime-ink"
       >
         Ver perfil e outros anúncios
         <ArrowRight aria-hidden className="size-4" />

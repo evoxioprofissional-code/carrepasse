@@ -11,11 +11,11 @@ interface BadgeProps {
 }
 
 const variants: Record<BadgeVariant, string> = {
-  discount: "bg-brand-gradient text-bg font-bold",
-  brand: "border border-brand/40 bg-brand/10 text-brand",
+  discount: "bg-lime text-ink font-bold",
+  brand: "border border-lime/50 bg-lime-soft text-lime-ink",
   neutral: "border border-border bg-surface-2 text-chrome-muted",
-  warning: "border border-warning/40 bg-warning/10 text-warning",
-  danger: "border border-danger/40 bg-danger/10 text-[#F87171]",
+  warning: "border border-warning/40 bg-warning/10 text-warning-ink",
+  danger: "border border-danger/40 bg-danger/10 text-danger-ink",
 };
 
 export function Badge({ variant = "neutral", icon, className, children }: BadgeProps) {

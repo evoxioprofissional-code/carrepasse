@@ -78,7 +78,7 @@ export function UserMenu() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-surface py-1 shadow-xl shadow-black/40"
+          className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-surface py-1 shadow-xl shadow-black/15"
         >
           <p className="truncate border-b border-border px-4 py-2.5 text-xs text-chrome-muted">{user.email}</p>
           {LINKS.map(({ href, label, Icon }) => (

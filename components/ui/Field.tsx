@@ -34,7 +34,7 @@ export function Field({ id, label, hint, error, required, aside, className, tone
         >
           {label}
           {required && (
-            <span className="text-brand" aria-hidden>
+            <span className="text-lime-ink" aria-hidden>
               {" "}
               *
             </span>
@@ -44,7 +44,7 @@ export function Field({ id, label, hint, error, required, aside, className, tone
       </div>
       {children}
       {error ? (
-        <p id={fieldErrorId(id)} role="alert" className="text-xs text-danger">
+        <p id={fieldErrorId(id)} role="alert" className="text-xs text-danger-ink">
           {error}
         </p>
       ) : (

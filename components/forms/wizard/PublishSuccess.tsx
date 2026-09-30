@@ -18,7 +18,7 @@ export function PublishSuccess({ listing, onNewListing }: PublishSuccessProps) {
 
   return (
     <div className="mx-auto flex max-w-md flex-col items-center gap-5 py-6 text-center">
-      <CircleCheck aria-hidden className="size-16 text-brand" />
+      <CircleCheck aria-hidden className="size-16 text-lime-ink" />
       <div>
         <h1 className="text-3xl text-chrome">Anúncio publicado!</h1>
         <p className="mt-2 text-chrome-muted">

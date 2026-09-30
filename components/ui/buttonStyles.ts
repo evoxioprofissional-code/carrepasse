@@ -11,11 +11,11 @@ export interface ButtonStyleOptions {
 }
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-brand-gradient text-bg hover:brightness-110 active:brightness-95",
+  primary: "bg-lime text-ink hover:brightness-110 active:brightness-95",
   secondary:
-    "border border-border bg-surface-2 text-chrome hover:border-brand hover:text-white",
+    "border border-border bg-surface-2 text-chrome hover:border-lime-ink hover:text-ink",
   ghost: "text-chrome-muted hover:bg-surface-2 hover:text-chrome",
-  danger: "border border-danger/40 bg-danger/10 text-danger hover:bg-danger/20",
+  danger: "border border-danger/40 bg-danger/10 text-danger-ink hover:bg-danger/20",
 };
 
 const sizes: Record<ButtonSize, string> = {

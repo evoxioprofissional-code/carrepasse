@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ListingSearch } from "@/components/listing/ListingSearch";
-import { ListingCardSkeleton } from "@/components/listing/ListingCardSkeleton";
+import { VehicleCardSkeleton } from "@/components/listing/VehicleCardSkeleton";
 import { Container } from "@/components/ui/Container";
 
 export const metadata: Metadata = {
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 function SearchFallback() {
   return (
-    <Container className="grid gap-4 py-10 sm:grid-cols-2 xl:grid-cols-3">
+    <Container className="grid grid-cols-1 gap-4 py-10 sm:grid-cols-2 xl:grid-cols-3">
       {Array.from({ length: 6 }, (_, index) => (
-        <ListingCardSkeleton key={index} />
+        <VehicleCardSkeleton key={index} />
       ))}
     </Container>
   );

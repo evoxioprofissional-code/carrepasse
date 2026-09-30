@@ -41,7 +41,7 @@ export function Textarea({
       className={containerClassName}
       aside={
         minChars !== undefined && (
-          <span className={reachedMin ? "text-brand" : undefined}>
+          <span className={reachedMin ? "text-lime-ink" : undefined}>
             {length}/{minChars} mín.
           </span>
         )

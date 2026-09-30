@@ -24,7 +24,7 @@ export function Logo({ className }: LogoProps) {
         className="flex flex-col font-display text-sm font-extrabold italic leading-[0.9] tracking-tight lg:text-base"
       >
         <span className="text-chrome-gradient">CAR</span>
-        <span className="text-brand">REPASSE</span>
+        <span className="text-lime">REPASSE</span>
       </span>
     </Link>
   );

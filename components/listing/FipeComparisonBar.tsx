@@ -10,8 +10,8 @@ interface FipeComparisonBarProps {
 export function FipeComparisonBar({ price, fipePrice }: FipeComparisonBarProps) {
   const max = Math.max(price, fipePrice);
   const rows = [
-    { label: "Anúncio", value: price, className: price <= fipePrice ? "bg-brand-gradient" : "bg-chrome-muted" },
-    { label: "FIPE", value: fipePrice, className: "bg-border" },
+    { label: "Anúncio", value: price, className: price <= fipePrice ? "bg-lime" : "bg-chrome-muted" },
+    { label: "FIPE", value: fipePrice, className: "bg-[#B8BEC6]" },
   ];
 
   return (

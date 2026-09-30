@@ -26,8 +26,8 @@ export function Checkbox({ label, description, error, id, className, ...props }:
             aria-describedby={[descriptionId, errorId].filter(Boolean).join(" ") || undefined}
             aria-invalid={error ? true : undefined}
             className={cn(
-              "peer size-5 cursor-pointer appearance-none rounded-md border bg-surface-2 transition duration-150",
-              "checked:border-brand checked:bg-brand group-hover:border-chrome-muted/60",
+              "peer size-5 cursor-pointer appearance-none rounded-md border bg-white transition duration-150",
+              "checked:border-lime-ink checked:bg-lime group-hover:border-chrome-muted/60",
               error ? "border-danger" : "border-border",
             )}
             {...props}
@@ -35,7 +35,7 @@ export function Checkbox({ label, description, error, id, className, ...props }:
           <Check
             aria-hidden
             strokeWidth={3}
-            className="pointer-events-none absolute inset-0.5 hidden size-4 text-bg peer-checked:block"
+            className="pointer-events-none absolute inset-0.5 hidden size-4 text-ink peer-checked:block"
           />
         </span>
         <span className="flex flex-col gap-0.5">
@@ -48,7 +48,7 @@ export function Checkbox({ label, description, error, id, className, ...props }:
         </span>
       </label>
       {error && (
-        <p id={errorId} role="alert" className="pl-8 text-xs text-danger">
+        <p id={errorId} role="alert" className="pl-8 text-xs text-danger-ink">
           {error}
         </p>
       )}

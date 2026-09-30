@@ -41,8 +41,8 @@ function describe(condition: VehicleCondition): ConditionItem[] {
 }
 
 const ICONS = {
-  good: { Icon: CircleCheck, className: "text-brand" },
-  warn: { Icon: TriangleAlert, className: "text-warning" },
+  good: { Icon: CircleCheck, className: "text-lime-ink" },
+  warn: { Icon: TriangleAlert, className: "text-warning-ink" },
   neutral: { Icon: CircleMinus, className: "text-chrome-muted" },
 } as const;
 

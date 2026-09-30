@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   html {
@@ -24,11 +24,11 @@
 
   /* Foco sempre visível: anel verde da marca */
   :focus-visible {
-    @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-bg;
+    @apply outline-none ring-2 ring-lime-ink ring-offset-2 ring-offset-bg;
   }
 
   ::selection {
-    @apply bg-brand text-bg;
+    @apply bg-lime text-ink;
   }
 }
 

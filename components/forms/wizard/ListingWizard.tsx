@@ -164,7 +164,7 @@ export function ListingWizard(props: WizardProps) {
       {restoredStep === step && (
         <div className="mb-5 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm text-chrome-muted">
           <span>Continuando o anúncio que você começou.</span>
-          <button type="button" onClick={discardDraft} className="inline-flex min-h-11 items-center gap-1 font-semibold text-chrome hover:text-brand">
+          <button type="button" onClick={discardDraft} className="inline-flex min-h-11 items-center gap-1 font-semibold text-chrome hover:text-lime-ink">
             <RotateCcw aria-hidden className="size-4" />
             Começar do zero
           </button>

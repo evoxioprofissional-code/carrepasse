@@ -84,5 +84,4 @@ O site tem manifesto e ícones: no Android, “Adicionar à tela inicial”; no 
 
 - Consulta de placa real (API Placas) — hoje simulada.
 - “Esqueci minha senha” — depende de um provedor de e-mail (Resend).
-- Busca, página do anúncio e conta no novo visual claro da home.
 - Revisão jurídica dos Termos e da Política de Privacidade (marcados como rascunho).

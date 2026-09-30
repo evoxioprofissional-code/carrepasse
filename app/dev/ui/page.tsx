@@ -43,7 +43,7 @@ export default function DevUiPage() {
   return (
     <Container className="flex flex-col gap-10 py-10">
       <header>
-        <p className="text-sm font-semibold uppercase tracking-wide text-brand">Só em desenvolvimento</p>
+        <p className="text-sm font-semibold uppercase tracking-wide text-lime-ink">Só em desenvolvimento</p>
         <h1 className="text-chrome-gradient mt-1 text-3xl font-extrabold sm:text-4xl">
           Componentes do Car Repasse
         </h1>
@@ -71,7 +71,7 @@ export default function DevUiPage() {
           Texto corrido em Inter. Motor revisado, pneus com meia vida, pequeno amassado na porta
           traseira esquerda. Documento em dia e IPVA 2026 pago.
         </p>
-        <p className="font-display text-3xl font-bold text-brand">R$ 45.900</p>
+        <p className="font-display text-3xl font-bold text-lime-ink">R$ 45.900</p>
       </DemoSection>
 
       <DemoSection title="Botões">
@@ -165,7 +165,7 @@ export default function DevUiPage() {
             <Skeleton className="h-7 w-1/3" />
           </Card>
           <Card className="flex items-center justify-center gap-2 p-4 text-sm text-chrome-muted">
-            <Spinner className="text-brand" label="Consultando a placa" />
+            <Spinner className="text-lime-ink" label="Consultando a placa" />
             Consultando a placa...
           </Card>
         </div>

@@ -13,9 +13,9 @@ interface AlertProps {
 
 const styles: Record<AlertVariant, { box: string; icon: string; Icon: LucideIcon }> = {
   info: { box: "border-border bg-surface-2", icon: "text-chrome-muted", Icon: Info },
-  success: { box: "border-brand/40 bg-brand/5", icon: "text-brand", Icon: CircleCheck },
-  warning: { box: "border-warning/40 bg-warning/5", icon: "text-warning", Icon: TriangleAlert },
-  danger: { box: "border-danger/40 bg-danger/5", icon: "text-danger", Icon: ShieldAlert },
+  success: { box: "border-lime/50 bg-lime-soft", icon: "text-lime-ink", Icon: CircleCheck },
+  warning: { box: "border-warning/40 bg-amber-50", icon: "text-warning-ink", Icon: TriangleAlert },
+  danger: { box: "border-danger/30 bg-red-50", icon: "text-danger-ink", Icon: ShieldAlert },
 };
 
 export function Alert({ variant = "info", title, className, children }: AlertProps) {

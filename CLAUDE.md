@@ -40,23 +40,24 @@ Este arquivo é lido automaticamente pelo Claude Code em toda sessão. Ele defin
 ## 3. Design system
 
 ### Direção visual
-Esportiva, premium e confiável. Header e topo das páginas escuros; a vitrine (home) e as páginas de conteúdo usam área clara para os anúncios e textos (tokens `night`, `paper`, `ink`, `line`, `lime` no `tailwind.config.ts`). Busca, anúncio e conta ainda estão no tema escuro original. Inspiração na logo: escudo verde-limão, letras cromadas, silhueta de carro esportivo sobre fundo preto. Evitar visual de "classificado barato" — o site precisa transmitir que é sério e seguro.
+Esportiva, premium e confiável. Header e topo das páginas escuros; a vitrine (home) e as páginas de conteúdo usam área clara para os anúncios e textos (tokens `night`, `paper`, `ink`, `line`, `lime` no `tailwind.config.ts`). Todas as telas seguem esse visual claro; só header, hero da home e rodapé são escuros. Inspiração na logo: escudo verde-limão, letras cromadas, silhueta de carro esportivo sobre fundo preto. Evitar visual de "classificado barato" — o site precisa transmitir que é sério e seguro.
 
 ### Cores (definir como tokens no `tailwind.config.ts`)
 | Token | Valor | Uso |
 |---|---|---|
-| `bg` | `#0A0A0A` | Fundo da página |
-| `surface` | `#141414` | Cards, header, modais |
-| `surface-2` | `#1E1E1E` | Inputs, hovers, blocos internos |
-| `border` | `#2A2A2A` | Bordas e divisores |
-| `brand` | `#7ED321` | Cor principal: CTAs, preços, links ativos |
-| `brand-dark` | `#4CAF1A` | Hover e final do gradiente |
-| `chrome` | `#E5E5E5` | Títulos e texto principal |
-| `chrome-muted` | `#A3A3A3` | Texto secundário |
-| `danger` | `#EF4444` | Erros, denúncia |
-| `warning` | `#F59E0B` | Avisos (leilão, sinistro) |
+| `bg` | `#F4F5F7` | Fundo da página |
+| `surface` | `#FFFFFF` | Cards, modais, menus |
+| `surface-2` | `#F1F3F5` | Blocos internos, hovers |
+| `border` | `#E1E4E8` | Bordas e divisores |
+| `brand` / `lime` | `#7ED321` | Fundo de CTAs, selos e destaques (nunca como cor de texto no fundo claro) |
+| `lime-ink` | `#2F6B0C` | Texto/ícone verde sobre fundo claro (links, ativos) |
+| `chrome` / `ink` | `#15171A` | Títulos e texto principal |
+| `chrome-muted` / `ink-muted` | `#5E6570` | Texto secundário |
+| `danger` / `danger-ink` | `#EF4444` / `#B91C1C` | Erros, denúncia (use `-ink` para texto) |
+| `warning` / `warning-ink` | `#F59E0B` / `#92400E` | Avisos: leilão, sinistro (use `-ink` para texto) |
+| `night` | `#0F1113` | Header e hero escuros |
 
-- Gradiente de marca: `linear-gradient(135deg, #7ED321, #4CAF1A)` em botões primários e badges de desconto.
+- Botão primário e selo de desconto: fundo `lime` com texto `ink`.
 - Efeito "cromado" opcional em títulos grandes: gradiente de `#FFFFFF` a `#9CA3AF` com `background-clip: text`.
 - Contraste mínimo WCAG AA em todo texto.
 

@@ -95,7 +95,7 @@ export function StepPhotos({ values, errors, onChange, userId, folder, onBusyCha
       </div>
 
       <div className="flex gap-2 rounded-lg bg-surface-2 p-3 text-sm text-chrome-muted">
-        <Camera aria-hidden className="mt-0.5 size-4 shrink-0 text-brand" />
+        <Camera aria-hidden className="mt-0.5 size-4 shrink-0 text-lime-ink" />
         <p>
           Tire com luz do dia, carro limpo: <span className="text-chrome">{TIPS.join(" · ")}</span>.
         </p>
@@ -123,20 +123,20 @@ export function StepPhotos({ values, errors, onChange, userId, folder, onBusyCha
             <div className="relative aspect-[4/3] bg-surface-2">
               <Image src={url} alt={`Foto ${index + 1}`} fill unoptimized sizes="(min-width: 640px) 240px, 50vw" className="object-cover" />
               {index === 0 && (
-                <span className="absolute left-2 top-2 rounded bg-brand px-1.5 py-0.5 text-[11px] font-bold text-bg">Capa</span>
+                <span className="absolute left-2 top-2 rounded bg-brand px-1.5 py-0.5 text-[11px] font-bold text-ink">Capa</span>
               )}
             </div>
             <div className="grid grid-cols-4">
               <button type="button" onClick={() => move(index, -1)} disabled={index === 0} aria-label={`Mover foto ${index + 1} para a esquerda`} className="flex h-11 items-center justify-center text-chrome-muted hover:text-chrome disabled:opacity-30">
                 <ArrowLeft aria-hidden className="size-4" />
               </button>
-              <button type="button" onClick={() => makeCover(index)} disabled={index === 0} aria-label={`Usar foto ${index + 1} como capa`} className="flex h-11 items-center justify-center text-chrome-muted hover:text-brand disabled:opacity-30">
+              <button type="button" onClick={() => makeCover(index)} disabled={index === 0} aria-label={`Usar foto ${index + 1} como capa`} className="flex h-11 items-center justify-center text-chrome-muted hover:text-lime-ink disabled:opacity-30">
                 <Star aria-hidden className="size-4" />
               </button>
               <button type="button" onClick={() => move(index, 1)} disabled={index === values.photos.length - 1} aria-label={`Mover foto ${index + 1} para a direita`} className="flex h-11 items-center justify-center text-chrome-muted hover:text-chrome disabled:opacity-30">
                 <ArrowRight aria-hidden className="size-4" />
               </button>
-              <button type="button" onClick={() => remove(index)} aria-label={`Remover foto ${index + 1}`} className="flex h-11 items-center justify-center text-chrome-muted hover:text-danger">
+              <button type="button" onClick={() => remove(index)} aria-label={`Remover foto ${index + 1}`} className="flex h-11 items-center justify-center text-chrome-muted hover:text-danger-ink">
                 <Trash2 aria-hidden className="size-4" />
               </button>
             </div>
@@ -172,7 +172,7 @@ export function StepPhotos({ values, errors, onChange, userId, folder, onBusyCha
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border text-chrome-muted transition duration-150 hover:border-brand hover:text-brand"
+              className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border text-chrome-muted transition duration-150 hover:border-lime-ink hover:text-lime-ink"
             >
               <ImagePlus aria-hidden className="size-7" />
               <span className="text-sm font-semibold">{total === 0 ? "Adicionar fotos" : "Mais fotos"}</span>

@@ -9,7 +9,7 @@ export function fieldStyles(hasError: boolean, className?: string, tone: FieldTo
     "focus-visible:ring-1 focus-visible:ring-offset-0",
     "disabled:cursor-not-allowed disabled:opacity-60",
     tone === "dark" &&
-      "bg-surface-2 text-chrome placeholder:text-chrome-muted/70 hover:border-chrome-muted/50 focus-visible:border-brand focus-visible:ring-brand",
+      "bg-white text-chrome placeholder:text-chrome-muted hover:border-chrome-muted/50 focus-visible:border-lime-ink focus-visible:ring-lime-ink disabled:bg-surface-2",
     tone === "light" &&
       "bg-white text-ink placeholder:text-ink-muted hover:border-ink-muted/50 focus-visible:border-lime-ink focus-visible:ring-lime-ink disabled:bg-paper",
     hasError ? "border-danger" : tone === "dark" ? "border-border" : "border-line",

@@ -120,7 +120,7 @@ export function MyListings({ userId }: { userId: string }) {
               onClick={() => setTab(item.value)}
               className={cn(
                 "inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border px-4 text-sm font-medium transition duration-150",
-                tab === item.value ? "border-brand bg-brand/10 text-brand" : "border-border text-chrome-muted hover:text-chrome",
+                tab === item.value ? "border-lime-ink bg-lime-soft text-lime-ink" : "border-border text-chrome-muted hover:text-chrome",
               )}
             >
               {item.label}

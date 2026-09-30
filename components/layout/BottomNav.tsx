@@ -42,11 +42,11 @@ export function BottomNav() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "flex flex-1 flex-col items-center justify-center gap-1 text-[0.7rem] font-medium transition duration-150",
-                  active ? "text-brand" : "text-chrome-muted hover:text-chrome",
+                  active ? "text-lime-ink" : "text-chrome-muted hover:text-chrome",
                 )}
               >
                 {isCta ? (
-                  <span className="-mt-6 flex size-12 items-center justify-center rounded-full bg-brand-gradient text-bg shadow-lg shadow-brand/20 ring-4 ring-bg">
+                  <span className="-mt-6 flex size-12 items-center justify-center rounded-full bg-lime text-ink shadow-lg shadow-lime/30 ring-4 ring-surface">
                     <Icon aria-hidden className="size-6" strokeWidth={2.5} />
                   </span>
                 ) : (

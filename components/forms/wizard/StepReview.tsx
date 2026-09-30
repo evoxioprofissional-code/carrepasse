@@ -90,7 +90,7 @@ export function StepReview({ values, errors, onChange, onGoTo, user, canEditVehi
         label={
           <>
             Confirmo que as informações são verdadeiras e aceito os{" "}
-            <Link href="/termos" target="_blank" className="text-brand underline-offset-2 hover:underline">
+            <Link href="/termos" target="_blank" className="text-lime-ink underline-offset-2 hover:underline">
               termos de uso
             </Link>{" "}
             e o aviso acima.

@@ -61,7 +61,7 @@ export function Tooltip({ label, children, align = "center", className }: Toolti
         onKeyDown={(event) => {
           if (event.key === "Escape") setOpen(false);
         }}
-        className="-m-2 rounded-full p-2 text-chrome-muted transition duration-150 hover:text-brand"
+        className="-m-2 rounded-full p-2 text-chrome-muted transition duration-150 hover:text-lime-ink"
       >
         <Info aria-hidden className="size-4" />
       </button>
@@ -72,7 +72,7 @@ export function Tooltip({ label, children, align = "center", className }: Toolti
           role="tooltip"
           style={{ translate: `${shift}px 0` }}
           className={cn(
-            "absolute bottom-full z-20 mb-2 w-64 max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-surface-2 p-3 text-left text-xs font-normal leading-relaxed text-chrome shadow-lg shadow-black/40",
+            "absolute bottom-full z-20 mb-2 w-64 max-w-[calc(100vw-2rem)] rounded-lg border border-white/10 bg-night p-3 text-left text-xs font-normal leading-relaxed text-white shadow-lg shadow-black/20",
             alignments[align],
           )}
         >

@@ -11,7 +11,7 @@ export function InspectionCard() {
   return (
     <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-5">
       <div className="flex items-start gap-3">
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-lime-soft text-lime-ink">
           <ClipboardCheck aria-hidden className="size-5" />
         </span>
         <div>

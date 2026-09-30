@@ -30,7 +30,7 @@ export function PriceBlock({ listing }: PriceBlockProps) {
               {REPASSE_HELP}
             </Tooltip>
           </p>
-          <p className="font-display text-4xl font-bold leading-tight text-brand">
+          <p className="font-display text-4xl font-bold leading-tight text-lime-ink">
             {formatBRL(listing.repassePrice)}
           </p>
         </div>
@@ -47,7 +47,7 @@ export function PriceBlock({ listing }: PriceBlockProps) {
           <p
             className={cn(
               "font-display font-bold leading-tight",
-              hasBoth ? "text-2xl text-chrome" : "text-4xl text-brand",
+              hasBoth ? "text-2xl text-chrome" : "text-4xl text-lime-ink",
             )}
           >
             {formatBRL(listing.finalPrice)}
@@ -65,7 +65,7 @@ export function PriceBlock({ listing }: PriceBlockProps) {
             {listing.fipeCode && <p className="text-xs text-chrome-muted">Código {listing.fipeCode}</p>}
           </div>
           {comparison.kind === "below" && (
-            <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md bg-brand-gradient px-2.5 py-1 text-sm font-bold text-bg">
+            <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md bg-lime px-2.5 py-1 text-sm font-bold text-ink">
               <TrendingDown aria-hidden className="size-4" />
               {comparison.percent}% abaixo
             </span>

@@ -12,7 +12,7 @@ export function MobileContactBar({ listing }: { listing: ListingWithSeller }) {
           <p className="truncate text-xs text-chrome-muted">
             {listing.brand} {listing.model} {listing.modelYear}
           </p>
-          <p className="whitespace-nowrap font-display text-xl font-bold leading-tight text-brand">{formatBRL(mainPrice(listing))}</p>
+          <p className="whitespace-nowrap font-display text-xl font-bold leading-tight text-lime-ink">{formatBRL(mainPrice(listing))}</p>
         </div>
         <WhatsAppButton listing={listing} compact className="h-11 shrink-0 px-4 text-sm" />
       </div>

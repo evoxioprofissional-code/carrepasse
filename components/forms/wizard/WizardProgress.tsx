@@ -36,13 +36,13 @@ export function WizardProgress({ step, firstStep = 0 }: WizardProgressProps) {
             key={label}
             className={cn(
               "flex items-center gap-1.5 text-xs font-medium",
-              index < current ? "text-brand" : index === current ? "text-chrome" : "text-chrome-muted",
+              index < current ? "text-lime-ink" : index === current ? "text-chrome" : "text-chrome-muted",
             )}
           >
             <span
               className={cn(
                 "flex size-5 items-center justify-center rounded-full border text-[11px]",
-                index < current ? "border-brand bg-brand text-bg" : index === current ? "border-chrome" : "border-border",
+                index < current ? "border-lime-ink bg-lime text-ink" : index === current ? "border-chrome" : "border-border",
               )}
             >
               {index < current ? <Check aria-hidden className="size-3" strokeWidth={3} /> : index + 1}

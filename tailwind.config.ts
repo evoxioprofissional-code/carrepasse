@@ -10,22 +10,29 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#0A0A0A",
+        // Superfícies claras (o site todo segue o visual da home).
+        bg: "#F4F5F7",
         surface: {
-          DEFAULT: "#141414",
-          2: "#1E1E1E",
+          DEFAULT: "#FFFFFF",
+          2: "#F1F3F5",
         },
-        border: "#2A2A2A",
+        border: "#E1E4E8",
         brand: {
           DEFAULT: "#7ED321",
           dark: "#4CAF1A",
         },
         chrome: {
-          DEFAULT: "#E5E5E5",
-          muted: "#A3A3A3",
+          DEFAULT: "#15171A",
+          muted: "#5E6570",
         },
-        danger: "#EF4444",
-        warning: "#F59E0B",
+        danger: {
+          DEFAULT: "#EF4444",
+          ink: "#B91C1C",
+        },
+        warning: {
+          DEFAULT: "#F59E0B",
+          ink: "#92400E",
+        },
         // Tema claro da vitrine (home): header/hero escuros, anúncios em fundo claro.
         night: "#0F1113",
         paper: "#F4F5F7",

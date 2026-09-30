@@ -35,10 +35,10 @@ export function VehicleEditFields({ values, errors, onChange, onNext, onPickFrom
           </div>
           <div className="shrink-0 text-right">
             <p className="text-xs text-chrome-muted">FIPE</p>
-            <p className="font-semibold text-brand">{values.fipePrice ? formatBRL(values.fipePrice) : "—"}</p>
+            <p className="font-semibold text-lime-ink">{values.fipePrice ? formatBRL(values.fipePrice) : "—"}</p>
           </div>
         </div>
-        {errors.fipePrice && <p role="alert" className="text-sm text-danger">{errors.fipePrice}</p>}
+        {errors.fipePrice && <p role="alert" className="text-sm text-danger-ink">{errors.fipePrice}</p>}
 
         <div className="grid gap-4 sm:grid-cols-2">
           <Input label="Marca" required value={values.brand} error={errors.brand} onChange={(event) => onChange({ brand: event.target.value })} />
@@ -121,7 +121,7 @@ export function VehicleEditFields({ values, errors, onChange, onNext, onPickFrom
         <button
           type="button"
           onClick={onPickFromFipe}
-          className="self-start min-h-11 rounded-lg text-sm font-semibold text-brand underline-offset-4 hover:underline"
+          className="self-start min-h-11 rounded-lg text-sm font-semibold text-lime-ink underline-offset-4 hover:underline"
         >
           Carro errado? Escolher de novo pela tabela FIPE
         </button>

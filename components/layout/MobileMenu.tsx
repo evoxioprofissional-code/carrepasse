@@ -52,7 +52,7 @@ export function MobileMenu() {
                   aria-current={pathname === link.href ? "page" : undefined}
                   className={cn(
                     "block rounded-lg px-3 py-3 text-base font-medium transition duration-150 hover:bg-surface-2",
-                    pathname === link.href ? "text-brand" : "text-chrome",
+                    pathname === link.href ? "text-lime-ink" : "text-chrome",
                   )}
                 >
                   {link.label}

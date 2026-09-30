@@ -20,7 +20,7 @@ export function SummaryRow({ title, step, onGoTo, children }: SummaryRowProps) {
         <button
           type="button"
           onClick={() => onGoTo(step)}
-          className="-my-1 flex min-h-11 shrink-0 items-center gap-1 rounded-lg px-2 text-sm font-semibold text-brand hover:bg-surface-2"
+          className="-my-1 flex min-h-11 shrink-0 items-center gap-1 rounded-lg px-2 text-sm font-semibold text-lime-ink hover:bg-surface-2"
         >
           <PencilLine aria-hidden className="size-4" />
           Editar

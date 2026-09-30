@@ -85,7 +85,7 @@ export function StepDetails({ values, errors, onChange }: StepDetailsProps) {
 
       <section className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-5 sm:p-6">
         <div className="flex gap-2 rounded-lg bg-surface-2 p-3 text-sm text-chrome-muted">
-          <Lightbulb aria-hidden className="mt-0.5 size-4 shrink-0 text-brand" />
+          <Lightbulb aria-hidden className="mt-0.5 size-4 shrink-0 text-lime-ink" />
           <p>
             Fale de: <span className="text-chrome">{TIPS.join(" · ")}</span>.
           </p>

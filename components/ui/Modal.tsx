@@ -60,7 +60,7 @@ export function Modal({
         if (event.target === event.currentTarget) onClose();
       }}
       className={cn(
-        "max-h-none max-w-none bg-transparent p-0 text-chrome backdrop:bg-black/70 backdrop:backdrop-blur-sm",
+        "max-h-none max-w-none bg-transparent p-0 text-chrome backdrop:bg-black/50 backdrop:backdrop-blur-sm",
         variant === "center" && "m-auto w-[calc(100%-2rem)] max-w-lg open:animate-fade-in",
         variant === "sheet" && "mb-0 mt-auto w-full open:animate-sheet-in",
       )}

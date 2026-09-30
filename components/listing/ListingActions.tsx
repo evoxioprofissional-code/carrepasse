@@ -43,7 +43,7 @@ export function ListingActions({ listingId, title, className }: ListingActionsPr
   return (
     <div className={cn("grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-2", className)}>
       <button type="button" onClick={() => void share()} className={actionClass}>
-        {copied ? <Check aria-hidden className="size-4 text-brand" /> : <Share2 aria-hidden className="size-4" />}
+        {copied ? <Check aria-hidden className="size-4 text-lime-ink" /> : <Share2 aria-hidden className="size-4" />}
         <span aria-live="polite" className="truncate">
           {copied ? (
             "Link copiado"
@@ -59,7 +59,7 @@ export function ListingActions({ listingId, title, className }: ListingActionsPr
         type="button"
         onClick={() => toggle(listingId)}
         aria-pressed={favorite}
-        className={cn(actionClass, favorite && "border-danger/50 text-danger")}
+        className={cn(actionClass, favorite && "border-danger/50 text-danger-ink")}
       >
         <Heart aria-hidden className={cn("size-4 shrink-0", favorite && "fill-current")} />
         <span className="truncate">{favorite ? "Favoritado" : "Favoritar"}</span>
@@ -67,7 +67,7 @@ export function ListingActions({ listingId, title, className }: ListingActionsPr
       <button
         type="button"
         onClick={() => setReportOpen(true)}
-        className={cn(actionClass, "w-11 px-0 text-chrome-muted hover:border-danger/50 hover:text-danger")}
+        className={cn(actionClass, "w-11 px-0 text-chrome-muted hover:border-danger/50 hover:text-danger-ink")}
         aria-label="Denunciar anúncio"
         title="Denunciar anúncio"
       >

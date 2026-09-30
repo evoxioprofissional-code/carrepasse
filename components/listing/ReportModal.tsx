@@ -79,7 +79,7 @@ export function ReportModal({ listingId, open, onClose }: ReportModalProps) {
     >
       {status === "sent" ? (
         <div className="flex flex-col items-center gap-3 py-4 text-center">
-          <CircleCheck aria-hidden className="size-12 text-brand" />
+          <CircleCheck aria-hidden className="size-12 text-lime-ink" />
           <p className="text-chrome">Recebemos sua denúncia. Obrigado por ajudar a manter o Car Repasse seguro.</p>
           <p className="text-sm text-chrome-muted">
             Se você já pagou algo, registre também um boletim de ocorrência.

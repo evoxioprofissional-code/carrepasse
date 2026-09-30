@@ -110,7 +110,7 @@ export function ListingGallery({ photos, title }: ListingGalleryProps) {
                 aria-current={index === selected}
                 className={cn(
                   "relative block aspect-[4/3] w-full overflow-hidden rounded-lg border-2 transition duration-150",
-                  index === selected ? "border-brand" : "border-transparent opacity-70 hover:opacity-100",
+                  index === selected ? "border-lime-ink" : "border-transparent opacity-70 hover:opacity-100",
                 )}
               >
                 <ListingPhoto src={photo} alt="" sizes="120px" showIllustrativeLabel={false} />

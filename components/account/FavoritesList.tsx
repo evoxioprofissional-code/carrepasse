@@ -2,8 +2,8 @@
 
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
-import { ListingCard } from "@/components/listing/ListingCard";
-import { ListingCardSkeleton } from "@/components/listing/ListingCardSkeleton";
+import { VehicleCard } from "@/components/listing/VehicleCard";
+import { VehicleCardSkeleton } from "@/components/listing/VehicleCardSkeleton";
 import { Alert } from "@/components/ui/Alert";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -36,10 +36,10 @@ export function FavoritesList() {
 
   if (!loaded) {
     return (
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }, (_, index) => (
           <li key={index}>
-            <ListingCardSkeleton />
+            <VehicleCardSkeleton />
           </li>
         ))}
       </ul>
@@ -60,10 +60,10 @@ export function FavoritesList() {
   }
 
   return (
-    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((listing) => (
         <li key={listing.id} className="flex">
-          <ListingCard listing={listing} className="w-full" />
+          <VehicleCard listing={listing} className="w-full" />
         </li>
       ))}
     </ul>

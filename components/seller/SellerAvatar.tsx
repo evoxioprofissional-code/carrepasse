@@ -18,7 +18,7 @@ export function SellerAvatar({ name, size = "md", className }: SellerAvatarProps
     <span
       aria-hidden
       className={cn(
-        "flex shrink-0 items-center justify-center rounded-full border border-brand/40 bg-brand/10 font-display font-bold text-brand",
+        "flex shrink-0 items-center justify-center rounded-full border border-lime/60 bg-lime-soft font-display font-bold text-lime-ink",
         size === "md" ? "size-12 text-lg" : "size-20 text-3xl",
         className,
       )}

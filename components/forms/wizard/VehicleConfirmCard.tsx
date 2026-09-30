@@ -23,10 +23,10 @@ export function VehicleConfirmCard({ values, onConfirm, onFix }: VehicleConfirmC
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="rounded-2xl border border-brand/40 bg-surface p-5 sm:p-8">
-        <p className="text-sm font-semibold text-brand">É este o seu carro?</p>
+      <div className="rounded-2xl border border-lime/60 bg-surface p-5 sm:p-8">
+        <p className="text-sm font-semibold text-lime-ink">É este o seu carro?</p>
         <div className="mt-3 flex items-start gap-3">
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-lime-soft text-lime-ink">
             <CarFront aria-hidden className="size-6" />
           </span>
           <div className="min-w-0">
@@ -47,7 +47,7 @@ export function VehicleConfirmCard({ values, onConfirm, onFix }: VehicleConfirmC
           ))}
           <div className="bg-surface-2 px-3 py-2.5">
             <dt className="text-xs text-chrome-muted">FIPE{values.fipeReferenceMonth ? ` · ${values.fipeReferenceMonth}` : ""}</dt>
-            <dd className="text-sm font-semibold text-brand">
+            <dd className="text-sm font-semibold text-lime-ink">
               {values.fipePrice ? formatBRL(values.fipePrice) : "Não encontrada"}
             </dd>
           </div>

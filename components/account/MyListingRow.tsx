@@ -45,7 +45,7 @@ export function MyListingRow({ listing, busy, onStatus, onDelete }: MyListingRow
               {badge.label}
             </Badge>
           </div>
-          <p className="mt-1 font-display text-lg font-bold text-brand">{formatBRL(mainPrice(listing))}</p>
+          <p className="mt-1 font-display text-lg font-bold text-lime-ink">{formatBRL(mainPrice(listing))}</p>
           <p className="flex flex-wrap items-center gap-x-3 text-xs text-chrome-muted">
             <span className="inline-flex items-center gap-1">
               <Eye aria-hidden className="size-3.5" />
@@ -83,7 +83,7 @@ export function MyListingRow({ listing, busy, onStatus, onDelete }: MyListingRow
           type="button"
           disabled={busy}
           onClick={onDelete}
-          className={cn(actionClass, "text-danger hover:border-danger/50")}
+          className={cn(actionClass, "text-danger-ink hover:border-danger/50")}
           aria-label={`Excluir anúncio do ${title}`}
         >
           <Trash2 aria-hidden className="size-4" />

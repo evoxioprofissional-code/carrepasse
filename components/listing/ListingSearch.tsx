@@ -24,8 +24,8 @@ import {
 } from "@/lib/listing-query";
 import type { ListingSort } from "@/types/listing";
 import { FiltersPanel } from "./FiltersPanel";
-import { ListingCard } from "./ListingCard";
-import { ListingCardSkeleton } from "./ListingCardSkeleton";
+import { VehicleCard } from "./VehicleCard";
+import { VehicleCardSkeleton } from "./VehicleCardSkeleton";
 
 const PAGE_SIZE = 12;
 
@@ -98,7 +98,7 @@ export function ListingSearch() {
         <div className="flex-1 sm:hidden">{sortSelect}</div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[300px_minmax(0,1fr)]">
         <aside aria-label="Filtros" className="hidden lg:block">
           <div className="sticky top-24 max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-xl border border-border bg-surface p-5">
             <div className="mb-4 flex items-center justify-between">
@@ -107,7 +107,7 @@ export function ListingSearch() {
                 <button
                   type="button"
                   onClick={clearAll}
-                  className="rounded text-sm font-medium text-brand hover:text-brand-dark"
+                  className="rounded text-sm font-medium text-lime-ink hover:text-ink"
                 >
                   Limpar
                 </button>
@@ -150,16 +150,16 @@ export function ListingSearch() {
               }
             />
           ) : (
-            <ul className={cn("grid gap-4 transition-opacity sm:grid-cols-2 xl:grid-cols-3", loading && !firstLoad && "opacity-60")}>
+            <ul className={cn("grid grid-cols-1 gap-4 transition-opacity sm:grid-cols-2 xl:grid-cols-3", loading && !firstLoad && "opacity-60")}>
               {firstLoad
                 ? Array.from({ length: 6 }, (_, index) => (
                     <li key={index}>
-                      <ListingCardSkeleton />
+                      <VehicleCardSkeleton />
                     </li>
                   ))
                 : items.map((listing, index) => (
                     <li key={listing.id} className="flex">
-                      <ListingCard listing={listing} priority={index < 3} className="w-full" />
+                      <VehicleCard listing={listing} priority={index < 3} className="w-full" />
                     </li>
                   ))}
             </ul>

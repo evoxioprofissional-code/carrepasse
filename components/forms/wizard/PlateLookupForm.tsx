@@ -84,7 +84,7 @@ export function PlateLookupForm({ initialPlate, onFound, onManual }: PlateLookup
           maxLength={8}
           placeholder="ABC-1D23"
           aria-invalid={error ? true : undefined}
-          className="mx-auto mt-3 block h-16 w-full max-w-xs rounded-xl border-2 border-border bg-white text-center font-display text-3xl font-extrabold uppercase tracking-[0.18em] text-ink placeholder:text-ink/25 focus-visible:border-brand focus-visible:ring-brand disabled:opacity-60"
+          className="mx-auto mt-3 block h-16 w-full max-w-xs rounded-xl border-2 border-border bg-white text-center font-display text-3xl font-extrabold uppercase tracking-[0.18em] text-ink placeholder:text-ink/25 focus-visible:border-lime-ink focus-visible:ring-lime-ink disabled:opacity-60"
         />
         <p className="mt-2 text-center text-xs text-chrome-muted">Antiga (ABC-1234) ou Mercosul (ABC1D23).</p>
 
@@ -104,7 +104,7 @@ export function PlateLookupForm({ initialPlate, onFound, onManual }: PlateLookup
         type="button"
         onClick={onManual}
         disabled={busy}
-        className="mx-auto min-h-11 rounded-lg px-3 text-sm font-semibold text-brand underline-offset-4 hover:underline disabled:opacity-50"
+        className="mx-auto min-h-11 rounded-lg px-3 text-sm font-semibold text-lime-ink underline-offset-4 hover:underline disabled:opacity-50"
       >
         Não sei a placa · preencher pela tabela FIPE
       </button>

@@ -145,7 +145,7 @@ export function ManualFipePicker({ onPicked, onBackToPlate }: ManualFipePickerPr
       <button
         type="button"
         onClick={onBackToPlate}
-        className="mx-auto min-h-11 rounded-lg px-3 text-sm font-semibold text-brand underline-offset-4 hover:underline"
+        className="mx-auto min-h-11 rounded-lg px-3 text-sm font-semibold text-lime-ink underline-offset-4 hover:underline"
       >
         Voltar e buscar pela placa
       </button>
