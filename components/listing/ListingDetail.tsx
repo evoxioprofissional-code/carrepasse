@@ -5,11 +5,12 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useListing } from "@/hooks/useListing";
+import type { ListingWithSeller } from "@/types/listing";
 import { ListingContent } from "./ListingContent";
 import { ListingDetailSkeleton } from "./ListingDetailSkeleton";
 
-export function ListingDetail({ id }: { id: string }) {
-  const state = useListing(id);
+export function ListingDetail({ id, initial }: { id: string; initial?: ListingWithSeller }) {
+  const state = useListing(id, initial);
 
   if (state.status === "loading") return <ListingDetailSkeleton />;
 

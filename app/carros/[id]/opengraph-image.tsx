@@ -65,7 +65,7 @@ const BRAND = "#7ED321";
 // Imagem que aparece quando o link do anúncio é colado no WhatsApp/Instagram.
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const listing = await getPublicListing(id);
+  const listing = await getPublicListing(id).catch(() => null);
   const logo = await readFile(join(process.cwd(), "public/brand/logo-mark.png"));
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 

@@ -7,12 +7,17 @@ import { SELLER_COLUMNS, toListingWithSeller, toUser, type ListingRowWithSeller,
 // Leituras públicas feitas no SERVIDOR: metadados de compartilhamento,
 // imagem Open Graph e pré-geração das páginas no build.
 
+/**
+ * null = o anúncio não existe. Falha de rede lança erro: assim a página
+ * mostra erro (e tenta de novo) em vez de guardar um 404 falso no cache.
+ */
 export async function getPublicListing(id: string): Promise<ListingWithSeller | null> {
-  const { data } = await supabase()
+  const { data, error } = await supabase()
     .from("listings")
     .select(`*, seller:profiles!inner(${SELLER_COLUMNS})`)
     .eq("id", id)
     .maybeSingle();
+  if (error) throw new Error(error.message);
   return data ? toListingWithSeller(data as ListingRowWithSeller) : null;
 }
 

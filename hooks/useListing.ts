@@ -15,9 +15,15 @@ interface Loaded {
   state: State;
 }
 
-/** Carrega um anúncio e conta uma visualização por abertura da página. */
-export function useListing(id: string): State {
-  const [loaded, setLoaded] = useState<Loaded>({ id: "", state: { status: "loading" } });
+/**
+ * Carrega um anúncio e conta uma visualização por abertura da página.
+ * `initial` vem do servidor (página já pronta para o Google); o navegador
+ * recarrega em seguida para mostrar os dados mais novos.
+ */
+export function useListing(id: string, initial?: ListingWithSeller): State {
+  const [loaded, setLoaded] = useState<Loaded>(() =>
+    initial ? { id, state: { status: "ready", listing: initial } } : { id: "", state: { status: "loading" } },
+  );
   const countedRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -30,7 +36,11 @@ export function useListing(id: string): State {
           setLoaded({ id, state: listing ? { status: "ready", listing } : { status: "not-found" } });
         })
         .catch(() => {
-          if (!cancelled) setLoaded({ id, state: { status: "error" } });
+          if (cancelled) return;
+          // Falha ao atualizar não apaga o anúncio que já está na tela (veio do servidor).
+          setLoaded((current) =>
+            current.id === id && current.state.status === "ready" ? current : { id, state: { status: "error" } },
+          );
         });
 
     load();

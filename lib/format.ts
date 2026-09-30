@@ -50,9 +50,9 @@ export function formatRelativeDate(iso: string, now: Date = new Date()): string 
   return relativeFormatter.format(-Math.floor(days / 365), "year");
 }
 
-/** ISO → "março de 2024" */
+/** ISO → "março de 2024" (horário de Brasília: servidor e celular mostram o mesmo mês). */
 export function formatMonthYear(iso: string): string {
-  return new Date(iso).toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+  return new Date(iso).toLocaleDateString("pt-BR", { month: "long", year: "numeric", timeZone: "America/Sao_Paulo" });
 }
 
 /** "81999998888" → "(81) 99999-8888" */
