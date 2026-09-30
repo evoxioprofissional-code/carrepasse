@@ -33,7 +33,12 @@ export function PlateLookupForm({ initialPlate, onFound, onManual }: PlateLookup
       setStatus("plate");
       const vehicle = await plateLookup.lookup(plate);
       setStatus("fipe");
-      const quote = await fipeApi.getQuoteByCode(vehicle.fipeCode, vehicle.fipeYearCode).catch(() => null);
+      // A API de placa já pode trazer a FIPE; senão, consulta pelo código FIPE.
+      const quote =
+        vehicle.fipe ??
+        (vehicle.fipeCode && vehicle.fipeYearCode
+          ? await fipeApi.getQuoteByCode(vehicle.fipeCode, vehicle.fipeYearCode).catch(() => null)
+          : null);
       onFound({
         plate: vehicle.plate,
         brand: vehicle.brand,
@@ -41,11 +46,11 @@ export function PlateLookupForm({ initialPlate, onFound, onManual }: PlateLookup
         version: vehicle.version,
         modelYear: String(vehicle.modelYear),
         manufactureYear: String(vehicle.manufactureYear),
-        fuel: vehicle.fuel,
-        transmission: vehicle.transmission,
-        bodyType: vehicle.bodyType,
+        fuel: vehicle.fuel ?? "",
+        transmission: vehicle.transmission ?? "",
+        bodyType: vehicle.bodyType ?? "",
         color: vehicle.color,
-        fipeCode: vehicle.fipeCode,
+        fipeCode: vehicle.fipeCode ?? "",
         fipePrice: quote?.price ?? null,
         fipeReferenceMonth: quote?.referenceMonth ?? "",
       });

@@ -24,11 +24,16 @@ export interface PlateLookupResult {
   version: string;
   modelYear: number;
   manufactureYear: number;
-  fuel: Fuel;
-  transmission: Transmission;
-  bodyType: BodyType;
+  /** Nem todo provedor informa; o vendedor completa na tela de correção. */
+  fuel?: Fuel;
+  transmission?: Transmission;
+  bodyType?: BodyType;
   color: string;
-  fipeCode: string;
-  /** Código do ano na FIPE, ex.: "2021-5". */
-  fipeYearCode: string;
+  fipeCode?: string;
+  /** Código do ano na FIPE, ex.: "2021-5" (para consultar a FIPE depois). */
+  fipeYearCode?: string;
+  /** Valor FIPE já devolvido pelo provedor da placa (evita outra consulta). */
+  fipe?: { price: number; referenceMonth: string };
+  /** "api" = consulta real; "simulado" = sem token configurado. */
+  source: "api" | "simulado";
 }

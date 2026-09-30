@@ -27,7 +27,7 @@ export function ServicesDemo() {
     try {
       const found = await plateLookup.lookup(plate);
       setVehicle(found);
-      setQuote(await fipeApi.getQuoteByCode(found.fipeCode, found.fipeYearCode));
+      if (found.fipeCode && found.fipeYearCode) setQuote(await fipeApi.getQuoteByCode(found.fipeCode, found.fipeYearCode));
       setStatus("done");
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Erro inesperado.");

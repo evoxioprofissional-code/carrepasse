@@ -37,6 +37,7 @@ Crie um `.env.local` só se quiser apontar para outro projeto ou domínio:
 | `NEXT_PUBLIC_SUPABASE_URL` | URL de outro projeto Supabase |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Chave publicável desse projeto |
 | `NEXT_PUBLIC_SITE_URL` | Domínio usado nos links de compartilhamento (na Vercel é automático) |
+| `API_PLACAS_TOKEN` | Token da API Placas (wdapi2). Só no servidor. Sem ele, a consulta de placa é simulada |
 
 Nunca coloque chaves secretas (`sb_secret_…`, `service_role`) no código nem em variáveis `NEXT_PUBLIC_`.
 
@@ -61,6 +62,7 @@ Esquema, regras de acesso e seed ficam em [`supabase/`](./supabase/README.md):
 - `migrations/0006_listing_expiration.sql` — anúncio vence após 60 dias sem confirmação do vendedor
 - `migrations/0007_moderation.sql` — administradores (`admins`) e painel de denúncias em `/admin/denuncias`
 - `migrations/0008_profile_avatar.sql` — foto de perfil / logo da loja só do nosso Storage
+- `migrations/0009_plate_lookups.sql` — cache por usuário e limite diário da consulta de placa
 - `seed.sql` — 30 anúncios e 8 vendedores de demonstração (gerado a partir de `mocks/`)
 
 Para montar um projeto novo: rode as migrações em ordem e depois o seed no SQL Editor da Supabase.
@@ -87,7 +89,7 @@ O site tem manifesto e ícones: no Android, “Adicionar à tela inicial”; no 
 
 ## O que ainda falta
 
-- Consulta de placa real (API Placas) — hoje simulada.
+- Consulta de placa real: integração pronta em `/api/placa`; falta o `API_PLACAS_TOKEN` na Vercel.
 - E-mail próprio (Resend como SMTP da Supabase): sem ele, a Supabase só envia 2 e-mails por hora e
   só para a equipe do projeto — o “Esqueci minha senha” já existe, mas depende disso.
 - Revisão jurídica dos Termos e da Política de Privacidade (marcados como rascunho).
