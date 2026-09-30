@@ -10,12 +10,22 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { useListings } from "@/hooks/useListings";
 import { useUser } from "@/hooks/useUser";
 import { formatMonthYear } from "@/lib/format";
+import { SELLER_PAGE_LIMIT } from "@/lib/listing-query";
+import type { ListingPage } from "@/types/listing";
+import type { User } from "@/types/user";
 import { SellerAvatar } from "./SellerAvatar";
 import { SellerTypeBadge } from "./SellerTypeBadge";
 
-export function SellerProfile({ id }: { id: string }) {
-  const userState = useUser(id);
-  const { data, loading } = useListings({ sellerId: id, limit: 60 });
+interface SellerProfileProps {
+  id: string;
+  /** Vindos do servidor: a página já chega pronta. */
+  initialUser?: User;
+  initialListings?: ListingPage;
+}
+
+export function SellerProfile({ id, initialUser, initialListings }: SellerProfileProps) {
+  const userState = useUser(id, initialUser);
+  const { data, loading } = useListings({ sellerId: id, limit: SELLER_PAGE_LIMIT }, initialListings);
   const listings = data?.items ?? [];
 
   if (userState.status === "not-found" || userState.status === "error") {

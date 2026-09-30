@@ -26,8 +26,10 @@ export async function getPublicListingIds(): Promise<string[]> {
   return (data ?? []).map((row: { id: string }) => row.id);
 }
 
+/** null = perfil não existe; falha de rede lança erro (não vira 404 no cache). */
 export async function getPublicProfile(id: string): Promise<User | null> {
-  const { data } = await supabase().from("profiles").select(SELLER_COLUMNS).eq("id", id).maybeSingle();
+  const { data, error } = await supabase().from("profiles").select(SELLER_COLUMNS).eq("id", id).maybeSingle();
+  if (error) throw new Error(error.message);
   return data ? toUser(data as ProfileRow) : null;
 }
 

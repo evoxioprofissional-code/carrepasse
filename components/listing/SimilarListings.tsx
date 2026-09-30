@@ -13,14 +13,20 @@ interface SimilarListingsProps {
 
 /** Mesmo modelo > mesma marca > mesma faixa de preço (±20%). */
 export function SimilarListings({ listing }: SimilarListingsProps) {
-  const { data, loading } = useListings({ limit: 100 });
+  const price = mainPrice(listing);
+  // Duas buscas pequenas (mesma marca e mesma faixa de preço) em vez de baixar tudo.
+  const sameBrand = useListings({ brand: listing.brand, limit: 12 });
+  const samePrice = useListings({ priceMin: Math.floor(price * 0.8), priceMax: Math.ceil(price * 1.2), limit: 12 });
+  const loading = sameBrand.loading || samePrice.loading;
 
   const similar = useMemo(() => {
-    const price = mainPrice(listing);
-    return (data?.items ?? [])
-      .filter((item) => item.id !== listing.id)
+    const candidates = new Map(
+      [...(sameBrand.data?.items ?? []), ...(samePrice.data?.items ?? [])].map((item) => [item.id, item]),
+    );
+    candidates.delete(listing.id);
+    return [...candidates.values()]
       .map((item) => {
-        const priceGap = Math.abs(mainPrice(item) - price) / price;
+        const priceGap = price > 0 ? Math.abs(mainPrice(item) - price) / price : 1;
         const score =
           (item.model === listing.model ? 4 : 0) +
           (item.brand === listing.brand ? 2 : 0) +
@@ -32,7 +38,7 @@ export function SimilarListings({ listing }: SimilarListingsProps) {
       .sort((a, b) => b.score - a.score || a.priceGap - b.priceGap)
       .slice(0, 4)
       .map(({ item }) => item);
-  }, [data, listing]);
+  }, [sameBrand.data, samePrice.data, listing, price]);
 
   if (!loading && similar.length === 0) return null;
 

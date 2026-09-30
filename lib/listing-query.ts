@@ -11,6 +11,9 @@ import { BODY_TYPE_LABEL, FUEL_LABEL, SELLER_TYPE_LABEL, SORT_LABEL, TRANSMISSIO
 // Filtros da busca <-> query string em português, para o link ser
 // compartilhável: /carros?marca=Fiat&precoMax=60000&semLeilao=1
 
+/** Anúncios mostrados no perfil do vendedor (servidor e navegador usam o mesmo). */
+export const SELLER_PAGE_LIMIT = 60;
+
 export type SearchFilters = Omit<ListingQuery, "offset" | "limit" | "status" | "sellerId">;
 
 const PARAM = {

@@ -10,8 +10,10 @@ type State =
   | { status: "not-found" }
   | { status: "error" };
 
-export function useUser(id: string): State {
-  const [loaded, setLoaded] = useState<{ id: string; state: State }>({ id: "", state: { status: "loading" } });
+export function useUser(id: string, initial?: User): State {
+  const [loaded, setLoaded] = useState<{ id: string; state: State }>(() =>
+    initial ? { id, state: { status: "ready", user: initial } } : { id: "", state: { status: "loading" } },
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -21,7 +23,11 @@ export function useUser(id: string): State {
         if (!cancelled) setLoaded({ id, state: user ? { status: "ready", user } : { status: "not-found" } });
       })
       .catch(() => {
-        if (!cancelled) setLoaded({ id, state: { status: "error" } });
+        if (cancelled) return;
+        // Falha ao atualizar não apaga o perfil que já veio do servidor.
+        setLoaded((current) =>
+          current.id === id && current.state.status === "ready" ? current : { id, state: { status: "error" } },
+        );
       });
     return () => {
       cancelled = true;

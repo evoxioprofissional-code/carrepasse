@@ -19,10 +19,16 @@ interface LoadedState {
   error: string | null;
 }
 
-export function useListings(query: ListingQuery): UseListingsResult {
+/**
+ * `initial` vem do servidor (página já pronta para o Google); o navegador
+ * recarrega em seguida para mostrar os dados mais novos.
+ */
+export function useListings(query: ListingQuery, initial?: ListingPage): UseListingsResult {
   const [version, setVersion] = useState(0);
-  const [loaded, setLoaded] = useState<LoadedState>({ key: "", data: null, error: null });
   const queryKey = JSON.stringify(query);
+  const [loaded, setLoaded] = useState<LoadedState>(() =>
+    initial ? { key: `${queryKey}#0`, data: initial, error: null } : { key: "", data: null, error: null },
+  );
   const requestKey = `${queryKey}#${version}`;
 
   const reload = useCallback(() => setVersion((value) => value + 1), []);
