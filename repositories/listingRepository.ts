@@ -29,7 +29,7 @@ export type ListingInput = Omit<Listing, "id" | "views" | "createdAt" | "updated
 
 /** Tira caracteres que quebram a sintaxe do filtro `or` do PostgREST. */
 function sanitizeTerm(term: string): string {
-  return term.replace(/[,()*%\\]/g, " ").trim();
+  return term.replace(/[,()*%\\":]/g, " ").trim();
 }
 
 function mapRows(rows: ListingRowWithSeller[] | null): ListingWithSeller[] {
@@ -153,7 +153,11 @@ export const listingRepository = {
     const created = toListing(data as ListingRow);
     if (plate) {
       const { error: plateError } = await supabase().from("listing_plates").insert({ listing_id: created.id, plate });
-      if (plateError) throw new Error(plateError.message);
+      if (plateError) {
+        // Desfaz o anúncio: senão, ao tentar de novo, o vendedor publicaria o carro duas vezes.
+        await supabase().from("listings").delete().eq("id", created.id);
+        throw new Error(plateError.message);
+      }
     }
     emitDataChanged("listings");
     return created;

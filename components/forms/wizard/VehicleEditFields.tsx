@@ -113,6 +113,7 @@ export function VehicleEditFields({ values, errors, onChange, onNext, onPickFrom
             maxLength={8}
             autoCapitalize="characters"
             autoComplete="off"
+            error={errors.plate}
             hint="Opcional. Nunca aparece completa no anúncio (só ABC****)."
             onChange={(event) => onChange({ plate: normalizePlate(event.target.value).slice(0, 7) })}
           />

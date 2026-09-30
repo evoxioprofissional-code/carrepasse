@@ -7,9 +7,12 @@ export function whatsappMessage(listing: Pick<Listing, "brand" | "model" | "mode
   return `Olá! Vi seu ${listing.brand} ${listing.model} ${listing.modelYear} no Car Repasse por ${formatBRL(mainPrice(listing))}. Ainda está disponível?`;
 }
 
-/** Link wa.me com DDI do Brasil. */
+/**
+ * Link wa.me com DDI do Brasil. O telefone é salvo com DDD (10 ou 11 dígitos);
+ * não dá para olhar só o "55" do começo, porque 55 também é DDD (Santa Maria/RS).
+ */
 export function whatsappLink(phoneDigits: string, message: string): string {
   const digits = phoneDigits.replace(/\D/g, "");
-  const withCountry = digits.startsWith("55") ? digits : `55${digits}`;
+  const withCountry = digits.length <= 11 ? `55${digits}` : digits;
   return `https://wa.me/${withCountry}?text=${encodeURIComponent(message)}`;
 }

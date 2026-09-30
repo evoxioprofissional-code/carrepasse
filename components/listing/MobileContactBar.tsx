@@ -3,10 +3,13 @@ import { formatBRL } from "@/lib/format";
 import type { ListingWithSeller } from "@/types/listing";
 import { WhatsAppButton } from "./WhatsAppButton";
 
-/** Preço + WhatsApp sempre à mão no celular, logo acima da navegação inferior. */
+/**
+ * Preço + WhatsApp sempre à mão no celular, logo acima da navegação inferior.
+ * No tablet (md) a navegação inferior some; a barra desce até o rodapé da tela.
+ */
 export function MobileContactBar({ listing }: { listing: ListingWithSeller }) {
   return (
-    <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-30 border-t border-border bg-surface/95 px-4 py-3 backdrop-blur-md lg:hidden">
+    <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-30 border-t border-border bg-surface/95 px-4 py-3 backdrop-blur-md md:bottom-0 md:pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate text-xs text-chrome-muted">

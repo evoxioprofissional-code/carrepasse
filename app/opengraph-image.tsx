@@ -24,7 +24,6 @@ export default async function Image() {
     (
       <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: "#0F1113", fontFamily: "Exo 2", color: "#FFFFFF" }}>
         {hero && (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={`data:image/jpeg;base64,${hero.toString("base64")}`}
             width={720}
@@ -46,7 +45,6 @@ export default async function Image() {
           }}
         />
         <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 72px", gap: 20, width: 760 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`data:image/png;base64,${logo.toString("base64")}`} width={170} height={153} alt="" />
           <div style={{ fontSize: 64, fontWeight: 800, lineHeight: 1.05 }}>Carros abaixo da FIPE. Sem enrolação.</div>
           <div style={{ fontSize: 30, fontWeight: 500, color: "rgba(255,255,255,0.8)" }}>

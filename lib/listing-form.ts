@@ -1,5 +1,6 @@
 import type { BodyType, Fuel, Listing, PriceMode, Transmission, VehicleCondition } from "@/types/listing";
 import { parseCurrencyInput } from "./format";
+import { isValidPlate, normalizePlate } from "./plate";
 
 // Estado do wizard de anúncio. Números digitados ficam como texto (com máscara)
 // e só viram número na hora de publicar.
@@ -95,6 +96,8 @@ export function validateStep(step: number, values: ListingFormValues): ListingFo
     if (!values.bodyType) errors.bodyType = "Escolha a carroceria.";
     if (!values.color.trim()) errors.color = "Informe a cor.";
     if (!values.fipePrice) errors.fipePrice = "Não encontramos o valor FIPE. Escolha o carro pela tabela FIPE.";
+    // Placa é opcional, mas se vier precisa ser válida (o banco recusa e o anúncio ficaria sem ela).
+    if (values.plate && !isValidPlate(values.plate)) errors.plate = "Placa inválida. Use ABC1D23 (Mercosul) ou ABC-1234.";
   }
 
   if (step === 1) {
@@ -136,7 +139,7 @@ export function validateStep(step: number, values: ListingFormValues): ListingFo
 export function toListingFields(values: ListingFormValues) {
   const mode = values.priceMode as PriceMode;
   return {
-    plate: values.plate || undefined,
+    plate: values.plate ? normalizePlate(values.plate) : undefined,
     brand: values.brand.trim(),
     model: values.model.trim(),
     version: values.version.trim(),

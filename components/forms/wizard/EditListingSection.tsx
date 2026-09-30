@@ -2,6 +2,7 @@
 
 import { CarFront } from "lucide-react";
 import { useEffect, useState } from "react";
+import { SignInRequired } from "@/components/auth/SignInRequired";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -26,6 +27,14 @@ export function EditListingSection({ id }: { id: string }) {
       cancelled = true;
     };
   }, [id]);
+
+  if (state.status === "anonymous") {
+    return (
+      <Container className="max-w-3xl py-16">
+        <SignInRequired />
+      </Container>
+    );
+  }
 
   if (state.status !== "authenticated" || !loaded || loaded.id !== id) {
     return (

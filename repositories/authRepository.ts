@@ -33,8 +33,9 @@ export function translateAuthError(message: string): string {
 }
 
 export const authRepository = {
-  async signUp(input: SignUpInput): Promise<void> {
-    const { error } = await supabase().auth.signUp({
+  /** Devolve `needsConfirmation` quando a Supabase exige confirmar o e-mail antes de entrar. */
+  async signUp(input: SignUpInput): Promise<{ needsConfirmation: boolean }> {
+    const { data, error } = await supabase().auth.signUp({
       email: input.email.trim().toLowerCase(),
       password: input.password,
       options: {
@@ -50,6 +51,7 @@ export const authRepository = {
       },
     });
     if (error) throw new Error(translateAuthError(error.message));
+    return { needsConfirmation: !data.session };
   },
 
   async signIn(email: string, password: string): Promise<void> {

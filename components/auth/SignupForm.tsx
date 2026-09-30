@@ -27,6 +27,7 @@ export function SignupForm() {
   const redirect = safeRedirect(searchParams.get("redirect"));
   const { refresh } = useAuth();
   const [error, setError] = useState<string | null>(null);
+  const [confirmEmail, setConfirmEmail] = useState<string | null>(null);
   const {
     register,
     control,
@@ -44,7 +45,12 @@ export function SignupForm() {
   const onSubmit = handleSubmit(async (data) => {
     setError(null);
     try {
-      await authRepository.signUp(data);
+      const { needsConfirmation } = await authRepository.signUp(data);
+      if (needsConfirmation) {
+        // Sem sessão ainda: mandar para a conta faria o proxy devolver ao login.
+        setConfirmEmail(data.email);
+        return;
+      }
       await refresh();
       router.replace(redirect === "/" ? "/minha-conta/perfil?bemvindo=1" : redirect);
       router.refresh();
@@ -54,6 +60,25 @@ export function SignupForm() {
   });
 
   const loginHref = redirect === "/" ? "/entrar" : `/entrar?redirect=${encodeURIComponent(redirect)}`;
+
+  if (confirmEmail) {
+    return (
+      <AuthCard
+        title="Confirme seu e-mail"
+        description="Falta só um passo para usar sua conta."
+        footer={
+          <Link href={loginHref} className="inline-block py-2 font-semibold text-lime-ink hover:text-ink">
+            Já confirmei, quero entrar
+          </Link>
+        }
+      >
+        <Alert variant="success" title="Conta criada!">
+          Enviamos um link de confirmação para <strong className="text-chrome">{confirmEmail}</strong>. Abra o e-mail
+          (confira também o spam) e toque no link para ativar a conta.
+        </Alert>
+      </AuthCard>
+    );
+  }
 
   return (
     <AuthCard

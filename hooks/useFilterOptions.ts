@@ -9,9 +9,14 @@ export function useFilterOptions(): FilterOptions | null {
   useEffect(() => {
     let cancelled = false;
     const load = () =>
-      listingRepository.getFilterOptions().then((result) => {
-        if (!cancelled) setOptions(result);
-      });
+      listingRepository
+        .getFilterOptions()
+        .then((result) => {
+          if (!cancelled) setOptions(result);
+        })
+        .catch(() => {
+          // Sem as opções, os filtros ficam só com as listas fixas; a busca continua funcionando.
+        });
     load();
     const unsubscribe = listingRepository.subscribe(load);
     return () => {

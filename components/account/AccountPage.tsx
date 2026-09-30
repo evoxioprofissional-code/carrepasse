@@ -4,6 +4,7 @@ import { Heart, Megaphone, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { SignInRequired } from "@/components/auth/SignInRequired";
 import { Container } from "@/components/ui/Container";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useAuth } from "@/hooks/useAuth";
@@ -58,6 +59,8 @@ export function AccountPage({ title, children }: AccountPageProps) {
       <div className="mt-8">
         {state.status === "authenticated" ? (
           children(state.user)
+        ) : state.status === "anonymous" ? (
+          <SignInRequired />
         ) : (
           <div className="flex flex-col gap-4" aria-busy>
             <Skeleton className="h-40 w-full rounded-2xl" />

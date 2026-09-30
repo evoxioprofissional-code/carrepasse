@@ -5,7 +5,7 @@ import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { Spinner } from "@/components/ui/Spinner";
-import { guessTransmission, mapFipeFuel, normalizeBrand, splitFipeModel } from "@/lib/fipe-names";
+import { guessTransmission, mapFipeFuel, normalizeBrand, splitFipeModel, yearFromFipeCode } from "@/lib/fipe-names";
 import type { ListingFormValues } from "@/lib/listing-form";
 import { fipeApi } from "@/services/fipeApi";
 import type { FipeOption } from "@/types/fipe";
@@ -73,12 +73,14 @@ export function ManualFipePicker({ onPicked, onBackToPlate }: ManualFipePickerPr
     try {
       const quote = await fipeApi.getQuote(brand, model, year);
       const { model: modelName, version } = splitFipeModel(quote.model);
+      // A FIPE devolve 32000 como ano do "Zero km".
+      const modelYear = String(yearFromFipeCode(String(quote.modelYear)));
       onPicked({
         brand: normalizeBrand(quote.brand),
         model: modelName,
         version,
-        modelYear: String(quote.modelYear),
-        manufactureYear: String(quote.modelYear),
+        modelYear,
+        manufactureYear: modelYear,
         fuel: mapFipeFuel(quote.fuel) ?? "",
         transmission: guessTransmission(quote.model) ?? "",
         fipeCode: quote.fipeCode,

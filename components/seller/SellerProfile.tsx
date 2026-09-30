@@ -18,13 +18,18 @@ export function SellerProfile({ id }: { id: string }) {
   const { data, loading } = useListings({ sellerId: id, limit: 60 });
   const listings = data?.items ?? [];
 
-  if (userState.status === "not-found") {
+  if (userState.status === "not-found" || userState.status === "error") {
+    const failed = userState.status === "error";
     return (
       <Container className="py-16">
         <EmptyState
           icon={<UserX aria-hidden />}
-          title="Vendedor não encontrado"
-          description="O perfil pode ter sido removido ou o link está incompleto."
+          title={failed ? "Não foi possível abrir o perfil" : "Vendedor não encontrado"}
+          description={
+            failed
+              ? "Verifique sua internet e recarregue a página em alguns segundos."
+              : "O perfil pode ter sido removido ou o link está incompleto."
+          }
           action={<ButtonLink href="/carros">Ver carros à venda</ButtonLink>}
         />
       </Container>
