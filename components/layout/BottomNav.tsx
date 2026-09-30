@@ -22,6 +22,8 @@ const items: BottomNavItem[] = [
 /** Navegação fixa no rodapé, só no celular. */
 export function BottomNav() {
   const pathname = usePathname();
+  // No anúncio em etapas a barra Voltar/Continuar ocupa o rodapé.
+  if (pathname.startsWith("/anunciar") || pathname.endsWith("/editar")) return null;
 
   return (
     <nav

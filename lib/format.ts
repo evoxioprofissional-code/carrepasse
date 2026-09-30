@@ -76,3 +76,9 @@ export function formatPhoneInput(value: string): string {
   if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
   return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
 }
+
+/** Máscara de valor em reais enquanto digita: "45900" → "45.900". */
+export function formatThousandsInput(value: string): string {
+  const digits = value.replace(/\D/g, "").replace(/^0+(?=\d)/, "").slice(0, 9);
+  return digits ? Number(digits).toLocaleString("pt-BR") : "";
+}
