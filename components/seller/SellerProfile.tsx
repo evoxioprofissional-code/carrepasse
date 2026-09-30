@@ -49,7 +49,7 @@ export function SellerProfile({ id }: { id: string }) {
           </>
         ) : (
           <>
-            <SellerAvatar name={userState.user.storeName ?? userState.user.name} size="lg" />
+            <SellerAvatar name={userState.user.storeName ?? userState.user.name} src={userState.user.avatarUrl} size="lg" />
             <div className="flex flex-1 flex-col gap-2">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-3xl text-chrome">{userState.user.storeName ?? userState.user.name}</h1>

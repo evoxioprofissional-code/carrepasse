@@ -97,6 +97,7 @@ export function toSellerSummary(row: ProfileRow): SellerSummary {
     city: row.city,
     state: row.state,
     phone: row.phone,
+    avatarUrl: row.avatar_url ?? undefined,
     createdAt: row.created_at,
   };
 }

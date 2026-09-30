@@ -1,10 +1,19 @@
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 interface SellerAvatarProps {
   name: string;
-  size?: "md" | "lg";
+  /** Foto de perfil ou logo da loja; sem ela, mostra as iniciais. */
+  src?: string;
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
+
+const SIZES = {
+  sm: "size-8 text-sm",
+  md: "size-12 text-lg",
+  lg: "size-20 text-3xl",
+};
 
 function initials(name: string): string {
   const parts = name.trim().split(/\s+/);
@@ -13,17 +22,17 @@ function initials(name: string): string {
   return (first + last).toUpperCase();
 }
 
-export function SellerAvatar({ name, size = "md", className }: SellerAvatarProps) {
+export function SellerAvatar({ name, src, size = "md", className }: SellerAvatarProps) {
   return (
     <span
       aria-hidden
       className={cn(
-        "flex shrink-0 items-center justify-center rounded-full border border-lime/60 bg-lime-soft font-display font-bold text-lime-ink",
-        size === "md" ? "size-12 text-lg" : "size-20 text-3xl",
+        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-lime/60 bg-lime-soft font-display font-bold text-lime-ink",
+        SIZES[size],
         className,
       )}
     >
-      {initials(name)}
+      {src ? <Image src={src} alt="" fill unoptimized sizes="80px" className="object-cover" /> : initials(name)}
     </span>
   );
 }

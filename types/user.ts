@@ -20,5 +20,5 @@ export interface User {
 /** Dados do vendedor que aparecem junto do anúncio. */
 export type SellerSummary = Pick<
   User,
-  "id" | "name" | "storeName" | "sellerType" | "city" | "state" | "phone" | "createdAt"
+  "id" | "name" | "storeName" | "sellerType" | "city" | "state" | "phone" | "avatarUrl" | "createdAt"
 >;

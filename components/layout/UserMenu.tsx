@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown, Flag, Heart, LogOut, Megaphone, UserRound } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -71,7 +72,11 @@ export function UserMenu() {
         className="flex h-10 items-center gap-2 rounded-md px-2 text-[15px] font-medium text-white transition duration-150 hover:bg-white/10"
       >
         <span aria-hidden className="relative flex size-8 items-center justify-center rounded-full bg-lime text-sm font-bold text-ink">
-          {initials(user.name)}
+          {user.avatarUrl ? (
+            <Image src={user.avatarUrl} alt="" fill unoptimized sizes="32px" className="rounded-full object-cover" />
+          ) : (
+            initials(user.name)
+          )}
           {openReports > 0 && <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-danger ring-2 ring-night" />}
         </span>
         <span className="max-w-[120px] truncate">{firstName}</span>

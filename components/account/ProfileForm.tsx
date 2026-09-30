@@ -16,6 +16,7 @@ import { formatMonthYear, formatPhone, formatPhoneInput } from "@/lib/format";
 import { profileSchema, type ProfileData, type ProfileValues } from "@/lib/validation";
 import { userRepository } from "@/repositories/userRepository";
 import type { User } from "@/types/user";
+import { AvatarPicker } from "./AvatarPicker";
 import { DeleteAccountButton } from "./DeleteAccountButton";
 
 interface ProfileFormProps {
@@ -72,6 +73,8 @@ export function ProfileForm({ user, onSaved, onSignOut }: ProfileFormProps) {
           Confira seus dados abaixo. Quando quiser, anuncie seu primeiro carro — é grátis.
         </Alert>
       )}
+
+      <AvatarPicker user={user} onChanged={onSaved} />
 
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5 rounded-2xl border border-border bg-surface p-6 sm:p-8">
         {status === "saved" && <Alert variant="success">Perfil atualizado.</Alert>}

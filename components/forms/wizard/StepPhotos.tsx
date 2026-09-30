@@ -19,6 +19,11 @@ interface StepPhotosProps {
   folder: string;
   /** Avisa o wizard enquanto há fotos subindo (bloqueia o "Continuar"). */
   onBusyChange: (busy: boolean) => void;
+  /**
+   * Criando: a foto removida não está em nenhum anúncio e já sai do Storage.
+   * Editando: o anúncio publicado ainda usa a foto; ela só sai ao salvar.
+   */
+  deleteOnRemove: boolean;
 }
 
 interface Pending {
@@ -29,7 +34,7 @@ interface Pending {
 
 const TIPS = ["Frente", "Traseira", "As duas laterais", "Interior e bancos", "Painel com a km", "Motor"];
 
-export function StepPhotos({ values, errors, onChange, userId, folder, onBusyChange }: StepPhotosProps) {
+export function StepPhotos({ values, errors, onChange, userId, folder, onBusyChange, deleteOnRemove }: StepPhotosProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<Pending[]>([]);
   const [message, setMessage] = useState<string | null>(null);
@@ -81,7 +86,11 @@ export function StepPhotos({ values, errors, onChange, userId, folder, onBusyCha
     onChange({ photos: [photo, ...next] });
   };
 
-  const remove = (index: number) => onChange({ photos: values.photos.filter((_, i) => i !== index) });
+  const remove = (index: number) => {
+    const photo = values.photos[index];
+    onChange({ photos: values.photos.filter((_, i) => i !== index) });
+    if (deleteOnRemove && photo) void photoRepository.remove([photo]).catch(() => {});
+  };
 
   const total = values.photos.length + pending.filter((item) => !item.failed).length;
 

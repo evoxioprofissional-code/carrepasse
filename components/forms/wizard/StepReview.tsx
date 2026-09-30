@@ -43,6 +43,7 @@ export function StepReview({ values, errors, onChange, onGoTo, user, canEditVehi
       city: user.city,
       state: user.state,
       phone: user.phone,
+      avatarUrl: user.avatarUrl,
       createdAt: user.createdAt,
     },
   };

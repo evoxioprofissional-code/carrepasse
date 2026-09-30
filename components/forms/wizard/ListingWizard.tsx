@@ -16,6 +16,7 @@ import {
 } from "@/lib/listing-form";
 import { draftRepository, type ListingDraft } from "@/repositories/draftRepository";
 import { listingRepository } from "@/repositories/listingRepository";
+import { photoRepository } from "@/repositories/photoRepository";
 import type { Listing } from "@/types/listing";
 import type { User } from "@/types/user";
 import { PublishSuccess } from "./PublishSuccess";
@@ -121,6 +122,9 @@ export function ListingWizard(props: WizardProps) {
       if (props.mode === "edit") {
         // A placa não muda na edição (o repositório só grava colunas do anúncio).
         await listingRepository.update(props.listing.id, fields);
+        // Fotos tiradas na edição só saem do Storage depois de salvar.
+        const removed = props.listing.photos.filter((photo) => !fields.photos.includes(photo));
+        if (removed.length > 0) void photoRepository.remove(removed).catch(() => {});
         router.push("/minha-conta/anuncios?salvo=1");
         return;
       }
@@ -135,6 +139,8 @@ export function ListingWizard(props: WizardProps) {
   };
 
   const discardDraft = () => {
+    // As fotos do rascunho não estão em nenhum anúncio publicado.
+    if (draft.values.photos.length > 0) void photoRepository.remove(draft.values.photos).catch(() => {});
     draftRepository.clear(user.id);
     setErrors({});
     setRestoredStep(-1);
@@ -180,7 +186,15 @@ export function ListingWizard(props: WizardProps) {
       {step === 0 && <StepVehicle values={values} errors={errors} onChange={change} onNext={next} />}
       {step === 1 && <StepDetails values={values} errors={errors} onChange={change} />}
       {step === 2 && (
-        <StepPhotos values={values} errors={errors} onChange={change} userId={user.id} folder={draft.id} onBusyChange={setUploading} />
+        <StepPhotos
+            values={values}
+            errors={errors}
+            onChange={change}
+            userId={user.id}
+            folder={draft.id}
+            onBusyChange={setUploading}
+            deleteOnRemove={!isEdit}
+          />
       )}
       {step === 3 && <StepPrice values={values} errors={errors} onChange={change} />}
       {step === 4 && (

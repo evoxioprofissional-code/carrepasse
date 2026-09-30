@@ -20,7 +20,7 @@ export function SellerCard({ listing, canContact }: SellerCardProps) {
   return (
     <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-5">
       <div className="flex items-center gap-3">
-        <SellerAvatar name={displayName} />
+        <SellerAvatar name={displayName} src={seller.avatarUrl} />
         <div className="min-w-0">
           <p className="truncate font-display text-lg font-bold text-chrome">{displayName}</p>
           {seller.storeName && <p className="truncate text-xs text-chrome-muted">{seller.name}</p>}

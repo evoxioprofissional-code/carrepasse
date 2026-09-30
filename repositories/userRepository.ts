@@ -16,6 +16,13 @@ export const userRepository = {
     return !error && data === true;
   },
 
+  /** Foto de perfil / logo da loja (null remove). */
+  async updateAvatar(id: string, avatarUrl: string | null): Promise<void> {
+    const { error } = await supabase().from("profiles").update({ avatar_url: avatarUrl }).eq("id", id);
+    if (error) throw new Error("Não foi possível salvar a foto.");
+    emitDataChanged("profiles");
+  },
+
   // Edição do próprio perfil exige login (RLS): usada na Fase 6.
   async update(
     id: string,
