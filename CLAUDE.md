@@ -31,7 +31,7 @@ Este arquivo é lido automaticamente pelo Claude Code em toda sessão. Ele defin
 - **Backend: Supabase** (projeto `carrepasse`, região `sa-east-1`): Postgres com RLS, Auth (e-mail e senha) e Storage (fotos). Esquema versionado em `supabase/migrations/` (ver `supabase/README.md`). Nenhum componente acessa a Supabase ou o `localStorage` diretamente — só os repositórios (seção 5).
 - APIs externas: **FIPE pública da Parallelum** (v1 para marca/modelo/ano, v2 por código FIPE), com plano B no catálogo local; **IBGE Localidades** (cidades por UF).
 - Consulta por **placa**: rota `app/api/placa` (servidor) usa o **API Placas** (wdapi2, `services/apiPlacas.ts`) quando há `API_PLACAS_TOKEN`; sem token, cai na simulação (`services/plateMock.ts`). Cache por usuário e limite diário na tabela `plate_lookups`. Envio de e-mail (recuperação de senha) previsto com **Resend**.
-- Bibliotecas aprovadas: `lucide-react` (ícones), `react-hook-form` + `zod` + `@hookform/resolvers` (formulários), `clsx` + `tailwind-merge@2` (classes), `embla-carousel-react` (galeria), `@supabase/supabase-js` + `@supabase/ssr` (dados e sessão). Pedir confirmação antes de adicionar qualquer outra dependência.
+- Bibliotecas aprovadas: `lucide-react` (ícones), `react-hook-form` + `zod` + `@hookform/resolvers` (formulários), `clsx` + `tailwind-merge@2` (classes), `embla-carousel-react` (galeria), `@supabase/supabase-js` + `@supabase/ssr` (dados e sessão), `@vercel/analytics` (visitas). Pedir confirmação antes de adicionar qualquer outra dependência.
 - Não usar bibliotecas de componentes prontas (shadcn, MUI, Chakra). Os componentes base são próprios, em `components/ui`.
 - Gerenciador de pacotes: **npm**.
 
