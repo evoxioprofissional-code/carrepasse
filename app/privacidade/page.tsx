@@ -33,6 +33,10 @@ export default function PrivacyPage() {
       <ul>
         <li>Favoritos, denúncias enviadas e contagem de visualizações dos anúncios.</li>
         <li>Rascunho do anúncio e favoritos de quem não entrou na conta ficam salvos só no seu aparelho.</li>
+        <li>
+          Estatísticas de visita (páginas vistas, site de origem, país, tipo de aparelho), de forma agregada e sem
+          identificar você.
+        </li>
       </ul>
 
       <h2>2. Para que usamos</h2>
@@ -40,6 +44,7 @@ export default function PrivacyPage() {
         <li>Criar e manter sua conta e seus anúncios (execução do serviço).</li>
         <li>Mostrar seu nome ou loja, cidade e WhatsApp nos seus anúncios, para que compradores falem com você.</li>
         <li>Analisar denúncias e prevenir fraudes (legítimo interesse e segurança dos usuários).</li>
+        <li>Entender quais páginas são mais usadas para melhorar o site (legítimo interesse, dados agregados).</li>
         <li>Cumprir obrigações legais, quando houver.</li>
       </ul>
       <p>
@@ -58,7 +63,7 @@ export default function PrivacyPage() {
           <strong>Supabase</strong> — banco de dados, login e armazenamento das fotos.
         </li>
         <li>
-          <strong>Vercel</strong> — hospedagem do site.
+          <strong>Vercel</strong> — hospedagem do site e estatísticas de visita (Vercel Analytics, sem cookies).
         </li>
         <li>Autoridades, quando houver ordem judicial ou obrigação legal.</li>
       </ul>
@@ -67,7 +72,7 @@ export default function PrivacyPage() {
       <h2>5. Cookies e armazenamento local</h2>
       <p>
         Usamos cookies essenciais para manter você conectado e o armazenamento do navegador para guardar rascunhos e
-        favoritos de visitantes. Não usamos cookies de publicidade.
+        favoritos de visitantes. As estatísticas de visita não usam cookies. Não usamos cookies de publicidade.
       </p>
 
       <h2>6. Por quanto tempo guardamos</h2>

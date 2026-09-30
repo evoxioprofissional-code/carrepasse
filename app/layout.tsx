@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Exo_2, Inter } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
@@ -60,6 +61,8 @@ export default function RootLayout({
           <Footer />
           <BottomNav />
         </AuthProvider>
+        {/* Visitas por página e origem (ex.: Instagram), sem cookies. */}
+        <Analytics />
       </body>
     </html>
   );
