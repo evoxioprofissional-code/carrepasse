@@ -12,8 +12,11 @@ type ProfileRow = {
   state: string | null;
   avatar_url: string | null;
   created_at: string;
-  banned_at: string | null;
+  /** Só existe depois da migração 0014; antes dela, vem indefinido. */
+  banned_at?: string | null;
 };
+
+const PROFILE_COLUMNS_BASE = "id, name, phone, seller_type, store_name, city, state, avatar_url, created_at";
 
 export const adminRepository = {
   /** Números do site; o banco recusa quem não é administrador. */
@@ -25,14 +28,24 @@ export const adminRepository = {
 
   /** Contas reais do site (demo fica de fora), mais recentes primeiro. */
   async listUsers(): Promise<AdminUser[]> {
-    const [profilesRes, listingsRes] = await Promise.all([
+    const profilesQuery = (columns: string) =>
       supabase()
         .from("profiles")
-        .select("id, name, phone, seller_type, store_name, city, state, avatar_url, created_at, banned_at")
+        .select(columns)
         .eq("is_demo", false)
-        .order("created_at", { ascending: false }),
+        .order("created_at", { ascending: false });
+
+    const [profilesWithBan, listingsRes] = await Promise.all([
+      profilesQuery(`${PROFILE_COLUMNS_BASE}, banned_at`),
       supabase().from("listings").select("seller_id").is("deleted_at", null),
     ]);
+
+    // Antes da migração 0014 a coluna banned_at não existe: recarrega sem ela
+    // (todo mundo aparece como "Ativo" até a migração ser aplicada).
+    let profilesRes = profilesWithBan;
+    if (profilesRes.error && /banned_at/i.test(profilesRes.error.message)) {
+      profilesRes = await profilesQuery(PROFILE_COLUMNS_BASE);
+    }
     if (profilesRes.error) throw new Error(profilesRes.error.message);
     if (listingsRes.error) throw new Error(listingsRes.error.message);
 
@@ -52,7 +65,7 @@ export const adminRepository = {
       avatarUrl: row.avatar_url,
       createdAt: row.created_at,
       listingsCount: counts.get(row.id) ?? 0,
-      bannedAt: row.banned_at,
+      bannedAt: row.banned_at ?? null,
     }));
   },
 

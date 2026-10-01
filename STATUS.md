@@ -32,8 +32,10 @@ As 8 fases do `SPEC.md` foram concluídas e o projeto foi além do protótipo:
   por tipo, barras de situação dos anúncios, cards secundários, seletor de período e **Exportar CSV**),
   toda sobre o `admin_stats` real. Moderação de denúncias em `/admin/denuncias`.
   **Anúncios** e **Faturamento** seguem como placeholders honestos (sem dado falso).
-  **Usuários** (listar + banir/desbanir) está implementado, mas **depende da migração `0014` ainda não
-  aplicada** — sem ela, a aba mostra erro ao carregar.
+  **Usuários** (listar + banir/desbanir) está implementado e **carrega mesmo sem a migração `0014`**
+  (fallback: se `banned_at` não existe, lista sem ela e mostra todo mundo como "Ativo"). Para o
+  status real e o botão banir funcionarem, aplicar a `0014` (`supabase/migrations/0014_user_bans.sql`
+  pelo SQL Editor, ou `SUPABASE_ACCESS_TOKEN` no `.env.local`).
 
 Produção: https://www.carrepasse.com.br. A Vercel publica a cada push na `main`.
 
