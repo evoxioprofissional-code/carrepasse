@@ -50,6 +50,27 @@ describe("API Placas: leitura da resposta", () => {
     ]);
   });
 
+  it("carro diesel: escolhe a versão diesel da FIPE, não a flex", () => {
+    const base = doc.fipe?.dados?.[0];
+    const parsed = parseApiPlacas("ABC1D23", {
+      ...doc,
+      MARCA: "JEEP",
+      MODELO: "COMPASS",
+      extra: { ...doc.extra, combustivel: "Oleo Diesel", tipo_veiculo: "Automovel", sub_segmento: "AU - SUV" },
+      fipe: {
+        dados: [
+          { ...base, score: 90, sigla_combustivel: "G", combustivel: "Gasolina", texto_marca: "Jeep", texto_modelo: "COMPASS LIMITED 2.0 4x2 Flex 16V Aut.", ano_modelo: "2019", codigo_fipe: "022001-0", texto_valor: "R$ 90.000,00" },
+          { ...base, score: 50, sigla_combustivel: "D", combustivel: "Diesel", texto_marca: "Jeep", texto_modelo: "COMPASS LIMITED 2.0 TD380 4x4 Diesel Aut.", ano_modelo: "2019", codigo_fipe: "022002-9", texto_valor: "R$ 120.000,00" },
+        ],
+      },
+    });
+    expect(parsed.kind).toBe("ok");
+    if (parsed.kind !== "ok") return;
+    expect(parsed.result.fuel).toBe("diesel");
+    expect(parsed.result.version.toLowerCase()).toContain("4x4");
+    expect(parsed.result.fipeCode).toBe("022002-9");
+  });
+
   it("sem marca/modelo/ano, trata como não encontrada", () => {
     expect(parseApiPlacas("ABC1D23", {}).kind).toBe("not-found");
   });

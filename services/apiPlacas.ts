@@ -78,12 +78,36 @@ function titleCase(value: string | undefined): string {
     .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase());
 }
 
-/** "Alcool / Gasolina" é flex; a FIPE costuma chamar carro flex de "Gasolina". */
+/**
+ * "Alcool / Gasolina" é flex; a FIPE costuma chamar carro flex de "Gasolina".
+ * O combustível do registro (extra.combustivel) manda: diesel e flex vêm dele
+ * ANTES de qualquer "flex" que apareça no texto do modelo FIPE (senão um carro
+ * diesel virava "flex" só porque a versão flex do mesmo modelo existe na FIPE).
+ */
 function fuelFrom(plateFuel: string, fipeModel: string, fipeFuel: string): Fuel | undefined {
   const text = plateFuel.toLowerCase();
+  if (/diesel/.test(text)) return "diesel";
   const alcohol = /alcool|álcool|etanol/.test(text);
-  if (/flex/.test(text) || (alcohol && text.includes("gasolina")) || /\bflex\b/i.test(fipeModel)) return "flex";
-  return mapFipeFuel(plateFuel) ?? mapFipeFuel(fipeFuel);
+  if (/flex/.test(text) || (alcohol && text.includes("gasolina"))) return "flex";
+  const mapped = mapFipeFuel(plateFuel) ?? mapFipeFuel(fipeFuel);
+  if (mapped) return mapped;
+  if (/\bflex\b/i.test(fipeModel)) return "flex";
+  return undefined;
+}
+
+/**
+ * Escolhe a opção FIPE que bate com o combustível do registro (diesel ≠ flex)
+ * e, entre as compatíveis, a de maior score. Evita puxar a versão flex 4x2
+ * quando o carro é, na verdade, diesel 4x4.
+ */
+function pickFipe(dados: FipeEntry[], regFuel: string): FipeEntry | undefined {
+  const byScore = (a: FipeEntry, b: FipeEntry) => (b.score ?? 0) - (a.score ?? 0);
+  const diesel = /diesel/i.test(regFuel);
+  const matches = dados.filter((entry) => {
+    const sigla = (entry.sigla_combustivel ?? "").toUpperCase();
+    return diesel ? sigla === "D" : sigla !== "D";
+  });
+  return [...(matches.length ? matches : dados)].sort(byScore)[0];
 }
 
 function transmissionFrom(gearbox: string, fipeModel: string): Transmission | undefined {
@@ -114,8 +138,8 @@ export function parseApiPlacas(plate: string, data: ApiPlacasResponse): PlatePar
   }
   if ((data.codigoSituacao ?? "0") !== "0" && /roubo|furto/i.test(data.situacao ?? "")) return { kind: "stolen" };
 
-  // Entre as opções FIPE, a de maior "score" é a que melhor bate com o carro.
-  const fipe = [...(data.fipe?.dados ?? [])].sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
+  // Opção FIPE que bate com o combustível do registro (e, entre elas, maior score).
+  const fipe = pickFipe(data.fipe?.dados ?? [], extra.combustivel ?? "");
   const fipeModel = fipe?.texto_modelo?.trim() ?? "";
   const split = fipeModel ? splitFipeModel(fipeModel) : null;
 
