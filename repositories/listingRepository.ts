@@ -28,6 +28,16 @@ export type ListingInput = Omit<Listing, "id" | "views" | "createdAt" | "updated
   status?: Listing["status"];
 };
 
+/** O mesmo vendedor já tem um anúncio ativo com esta placa (regra do banco). */
+export class DuplicatePlateError extends Error {
+  constructor() {
+    super("Você já tem um anúncio ativo com esta placa. Edite ou reative o anúncio que já existe.");
+    this.name = "DuplicatePlateError";
+  }
+}
+
+const UNIQUE_VIOLATION = "23505";
+
 /** Tira caracteres que quebram a sintaxe do filtro `or` do PostgREST. */
 function sanitizeTerm(term: string): string {
   return term.replace(/[,()*%\\":]/g, " ").trim();
@@ -160,7 +170,7 @@ export const listingRepository = {
       if (plateError) {
         // Desfaz o anúncio: senão, ao tentar de novo, o vendedor publicaria o carro duas vezes.
         await supabase().from("listings").delete().eq("id", created.id);
-        throw new Error(plateError.message);
+        throw plateError.code === UNIQUE_VIOLATION ? new DuplicatePlateError() : new Error(plateError.message);
       }
     }
     emitDataChanged("listings");
@@ -182,7 +192,7 @@ export const listingRepository = {
 
   async update(id: string, patch: Partial<Omit<Listing, "id" | "sellerId" | "createdAt" | "confirmedAt">>): Promise<Listing> {
     const { data, error } = await supabase().from("listings").update(fromListing(patch)).eq("id", id).select("*").single();
-    if (error) throw new Error(error.message);
+    if (error) throw error.code === UNIQUE_VIOLATION ? new DuplicatePlateError() : new Error(error.message);
     emitDataChanged("listings");
     return toListing(data as ListingRow);
   },

@@ -66,6 +66,7 @@ Esquema, regras de acesso e seed ficam em [`supabase/`](./supabase/README.md):
 - `migrations/0007_moderation.sql` — administradores (`admins`) e painel de denúncias em `/admin/denuncias`
 - `migrations/0008_profile_avatar.sql` — foto de perfil / logo da loja só do nosso Storage
 - `migrations/0009_plate_lookups.sql` — cache por usuário e limite diário da consulta de placa
+- `migrations/0010_duplicate_plate.sql` — o mesmo vendedor não publica a mesma placa em dois anúncios ativos
 - `seed.sql` — 30 anúncios e 8 vendedores de demonstração (gerado a partir de `mocks/`)
 
 Para montar um projeto novo: rode as migrações em ordem e depois o seed no SQL Editor da Supabase.

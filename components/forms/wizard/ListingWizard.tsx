@@ -15,7 +15,7 @@ import {
   type ListingFormValues,
 } from "@/lib/listing-form";
 import { draftRepository, type ListingDraft } from "@/repositories/draftRepository";
-import { listingRepository } from "@/repositories/listingRepository";
+import { DuplicatePlateError, listingRepository } from "@/repositories/listingRepository";
 import { photoRepository } from "@/repositories/photoRepository";
 import type { Listing } from "@/types/listing";
 import type { User } from "@/types/user";
@@ -131,8 +131,12 @@ export function ListingWizard(props: WizardProps) {
       const listing = await listingRepository.create({ ...fields, sellerId: user.id });
       draftRepository.clear(user.id);
       setPublished(listing);
-    } catch {
-      setSubmitError("Não foi possível salvar agora. Confira sua conexão e tente de novo — nada foi perdido.");
+    } catch (caught) {
+      setSubmitError(
+        caught instanceof DuplicatePlateError
+          ? caught.message
+          : "Não foi possível salvar agora. Confira sua conexão e tente de novo — nada foi perdido.",
+      );
     } finally {
       setSubmitting(false);
     }

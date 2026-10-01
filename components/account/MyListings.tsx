@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { useListings } from "@/hooks/useListings";
 import { cn } from "@/lib/cn";
 import { LISTING_TTL_DAYS, isExpired } from "@/lib/listing-expiry";
-import { listingRepository } from "@/repositories/listingRepository";
+import { DuplicatePlateError, listingRepository } from "@/repositories/listingRepository";
 import { photoRepository } from "@/repositories/photoRepository";
 import type { ListingStatus, ListingWithSeller } from "@/types/listing";
 import { MyListingRow } from "./MyListingRow";
@@ -52,8 +52,11 @@ export function MyListings({ userId }: { userId: string }) {
     try {
       await listingRepository.update(listing.id, { status });
       setNotice({ tone: "success", text: STATUS_MESSAGE[status] });
-    } catch {
-      setNotice({ tone: "danger", text: "Não foi possível alterar o anúncio. Tente de novo." });
+    } catch (caught) {
+      setNotice({
+        tone: "danger",
+        text: caught instanceof DuplicatePlateError ? caught.message : "Não foi possível alterar o anúncio. Tente de novo.",
+      });
     } finally {
       setBusyId(null);
     }
