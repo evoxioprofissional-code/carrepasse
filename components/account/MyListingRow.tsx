@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarCheck, CheckCheck, Eye, Pause, PencilLine, Play, Trash2 } from "lucide-react";
+import { CalendarCheck, CheckCheck, Eye, MessageCircle, Pause, PencilLine, Play, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { ListingPhoto } from "@/components/listing/ListingPhoto";
 import { Badge } from "@/components/ui/Badge";
@@ -55,6 +55,10 @@ export function MyListingRow({ listing, busy, onStatus, onConfirm, onDelete }: M
             <span className="inline-flex items-center gap-1">
               <Eye aria-hidden className="size-3.5" />
               {formatNumber(listing.views)} visualizações
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <MessageCircle aria-hidden className="size-3.5" />
+              {formatNumber(listing.contacts)} {listing.contacts === 1 ? "contato" : "contatos"}
             </span>
             <span>Publicado {formatRelativeDate(listing.createdAt)}</span>
           </p>

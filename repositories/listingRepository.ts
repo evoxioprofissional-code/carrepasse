@@ -24,7 +24,7 @@ export interface FilterOptions {
   total: number;
 }
 
-export type ListingInput = Omit<Listing, "id" | "views" | "createdAt" | "updatedAt" | "confirmedAt" | "status"> & {
+export type ListingInput = Omit<Listing, "id" | "views" | "contacts" | "createdAt" | "updatedAt" | "confirmedAt" | "status"> & {
   status?: Listing["status"];
 };
 
@@ -190,7 +190,10 @@ export const listingRepository = {
     return toListing(data as ListingRow);
   },
 
-  async update(id: string, patch: Partial<Omit<Listing, "id" | "sellerId" | "createdAt" | "confirmedAt">>): Promise<Listing> {
+  async update(
+    id: string,
+    patch: Partial<Omit<Listing, "id" | "sellerId" | "createdAt" | "confirmedAt" | "views" | "contacts">>,
+  ): Promise<Listing> {
     const { data, error } = await supabase().from("listings").update(fromListing(patch)).eq("id", id).select("*").single();
     if (error) throw error.code === UNIQUE_VIOLATION ? new DuplicatePlateError() : new Error(error.message);
     emitDataChanged("listings");
@@ -206,6 +209,11 @@ export const listingRepository = {
   /** +1 visualização (função do banco; não recarrega as listas). */
   async incrementViews(id: string): Promise<void> {
     await supabase().rpc("increment_listing_views", { listing_id: id });
+  },
+
+  /** +1 contato (toque no WhatsApp). Não espera nem recarrega listas. */
+  registerContact(id: string): void {
+    void supabase().rpc("register_listing_contact", { listing_id: id }).then(() => undefined, () => undefined);
   },
 
   subscribe(callback: () => void): () => void {

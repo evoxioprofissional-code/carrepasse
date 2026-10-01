@@ -32,6 +32,7 @@ export function StepReview({ values, errors, onChange, onGoTo, user, canEditVehi
     platePrefix: values.plate ? values.plate.slice(0, 3) : undefined,
     status: "ativo",
     views: 0,
+    contacts: 0,
     createdAt: now,
     updatedAt: now,
     confirmedAt: now,

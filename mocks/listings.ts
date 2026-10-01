@@ -256,6 +256,7 @@ export function createSeedListings(now: Date = new Date()): Listing[] {
       createdAt: createdAt.toISOString(),
       updatedAt: createdAt.toISOString(),
       confirmedAt: createdAt.toISOString(),
+      contacts: 0,
     };
   });
 }

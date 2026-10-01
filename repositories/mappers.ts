@@ -51,6 +51,7 @@ export interface ListingRow {
   photos: string[];
   status: ListingStatus;
   views: number;
+  contacts: number | null;
   plate_prefix: string | null;
   created_at: string;
   updated_at: string;
@@ -130,6 +131,7 @@ export function toListing(row: ListingRow): Listing {
     photos: row.photos ?? [],
     status: row.status,
     views: row.views,
+    contacts: row.contacts ?? 0,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     confirmedAt: row.confirmed_at ?? row.created_at,

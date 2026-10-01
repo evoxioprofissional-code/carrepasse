@@ -55,6 +55,8 @@ export interface Listing {
   photos: string[];
   status: ListingStatus;
   views: number;
+  /** Toques em "Chamar no WhatsApp" (só o banco soma). */
+  contacts: number;
   createdAt: string;
   updatedAt: string;
   /** Última confirmação do vendedor de que o carro está à venda (vence em 60 dias). */
