@@ -20,6 +20,10 @@ As 8 fases do `SPEC.md` foram concluídas e o projeto foi além do protótipo:
   por 14 dias.
 - **Divulgação:** imagem para stories do Instagram (`/carros/[id]/story`) e imagem de compartilhamento.
   As páginas do anúncio e do vendedor são geradas no servidor (SEO e JSON-LD).
+- **Páginas por marca e cidade** (`/carros/marca/[marca]`, `/carros/cidade/[cidade]`): landing SSR com
+  a FIPE, grade de anúncios, metadados, JSON-LD (CollectionPage + BreadcrumbList) e links internos.
+  Entram no `sitemap.xml` e há um bloco "Navegue por marca e cidade" no rodapé de `/carros`.
+  Pré-geradas no build e revalidadas a cada 1h.
 - **Conta:** foto ou logo, "Esqueci minha senha" e exclusão da própria conta (LGPD).
 - **Equipe:** denúncias em `/admin/denuncias` e números do site em `/admin`, só para administradores.
 
@@ -58,9 +62,10 @@ Produção: https://www.carrepasse.com.br. A Vercel publica a cada push na `main
 
 ## Próximos passos sugeridos (não dependem de ninguém)
 
-- Páginas por marca e por cidade (ex.: "Carros abaixo da FIPE em Recife") para atrair visitas do Google.
 - Botão no painel da equipe para remover os dados de demonstração. Confirmar com o dono antes, porque
   apaga dados.
+- Páginas por marca+modelo e filtros fixos (ex.: "Carros abaixo da FIPE em Recife"), evoluindo as
+  landing de SEO que já existem.
 
 ## Como trabalhar
 

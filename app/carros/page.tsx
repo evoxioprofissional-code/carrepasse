@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ListingSearch } from "@/components/listing/ListingSearch";
 import { VehicleCardSkeleton } from "@/components/listing/VehicleCardSkeleton";
+import { BrowseByLinks } from "@/components/seo/BrowseByLinks";
 import { Container } from "@/components/ui/Container";
 
 export const metadata: Metadata = {
@@ -22,8 +23,13 @@ function SearchFallback() {
 export default function CarsPage() {
   // useSearchParams exige Suspense para a página continuar estática.
   return (
-    <Suspense fallback={<SearchFallback />}>
-      <ListingSearch />
-    </Suspense>
+    <>
+      <Suspense fallback={<SearchFallback />}>
+        <ListingSearch />
+      </Suspense>
+      <Suspense fallback={null}>
+        <BrowseByLinks />
+      </Suspense>
+    </>
   );
 }
