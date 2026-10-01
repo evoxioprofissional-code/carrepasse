@@ -1,3 +1,19 @@
+import type { SellerType } from "./user";
+
+/** Conta listada na gestão de usuários do painel. */
+export interface AdminUser {
+  id: string;
+  name: string;
+  sellerType: SellerType;
+  storeName: string | null;
+  city: string | null;
+  state: string | null;
+  avatarUrl: string | null;
+  createdAt: string;
+  /** Preenchido = conta banida (anúncios ocultos, não pode publicar). */
+  bannedAt: string | null;
+}
+
 /** Números do site para o painel do administrador (função admin_stats do banco). */
 export interface AdminStats {
   users: {

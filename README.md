@@ -71,6 +71,7 @@ Esquema, regras de acesso e seed ficam em [`supabase/`](./supabase/README.md):
 - `migrations/0011_listing_contacts.sql` — contador de toques em "Chamar no WhatsApp"
 - `migrations/0012_price_drop.sql` — selo "Baixou o preço" por 14 dias
 - `migrations/0013_admin_stats.sql` — números do site no painel da equipe em `/admin`
+- `migrations/0014_user_bans.sql` — banir/desbanir contas (coluna `banned_at`, `is_banned()`, `admin_set_ban()`) e esconder anúncios de banido
 - `seed.sql` — 30 anúncios e 8 vendedores de demonstração (gerado a partir de `mocks/`)
 
 Para montar um projeto novo: rode as migrações em ordem e depois o seed no SQL Editor da Supabase.
