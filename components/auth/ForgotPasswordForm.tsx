@@ -11,11 +11,16 @@ import { Input } from "@/components/ui/Input";
 import { forgotPasswordSchema, type ForgotPasswordValues } from "@/lib/validation";
 import { authRepository } from "@/repositories/authRepository";
 import { AuthCard } from "./AuthCard";
+import { Captcha, captchaEnabled } from "./Captcha";
 
 export function ForgotPasswordForm() {
   const invalidLink = useSearchParams().get("link") === "invalido";
   const [sentTo, setSentTo] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // O token do captcha vale uma vez: depois de um erro, o widget é recriado.
+  const [captchaKey, setCaptchaKey] = useState(0);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const waitingCaptcha = captchaEnabled && !captchaToken;
   const {
     register,
     handleSubmit,
@@ -25,10 +30,12 @@ export function ForgotPasswordForm() {
   const onSubmit = handleSubmit(async ({ email }) => {
     setError(null);
     try {
-      await authRepository.requestPasswordReset(email);
+      await authRepository.requestPasswordReset(email, captchaToken ?? undefined);
       setSentTo(email);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Não foi possível enviar agora. Tente de novo.");
+      setCaptchaToken(null);
+      setCaptchaKey((key) => key + 1);
     }
   });
 
@@ -61,7 +68,8 @@ export function ForgotPasswordForm() {
         )}
         {error && <Alert variant="danger">{error}</Alert>}
         <Input label="E-mail" type="email" autoComplete="email" error={errors.email?.message} {...register("email")} />
-        <Button type="submit" size="lg" fullWidth loading={isSubmitting} className="mt-2">
+        <Captcha key={captchaKey} onToken={setCaptchaToken} />
+        <Button type="submit" size="lg" fullWidth loading={isSubmitting} disabled={waitingCaptcha} className="mt-2">
           Enviar link
         </Button>
       </form>

@@ -22,6 +22,7 @@ export interface AuthUser {
 export function translateAuthError(message: string): string {
   const text = message.toLowerCase();
   if (text.includes("invalid login credentials")) return "E-mail ou senha incorretos.";
+  if (text.includes("captcha")) return "Confirme a verificação de segurança e tente de novo.";
   if (text.includes("already registered") || text.includes("already been registered")) {
     return "Já existe uma conta com este e-mail. Tente entrar.";
   }
@@ -35,11 +36,12 @@ export function translateAuthError(message: string): string {
 
 export const authRepository = {
   /** Devolve `needsConfirmation` quando a Supabase exige confirmar o e-mail antes de entrar. */
-  async signUp(input: SignUpInput): Promise<{ needsConfirmation: boolean }> {
+  async signUp(input: SignUpInput, captchaToken?: string): Promise<{ needsConfirmation: boolean }> {
     const { data, error } = await supabase().auth.signUp({
       email: input.email.trim().toLowerCase(),
       password: input.password,
       options: {
+        captchaToken,
         // O perfil é criado por um gatilho no banco a partir destes dados.
         data: {
           name: input.name.trim(),
@@ -55,8 +57,12 @@ export const authRepository = {
     return { needsConfirmation: !data.session };
   },
 
-  async signIn(email: string, password: string): Promise<void> {
-    const { error } = await supabase().auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
+  async signIn(email: string, password: string, captchaToken?: string): Promise<void> {
+    const { error } = await supabase().auth.signInWithPassword({
+      email: email.trim().toLowerCase(),
+      password,
+      options: { captchaToken },
+    });
     if (error) throw new Error(translateAuthError(error.message));
   },
 
@@ -64,11 +70,12 @@ export const authRepository = {
    * Envia o link de redefinição. Não revela se o e-mail tem conta: a tela
    * mostra a mesma mensagem nos dois casos.
    */
-  async requestPasswordReset(email: string): Promise<void> {
+  async requestPasswordReset(email: string, captchaToken?: string): Promise<void> {
     const { error } = await supabase().auth.resetPasswordForEmail(email.trim().toLowerCase(), {
       redirectTo: `${window.location.origin}/auth/confirm?next=/redefinir-senha`,
+      captchaToken,
     });
-    if (error && /rate limit|too many/i.test(error.message)) throw new Error(translateAuthError(error.message));
+    if (error && /rate limit|too many|captcha/i.test(error.message)) throw new Error(translateAuthError(error.message));
   },
 
   /** Troca a senha de quem entrou pelo link de recuperação (ou já está logado). */

@@ -13,6 +13,7 @@ import { safeRedirect } from "@/lib/redirect";
 import { signInSchema, type SignInValues } from "@/lib/validation";
 import { authRepository } from "@/repositories/authRepository";
 import { AuthCard } from "./AuthCard";
+import { Captcha, captchaEnabled } from "./Captcha";
 import { PasswordField } from "./PasswordField";
 
 
@@ -22,6 +23,10 @@ export function LoginForm() {
   const redirect = safeRedirect(searchParams.get("redirect"));
   const { refresh } = useAuth();
   const [error, setError] = useState<string | null>(null);
+  // O token do captcha vale uma vez: depois de um erro, o widget é recriado.
+  const [captchaKey, setCaptchaKey] = useState(0);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const waitingCaptcha = captchaEnabled && !captchaToken;
   const {
     register,
     handleSubmit,
@@ -31,12 +36,14 @@ export function LoginForm() {
   const onSubmit = handleSubmit(async ({ email, password }) => {
     setError(null);
     try {
-      await authRepository.signIn(email, password);
+      await authRepository.signIn(email, password, captchaToken ?? undefined);
       await refresh();
       router.replace(redirect);
       router.refresh();
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Não foi possível entrar.");
+      setCaptchaToken(null);
+      setCaptchaKey((key) => key + 1);
     }
   });
 
@@ -59,7 +66,8 @@ export function LoginForm() {
         {error && <Alert variant="danger">{error}</Alert>}
         <Input label="E-mail" type="email" autoComplete="email" error={errors.email?.message} {...register("email")} />
         <PasswordField label="Senha" autoComplete="current-password" error={errors.password?.message} {...register("password")} />
-        <Button type="submit" size="lg" fullWidth loading={isSubmitting} className="mt-2">
+        <Captcha key={captchaKey} onToken={setCaptchaToken} />
+        <Button type="submit" size="lg" fullWidth loading={isSubmitting} disabled={waitingCaptcha} className="mt-2">
           Entrar
         </Button>
         <Link

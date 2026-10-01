@@ -19,6 +19,7 @@ import { safeRedirect } from "@/lib/redirect";
 import { signUpSchema, type SignUpData, type SignUpValues } from "@/lib/validation";
 import { authRepository } from "@/repositories/authRepository";
 import { AuthCard } from "./AuthCard";
+import { Captcha, captchaEnabled } from "./Captcha";
 import { PasswordField } from "./PasswordField";
 
 export function SignupForm() {
@@ -28,6 +29,10 @@ export function SignupForm() {
   const { refresh } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [confirmEmail, setConfirmEmail] = useState<string | null>(null);
+  // O token do captcha vale uma vez: depois de um erro, o widget é recriado.
+  const [captchaKey, setCaptchaKey] = useState(0);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const waitingCaptcha = captchaEnabled && !captchaToken;
   const {
     register,
     control,
@@ -45,7 +50,7 @@ export function SignupForm() {
   const onSubmit = handleSubmit(async (data) => {
     setError(null);
     try {
-      const { needsConfirmation } = await authRepository.signUp(data);
+      const { needsConfirmation } = await authRepository.signUp(data, captchaToken ?? undefined);
       if (needsConfirmation) {
         // Sem sessão ainda: mandar para a conta faria o proxy devolver ao login.
         setConfirmEmail(data.email);
@@ -56,6 +61,8 @@ export function SignupForm() {
       router.refresh();
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Não foi possível criar a conta.");
+      setCaptchaToken(null);
+      setCaptchaKey((key) => key + 1);
     }
   });
 
@@ -170,7 +177,8 @@ export function SignupForm() {
           )}
         />
 
-        <Button type="submit" size="lg" fullWidth loading={isSubmitting}>
+        <Captcha key={captchaKey} onToken={setCaptchaToken} />
+        <Button type="submit" size="lg" fullWidth loading={isSubmitting} disabled={waitingCaptcha}>
           Criar conta
         </Button>
       </form>

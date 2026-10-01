@@ -38,6 +38,7 @@ Crie um `.env.local` só se quiser apontar para outro projeto ou domínio:
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Chave publicável desse projeto |
 | `NEXT_PUBLIC_SITE_URL` | Domínio dos links de compartilhamento (padrão em produção: https://www.carrepasse.com.br) |
 | `NEXT_PUBLIC_VERCEL_ANALYTICS` | `1` liga o Vercel Analytics (ative antes no painel da Vercel) |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Liga o captcha (Cloudflare Turnstile) no cadastro, login e senha. Ative também na Supabase |
 | `API_PLACAS_TOKEN` | Token da API Placas (wdapi2). Só no servidor. Sem ele, a consulta de placa é simulada |
 
 Nunca coloque chaves secretas (`sb_secret_…`, `service_role`) no código nem em variáveis `NEXT_PUBLIC_`.
