@@ -55,6 +55,10 @@ export function PlateLookupForm({ initialPlate, onFound, onManual }: PlateLookup
         fipeCode: vehicle.fipeCode ?? "",
         fipePrice: quote?.price ?? null,
         fipeReferenceMonth: quote?.referenceMonth ?? "",
+        engineCc: vehicle.engineCc,
+        seats: vehicle.seats,
+        origin: vehicle.origin,
+        detranStatus: vehicle.detranStatus,
       });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Não foi possível consultar a placa agora.");

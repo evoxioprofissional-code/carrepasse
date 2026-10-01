@@ -20,6 +20,10 @@ export function VehicleConfirmCard({ values, onConfirm, onFix }: VehicleConfirmC
     ["Câmbio", values.transmission ? TRANSMISSION_LABEL[values.transmission] : "—"],
     ["Carroceria", values.bodyType ? BODY_TYPE_LABEL[values.bodyType] : "—"],
   ];
+  if (values.engineCc) rows.push(["Motor", `${values.engineCc} cc`]);
+  if (values.seats) rows.push(["Lugares", String(values.seats)]);
+  if (values.origin) rows.push(["Procedência", values.origin]);
+  if (values.detranStatus) rows.push(["Situação Detran", values.detranStatus]);
 
   return (
     <div className="flex flex-col gap-5">

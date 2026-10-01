@@ -34,8 +34,11 @@ export interface ApiPlacasResponse {
     ano_fabricacao?: string;
     ano_modelo?: string;
     caixa_cambio?: string;
+    cilindradas?: string;
     combustivel?: string;
     especie?: string;
+    nacionalidade?: string;
+    quantidade_passageiro?: string;
     sub_segmento?: string;
     tipo_carroceria?: string;
     tipo_veiculo?: string;
@@ -170,6 +173,10 @@ export function parseApiPlacas(plate: string, data: ApiPlacasResponse): PlatePar
       fipeYearCode: fipeYear && fuelCode ? `${fipeYear}-${fuelCode}` : undefined,
       // Plano B: o valor que veio na consulta (pode ser de um mês anterior).
       fipe: price > 0 ? { price, referenceMonth: (fipe?.mes_referencia ?? "").trim() } : undefined,
+      engineCc: Number(extra.cilindradas) || undefined,
+      seats: Number(extra.quantidade_passageiro) || undefined,
+      origin: titleCase(extra.nacionalidade) || undefined,
+      detranStatus: (data.situacao ?? "").trim() || undefined,
       source: "api",
     },
   };
@@ -195,8 +202,11 @@ export function sanitizeApiPlacas(data: ApiPlacasResponse): ApiPlacasResponse {
       ano_fabricacao: e.ano_fabricacao,
       ano_modelo: e.ano_modelo,
       caixa_cambio: e.caixa_cambio,
+      cilindradas: e.cilindradas,
       combustivel: e.combustivel,
       especie: e.especie,
+      nacionalidade: e.nacionalidade,
+      quantidade_passageiro: e.quantidade_passageiro,
       sub_segmento: e.sub_segmento,
       tipo_carroceria: e.tipo_carroceria,
       tipo_veiculo: e.tipo_veiculo,

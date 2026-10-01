@@ -21,6 +21,11 @@ export interface ListingFormValues {
   fipeCode: string;
   fipePrice: number | null;
   fipeReferenceMonth: string;
+  /** Extras da consulta de placa (só exibição no card de confirmação). */
+  engineCc?: number;
+  seats?: number;
+  origin?: string;
+  detranStatus?: string;
   km: string;
   city: string;
   state: string;

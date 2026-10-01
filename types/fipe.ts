@@ -34,6 +34,13 @@ export interface PlateLookupResult {
   fipeYearCode?: string;
   /** Valor FIPE já devolvido pelo provedor da placa (evita outra consulta). */
   fipe?: { price: number; referenceMonth: string };
+  /** Extras técnicos da API (exibidos quando vêm). */
+  engineCc?: number;
+  seats?: number;
+  /** Nacional / Importado. */
+  origin?: string;
+  /** Situação no Detran (ex.: "Sem restrição"). */
+  detranStatus?: string;
   /** "api" = consulta real; "simulado" = sem token configurado. */
   source: "api" | "simulado";
 }
