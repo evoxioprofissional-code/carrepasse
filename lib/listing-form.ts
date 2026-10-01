@@ -7,6 +7,8 @@ import { isValidPlate, normalizePlate } from "./plate";
 
 export interface ListingFormValues {
   plate: string;
+  /** Placa já conferida pela consulta (normalizada); se mudar, consulta de novo. */
+  plateCheckedFor?: string;
   brand: string;
   model: string;
   version: string;
@@ -96,8 +98,9 @@ export function validateStep(step: number, values: ListingFormValues): ListingFo
     if (!values.bodyType) errors.bodyType = "Escolha a carroceria.";
     if (!values.color.trim()) errors.color = "Informe a cor.";
     if (!values.fipePrice) errors.fipePrice = "Não encontramos o valor FIPE. Escolha o carro pela tabela FIPE.";
-    // Placa é opcional, mas se vier precisa ser válida (o banco recusa e o anúncio ficaria sem ela).
-    if (values.plate && !isValidPlate(values.plate)) errors.plate = "Placa inválida. Use ABC1D23 (Mercosul) ou ABC-1234.";
+    // Placa obrigatória: é ela que permite checar roubo/furto e anúncio repetido.
+    if (!values.plate.trim()) errors.plate = "Informe a placa. No anúncio ela aparece só como ABC****.";
+    else if (!isValidPlate(values.plate)) errors.plate = "Placa inválida. Use ABC1D23 (Mercosul) ou ABC-1234.";
   }
 
   if (step === 1) {

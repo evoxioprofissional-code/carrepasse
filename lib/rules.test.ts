@@ -111,11 +111,12 @@ describe("busca pela URL", () => {
 describe("formulário do anúncio", () => {
   const vehicle = emptyListingForm({
     brand: "Chevrolet", model: "Onix", version: "1.0", modelYear: "2021", manufactureYear: "2020",
-    fuel: "flex", transmission: "manual", bodyType: "hatch", color: "Prata", fipePrice: 59052,
+    fuel: "flex", transmission: "manual", bodyType: "hatch", color: "Prata", fipePrice: 59052, plate: "ABC1D23",
   });
 
-  it("aceita o passo 1 completo e placa vazia", () => {
+  it("aceita o passo 1 completo e exige a placa", () => {
     expect(validateStep(0, vehicle)).toEqual({});
+    expect(validateStep(0, { ...vehicle, plate: "" }).plate).toBeDefined();
   });
 
   it("recusa placa inválida e ano de fabricação fora da regra", () => {

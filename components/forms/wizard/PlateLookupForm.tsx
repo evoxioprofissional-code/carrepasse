@@ -42,6 +42,7 @@ export function PlateLookupForm({ initialPlate, onFound, onManual }: PlateLookup
       const quote = current && !current.fromFallback ? current : (vehicle.fipe ?? current);
       onFound({
         plate: vehicle.plate,
+        plateCheckedFor: vehicle.plate,
         brand: vehicle.brand,
         model: vehicle.model,
         version: vehicle.version,
@@ -112,7 +113,7 @@ export function PlateLookupForm({ initialPlate, onFound, onManual }: PlateLookup
         disabled={busy}
         className="mx-auto min-h-11 rounded-lg px-3 text-sm font-semibold text-lime-ink underline-offset-4 hover:underline disabled:opacity-50"
       >
-        Não sei a placa · preencher pela tabela FIPE
+        Escolher o carro pela tabela FIPE
       </button>
     </form>
   );

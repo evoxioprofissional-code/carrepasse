@@ -15,6 +15,10 @@ interface VehicleEditFieldsProps {
   onChange: (patch: Partial<ListingFormValues>) => void;
   onNext: () => void;
   onPickFromFipe: () => void;
+  /** Placa barrada na consulta (roubo/furto, não é carro). */
+  plateError?: string;
+  /** Consultando a placa digitada antes de seguir. */
+  verifying?: boolean;
 }
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -24,7 +28,7 @@ const COLORS = ["Branco", "Prata", "Preto", "Cinza", "Vermelho", "Azul", "Verde"
 );
 
 /** Conferir e corrigir os dados do carro (vindos da placa ou da FIPE). */
-export function VehicleEditFields({ values, errors, onChange, onNext, onPickFromFipe }: VehicleEditFieldsProps) {
+export function VehicleEditFields({ values, errors, onChange, onNext, onPickFromFipe, plateError, verifying }: VehicleEditFieldsProps) {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 sm:p-8">
@@ -108,13 +112,14 @@ export function VehicleEditFields({ values, errors, onChange, onNext, onPickFrom
           />
           <Input
             label="Placa"
+            required
             containerClassName="sm:col-span-2"
             value={formatPlateInput(values.plate)}
             maxLength={8}
             autoCapitalize="characters"
             autoComplete="off"
-            error={errors.plate}
-            hint="Opcional. Nunca aparece completa no anúncio (só ABC****)."
+            error={plateError ?? errors.plate}
+            hint="Nunca aparece completa no anúncio (só ABC****). Usamos para checar roubo/furto."
             onChange={(event) => onChange({ plate: normalizePlate(event.target.value).slice(0, 7) })}
           />
         </div>
@@ -128,8 +133,8 @@ export function VehicleEditFields({ values, errors, onChange, onNext, onPickFrom
         </button>
       </div>
 
-      <Button size="lg" fullWidth onClick={onNext} className="sm:ml-auto sm:w-auto sm:px-8">
-        Continuar
+      <Button size="lg" fullWidth onClick={onNext} loading={verifying} className="sm:ml-auto sm:w-auto sm:px-8">
+        {verifying ? "Conferindo a placa..." : "Continuar"}
       </Button>
     </div>
   );

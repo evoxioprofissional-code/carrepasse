@@ -11,6 +11,14 @@ export class PlateNotFoundError extends Error {
   }
 }
 
+/** Placa que não pode ser anunciada (roubo/furto, não é carro). */
+export class PlateBlockedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PlateBlockedError";
+  }
+}
+
 export class InvalidPlateError extends Error {
   constructor() {
     super("Placa inválida. Use o formato ABC1D23 (Mercosul) ou ABC-1234.");
@@ -38,6 +46,7 @@ export const plateLookup = {
     const data = (await response.json().catch(() => ({}))) as PlateLookupResult & { message?: string };
     if (response.ok) return data;
     if (response.status === 404) throw new PlateNotFoundError(data.message);
+    if (response.status === 422) throw new PlateBlockedError(data.message ?? "Esta placa não pode ser anunciada.");
     throw new Error(data.message ?? "Não foi possível consultar a placa agora.");
   },
 };

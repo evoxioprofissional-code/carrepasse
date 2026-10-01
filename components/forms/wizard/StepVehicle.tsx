@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { isValidPlate, normalizePlate } from "@/lib/plate";
+import { PlateBlockedError, plateLookup } from "@/services/plateLookup";
 import type { ListingFormErrors, ListingFormValues } from "@/lib/listing-form";
 import { ManualFipePicker } from "./ManualFipePicker";
 import { PlateLookupForm } from "./PlateLookupForm";
@@ -20,6 +22,31 @@ interface StepVehicleProps {
 /** Etapa 1: placa → "É este o seu carro?" (ou tabela FIPE sem placa). */
 export function StepVehicle({ values, errors, onChange, onNext }: StepVehicleProps) {
   const [mode, setMode] = useState<Mode>(values.fipePrice || values.brand ? "confirm" : "plate");
+  const [verifying, setVerifying] = useState(false);
+  const [plateError, setPlateError] = useState<string | null>(null);
+
+  // Placa digitada à mão (ex.: carro escolhido pela tabela FIPE): consulta antes
+  // de seguir, para checar roubo/furto. Placa que veio da consulta não paga de novo.
+  const verifyPlateAndNext = async () => {
+    setPlateError(null);
+    const plate = normalizePlate(values.plate);
+    if (isValidPlate(plate) && plate !== values.plateCheckedFor) {
+      setVerifying(true);
+      try {
+        await plateLookup.lookup(plate);
+        onChange({ plateCheckedFor: plate });
+      } catch (caught) {
+        if (caught instanceof PlateBlockedError) {
+          setPlateError(caught.message);
+          return;
+        }
+        // Não encontrada ou consulta fora do ar: não trava o vendedor.
+      } finally {
+        setVerifying(false);
+      }
+    }
+    onNext();
+  };
 
   const header = (
     <div className="mb-5">
@@ -67,9 +94,14 @@ export function StepVehicle({ values, errors, onChange, onNext }: StepVehiclePro
         <VehicleEditFields
           values={values}
           errors={errors}
-          onChange={onChange}
-          onNext={() => void onNext()}
+          onChange={(patch) => {
+            if ("plate" in patch) setPlateError(null);
+            onChange(patch);
+          }}
+          onNext={() => void verifyPlateAndNext()}
           onPickFromFipe={() => setMode("manual")}
+          plateError={plateError ?? undefined}
+          verifying={verifying}
         />
       )}
     </div>
