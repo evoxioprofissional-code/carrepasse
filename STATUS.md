@@ -25,11 +25,15 @@ As 8 fases do `SPEC.md` foram concluídas e o projeto foi além do protótipo:
   Entram no `sitemap.xml` e há um bloco "Navegue por marca e cidade" no rodapé de `/carros`.
   Pré-geradas no build e revalidadas a cada 1h.
 - **Conta:** foto ou logo, "Esqueci minha senha" e exclusão da própria conta (LGPD).
-- **Painel da equipe (`/admin`, só administradores):** shell com abas (Painel · Usuários · Anúncios ·
-  Denúncias · Faturamento), dashboard de métricas repaginado (KPIs + composição por tipo de usuário e
-  situação dos anúncios, dado real do `admin_stats`) e moderação de denúncias em `/admin/denuncias`.
-  **Em construção** (placeholders honestos, sem dado falso): Usuários (listar/banir), Anúncios (moderar)
-  e Faturamento (desenhado, mas sem pagamento conectado — "anunciar é grátis" segue valendo).
+- **Painel da equipe (`/admin`, só administradores):** layout próprio com **sidebar escura** (logo,
+  Visão geral · Usuários · Anúncios · Denúncias · Faturamento, perfil do admin) + barra superior
+  (breadcrumb, busca que leva pra Usuários, sino ligado às denúncias abertas). O header/rodapé públicos
+  não aparecem no /admin (via `SiteShell`). A **Visão geral** foi redesenhada (KPIs, rosca de usuários
+  por tipo, barras de situação dos anúncios, cards secundários, seletor de período e **Exportar CSV**),
+  toda sobre o `admin_stats` real. Moderação de denúncias em `/admin/denuncias`.
+  **Anúncios** e **Faturamento** seguem como placeholders honestos (sem dado falso).
+  **Usuários** (listar + banir/desbanir) está implementado, mas **depende da migração `0014` ainda não
+  aplicada** — sem ela, a aba mostra erro ao carregar.
 
 Produção: https://www.carrepasse.com.br. A Vercel publica a cada push na `main`.
 

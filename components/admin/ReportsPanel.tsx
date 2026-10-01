@@ -11,11 +11,11 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/cn";
 import { formatRelativeDate } from "@/lib/format";
 import { REPORT_REASON_LABEL } from "@/lib/labels";
+import { useAuth } from "@/hooks/useAuth";
 import { listingRepository } from "@/repositories/listingRepository";
 import { reportRepository } from "@/repositories/reportRepository";
 import type { ReportStatus, ReportWithListing } from "@/types/report";
-import { AdminOnly } from "./AdminOnly";
-import { AdminShell } from "./AdminShell";
+import { AdminPageHeader } from "./AdminPageHeader";
 
 const TABS: { value: ReportStatus; label: string }[] = [
   { value: "aberta", label: "Abertas" },
@@ -27,10 +27,12 @@ const LISTING_STATUS_LABEL = { ativo: "Ativo", pausado: "Pausado", vendido: "Ven
 
 /** Painel de moderação: denúncias dos visitantes e ações sobre o anúncio. */
 export function ReportsPanel() {
-  return <AdminOnly>{(userId) => <ReportsContent userId={userId} />}</AdminOnly>;
+  return <ReportsContent />;
 }
 
-function ReportsContent({ userId }: { userId: string }) {
+function ReportsContent() {
+  const { state } = useAuth();
+  const userId = state.status === "authenticated" ? state.user.id : "";
   const [tab, setTab] = useState<ReportStatus>("aberta");
   const [loaded, setLoaded] = useState<{ tab: ReportStatus; items: ReportWithListing[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -75,10 +77,11 @@ function ReportsContent({ userId }: { userId: string }) {
   const items = loaded?.tab === tab ? loaded.items : null;
 
   return (
-    <AdminShell
-      title="Denúncias"
-      subtitle="Pausar tira o anúncio da busca na hora; o vendedor pode reativar, então fale com ele se for golpe."
-    >
+    <>
+      <AdminPageHeader
+        title="Denúncias"
+        subtitle="Pausar tira o anúncio da busca na hora; o vendedor pode reativar, então fale com ele se for golpe."
+      />
       <div role="tablist" aria-label="Situação" className="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:px-0">
         {TABS.map((item) => (
           <button
@@ -154,6 +157,6 @@ function ReportsContent({ userId }: { userId: string }) {
           </article>
         ))}
       </div>
-    </AdminShell>
+    </>
   );
 }

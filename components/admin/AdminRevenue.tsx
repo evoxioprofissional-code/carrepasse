@@ -3,21 +3,19 @@
 import { Lock, Wallet } from "lucide-react";
 import { Alert } from "@/components/ui/Alert";
 import { Card } from "@/components/ui/Card";
-import { AdminOnly } from "./AdminOnly";
-import { AdminShell } from "./AdminShell";
+import { AdminPageHeader } from "./AdminPageHeader";
 
 const GHOST_CARDS = ["Receita no mês", "Recebido", "A receber", "Assinaturas ativas"];
 
 /** Faturamento: desenhado e pronto, mas sem dado — nada é inventado. */
 export function AdminRevenue() {
   return (
-    <AdminOnly>
-      {() => (
-        <AdminShell
-          title="Faturamento"
-          subtitle="A receita do site aparece aqui quando houver pagamento conectado."
-        >
-          <Alert variant="warning">
+    <>
+      <AdminPageHeader
+        title="Faturamento"
+        subtitle="A receita do site aparece aqui quando houver pagamento conectado."
+      />
+      <Alert variant="warning">
             Nenhuma forma de pagamento está conectada, e anunciar é grátis hoje. Quando você definir a monetização
             (destaque pago, plano para lojista, cobrança por anúncio…), os números passam a aparecer aqui — sem
             precisar mexer nesta tela de novo.
@@ -39,11 +37,9 @@ export function AdminRevenue() {
             ))}
           </div>
 
-          <div className="mt-3 flex h-56 items-center justify-center rounded-2xl border border-dashed border-border bg-surface/60 px-6 text-center text-sm text-chrome-muted">
-            O gráfico de faturamento aparece aqui assim que os pagamentos estiverem ligados.
-          </div>
-        </AdminShell>
-      )}
-    </AdminOnly>
+      <div className="mt-3 flex h-56 items-center justify-center rounded-2xl border border-dashed border-border bg-surface/60 px-6 text-center text-sm text-chrome-muted">
+        O gráfico de faturamento aparece aqui assim que os pagamentos estiverem ligados.
+      </div>
+    </>
   );
 }

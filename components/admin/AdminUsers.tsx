@@ -2,6 +2,7 @@
 
 import { Ban, RotateCcw, Search, ShieldOff, Store, User, UsersRound } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Alert } from "@/components/ui/Alert";
 import { Badge } from "@/components/ui/Badge";
@@ -15,8 +16,7 @@ import { SELLER_TYPE_LABEL } from "@/lib/labels";
 import { adminRepository } from "@/repositories/adminRepository";
 import type { AdminUser } from "@/types/admin";
 import type { SellerType } from "@/types/user";
-import { AdminOnly } from "./AdminOnly";
-import { AdminShell } from "./AdminShell";
+import { AdminPageHeader } from "./AdminPageHeader";
 
 const TYPE_FILTERS: { value: "todos" | SellerType; label: string }[] = [
   { value: "todos", label: "Todos" },
@@ -27,7 +27,7 @@ const TYPE_FILTERS: { value: "todos" | SellerType; label: string }[] = [
 
 /** Gestão de usuários: listar, buscar e banir/desbanir contas. */
 export function AdminUsers() {
-  return <AdminOnly>{() => <UsersContent />}</AdminOnly>;
+  return <UsersContent />;
 }
 
 function initials(name: string): string {
@@ -36,9 +36,10 @@ function initials(name: string): string {
 }
 
 function UsersContent() {
+  const searchParams = useSearchParams();
   const [users, setUsers] = useState<AdminUser[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
   const [type, setType] = useState<"todos" | SellerType>("todos");
   const [confirming, setConfirming] = useState<AdminUser | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -90,10 +91,11 @@ function UsersContent() {
   };
 
   return (
-    <AdminShell
-      title="Usuários"
-      subtitle="Contas reais do site. Banir esconde os anúncios da pessoa e a impede de publicar — dá para desfazer."
-    >
+    <>
+      <AdminPageHeader
+        title="Usuários"
+        subtitle="Contas reais do site. Banir esconde os anúncios da pessoa e a impede de publicar — dá para desfazer."
+      />
       <div className="flex flex-col gap-4">
         {error && <Alert variant="danger">{error}</Alert>}
 
@@ -210,6 +212,6 @@ function UsersContent() {
           </>
         }
       />
-    </AdminShell>
+    </>
   );
 }

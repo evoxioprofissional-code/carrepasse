@@ -2,10 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Exo_2, Inter } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
-import { BottomNav } from "@/components/layout/BottomNav";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
-import { SkipLink } from "@/components/layout/SkipLink";
+import { SiteShell } from "@/components/layout/SiteShell";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -53,13 +50,7 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${inter.variable} ${exo2.variable}`}>
       <body className="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
         <AuthProvider>
-          <SkipLink />
-          <Header />
-          <main id="conteudo" className="flex-1 pb-20">
-            {children}
-          </main>
-          <Footer />
-          <BottomNav />
+          <SiteShell>{children}</SiteShell>
         </AuthProvider>
         {/* Visitas e origem (ex.: Instagram), sem cookies. Ligar só depois de ativar
             o Analytics no painel da Vercel (senão o script dá 404 no console). */}

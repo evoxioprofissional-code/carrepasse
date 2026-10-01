@@ -1,8 +1,7 @@
 "use client";
 
 import { Megaphone, UsersRound, type LucideIcon } from "lucide-react";
-import { AdminOnly } from "./AdminOnly";
-import { AdminShell, AdminComingSoon } from "./AdminShell";
+import { AdminComingSoon, AdminPageHeader } from "./AdminPageHeader";
 
 const ICONS: Record<string, LucideIcon> = {
   usuarios: UsersRound,
@@ -21,14 +20,11 @@ interface ComingSoonPageProps {
 export function ComingSoonPage({ section, title, subtitle, heading, body }: ComingSoonPageProps) {
   const Icon = ICONS[section];
   return (
-    <AdminOnly>
-      {() => (
-        <AdminShell title={title} subtitle={subtitle}>
-          <AdminComingSoon icon={<Icon aria-hidden />} title={heading}>
-            {body}
-          </AdminComingSoon>
-        </AdminShell>
-      )}
-    </AdminOnly>
+    <>
+      <AdminPageHeader title={title} subtitle={subtitle} />
+      <AdminComingSoon icon={<Icon aria-hidden />} title={heading}>
+        {body}
+      </AdminComingSoon>
+    </>
   );
 }
