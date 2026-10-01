@@ -5,6 +5,7 @@ import type { SellerType } from "@/types/user";
 type ProfileRow = {
   id: string;
   name: string;
+  phone: string | null;
   seller_type: SellerType;
   store_name: string | null;
   city: string | null;
@@ -24,21 +25,33 @@ export const adminRepository = {
 
   /** Contas reais do site (demo fica de fora), mais recentes primeiro. */
   async listUsers(): Promise<AdminUser[]> {
-    const { data, error } = await supabase()
-      .from("profiles")
-      .select("id, name, seller_type, store_name, city, state, avatar_url, created_at, banned_at")
-      .eq("is_demo", false)
-      .order("created_at", { ascending: false });
-    if (error) throw new Error(error.message);
-    return ((data ?? []) as ProfileRow[]).map((row) => ({
+    const [profilesRes, listingsRes] = await Promise.all([
+      supabase()
+        .from("profiles")
+        .select("id, name, phone, seller_type, store_name, city, state, avatar_url, created_at, banned_at")
+        .eq("is_demo", false)
+        .order("created_at", { ascending: false }),
+      supabase().from("listings").select("seller_id").is("deleted_at", null),
+    ]);
+    if (profilesRes.error) throw new Error(profilesRes.error.message);
+    if (listingsRes.error) throw new Error(listingsRes.error.message);
+
+    const counts = new Map<string, number>();
+    for (const row of (listingsRes.data ?? []) as { seller_id: string }[]) {
+      counts.set(row.seller_id, (counts.get(row.seller_id) ?? 0) + 1);
+    }
+
+    return ((profilesRes.data ?? []) as ProfileRow[]).map((row) => ({
       id: row.id,
       name: row.name,
+      phone: row.phone,
       sellerType: row.seller_type,
       storeName: row.store_name,
       city: row.city,
       state: row.state,
       avatarUrl: row.avatar_url,
       createdAt: row.created_at,
+      listingsCount: counts.get(row.id) ?? 0,
       bannedAt: row.banned_at,
     }));
   },

@@ -4,12 +4,15 @@ import type { SellerType } from "./user";
 export interface AdminUser {
   id: string;
   name: string;
+  phone: string | null;
   sellerType: SellerType;
   storeName: string | null;
   city: string | null;
   state: string | null;
   avatarUrl: string | null;
   createdAt: string;
+  /** Quantos anúncios (não excluídos) o usuário tem. */
+  listingsCount: number;
   /** Preenchido = conta banida (anúncios ocultos, não pode publicar). */
   bannedAt: string | null;
 }
