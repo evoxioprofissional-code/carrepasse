@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import sample from "./__fixtures__/apiplacas-doc.json";
-import { parseApiPlacas, type ApiPlacasResponse } from "./apiPlacas";
+import { parseApiPlacas, sanitizeApiPlacas, type ApiPlacasResponse } from "./apiPlacas";
 
 // Exemplo de resposta da documentação oficial (apiplacas.com.br/doc.php).
 const doc = sample as ApiPlacasResponse;
@@ -69,6 +69,12 @@ describe("API Placas: leitura da resposta", () => {
     expect(parsed.result.fuel).toBe("diesel");
     expect(parsed.result.version.toLowerCase()).toContain("4x4");
     expect(parsed.result.fipeCode).toBe("022002-9");
+  });
+
+  it("higieniza a resposta pro cache (sem dado do dono) e reinterpreta igual", () => {
+    const safe = sanitizeApiPlacas(doc);
+    expect(JSON.stringify(safe)).not.toMatch(/tipo_doc|faturado|chassi|municipio|uf_placa|situacao_chassi/i);
+    expect(parseApiPlacas("INT8C36", safe)).toEqual(parseApiPlacas("INT8C36", doc));
   });
 
   it("sem marca/modelo/ano, trata como não encontrada", () => {

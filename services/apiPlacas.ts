@@ -175,8 +175,38 @@ export function parseApiPlacas(plate: string, data: ApiPlacasResponse): PlatePar
   };
 }
 
-/** Placa já normalizada e válida. */
-export async function apiPlacasLookup(plate: string, token: string): Promise<PlateParseResult> {
+/**
+ * Guarda no cache SÓ o que o leitor usa — nunca dados do proprietário
+ * (chassi, município, documentos, faturado…). Assim a resposta crua pode ser
+ * reinterpretada depois sem reconsultar, e sem guardar dado sensível.
+ */
+export function sanitizeApiPlacas(data: ApiPlacasResponse): ApiPlacasResponse {
+  const e = data.extra ?? {};
+  return {
+    MARCA: data.MARCA,
+    MODELO: data.MODELO,
+    VERSAO: data.VERSAO,
+    ano: data.ano,
+    anoModelo: data.anoModelo,
+    codigoSituacao: data.codigoSituacao,
+    cor: data.cor,
+    situacao: data.situacao,
+    extra: {
+      ano_fabricacao: e.ano_fabricacao,
+      ano_modelo: e.ano_modelo,
+      caixa_cambio: e.caixa_cambio,
+      combustivel: e.combustivel,
+      especie: e.especie,
+      sub_segmento: e.sub_segmento,
+      tipo_carroceria: e.tipo_carroceria,
+      tipo_veiculo: e.tipo_veiculo,
+    },
+    fipe: data.fipe ? { dados: data.fipe.dados } : undefined,
+  };
+}
+
+/** Busca crua na API (sem interpretar). null = placa não encontrada (401/406). */
+export async function fetchApiPlacas(plate: string, token: string): Promise<ApiPlacasResponse | null> {
   let response: Response;
   try {
     response = await fetch(`${BASE}/consulta/${plate}/${encodeURIComponent(token)}`, {
@@ -189,12 +219,18 @@ export async function apiPlacasLookup(plate: string, token: string): Promise<Pla
 
   // Códigos da API Placas: 401 placa inválida, 402 token inválido,
   // 406 sem resultados, 429 limite de consultas do plano.
-  if (response.status === 401 || response.status === 406) return { kind: "not-found" };
+  if (response.status === 401 || response.status === 406) return null;
   if (response.status === 402) throw new PlateProviderError("API Placas: token inválido.", true);
   if (response.status === 429) throw new PlateProviderError("API Placas: limite de consultas do plano atingido.", true);
   if (!response.ok) throw new PlateProviderError(`API Placas respondeu ${response.status}.`);
 
   const data = (await response.json().catch(() => null)) as ApiPlacasResponse | null;
   if (!data) throw new PlateProviderError("API Placas devolveu uma resposta inválida.");
-  return parseApiPlacas(plate, data);
+  return data;
+}
+
+/** Placa já normalizada e válida. */
+export async function apiPlacasLookup(plate: string, token: string): Promise<PlateParseResult> {
+  const data = await fetchApiPlacas(plate, token);
+  return data ? parseApiPlacas(plate, data) : { kind: "not-found" };
 }

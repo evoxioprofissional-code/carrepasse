@@ -1,7 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isValidPlate, normalizePlate } from "@/lib/plate";
 import { createRouteClient } from "@/lib/supabase/server";
-import { PlateProviderError, apiPlacasLookup, type PlateParseResult } from "@/services/apiPlacas";
+import {
+  PlateProviderError,
+  fetchApiPlacas,
+  parseApiPlacas,
+  sanitizeApiPlacas,
+  type ApiPlacasResponse,
+  type PlateParseResult,
+} from "@/services/apiPlacas";
 import { mockPlateLookup } from "@/services/plateMock";
 
 // Consulta de placa pelo servidor: o token da API nunca vai para o navegador.
@@ -57,7 +64,11 @@ export async function POST(request: NextRequest) {
     .eq("plate", plate)
     .maybeSingle();
   if (cached && Date.now() - new Date(cached.fetched_at).getTime() < CACHE_DAYS * DAY) {
-    return respond(cached.result as PlateParseResult);
+    const stored = cached.result as PlateParseResult | ApiPlacasResponse;
+    // Linhas novas guardam a resposta crua (reinterpretada aqui, pra pegar
+    // correções do leitor de graça); as antigas já guardavam o resultado pronto.
+    const parsed = stored && "kind" in stored ? stored : parseApiPlacas(plate, stored as ApiPlacasResponse);
+    return respond(parsed);
   }
 
   // 2) Limite diário de consultas pagas (toda consulta paga grava uma linha).
@@ -70,13 +81,15 @@ export async function POST(request: NextRequest) {
     return fail(429, "Você atingiu o limite de consultas de placa por hoje. Preencha pela tabela FIPE ou tente amanhã.");
   }
 
-  // 3) Consulta paga.
+  // 3) Consulta paga. Guarda a resposta crua higienizada (sem dado do dono),
+  //    pra reinterpretar depois sem reconsultar.
   try {
-    const parsed = await apiPlacasLookup(plate, token);
+    const raw = await fetchApiPlacas(plate, token);
+    const toCache = raw ? sanitizeApiPlacas(raw) : ({ kind: "not-found" } as const);
     await supabase
       .from("plate_lookups")
-      .upsert({ user_id: user.id, plate, result: parsed, provider: "apiplacas" }, { onConflict: "user_id,plate" });
-    return respond(parsed);
+      .upsert({ user_id: user.id, plate, result: toCache, provider: "apiplacas" }, { onConflict: "user_id,plate" });
+    return respond(raw ? parseApiPlacas(plate, raw) : { kind: "not-found" });
   } catch (error) {
     if (error instanceof PlateProviderError && error.configuration) console.error("[api/placa]", error.message);
     return fail(503, "A consulta de placa está fora do ar agora. Preencha pela tabela FIPE.");
