@@ -54,7 +54,7 @@ export const adminRepository = {
       counts.set(row.seller_id, (counts.get(row.seller_id) ?? 0) + 1);
     }
 
-    return ((profilesRes.data ?? []) as ProfileRow[]).map((row) => ({
+    return ((profilesRes.data ?? []) as unknown as ProfileRow[]).map((row) => ({
       id: row.id,
       name: row.name,
       phone: row.phone,
