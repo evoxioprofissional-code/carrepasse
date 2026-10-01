@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, Flag, Heart, LogOut, Megaphone, UserRound } from "lucide-react";
+import { ChevronDown, Flag, Heart, LayoutDashboard, LogOut, Megaphone, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -103,10 +103,21 @@ export function UserMenu() {
           ))}
           {state.isAdmin && (
             <Link
-              href="/admin/denuncias"
+              href="/admin"
               role="menuitem"
               onClick={() => setOpen(false)}
               className="flex items-center gap-2.5 border-t border-border px-4 py-2.5 text-sm text-chrome transition duration-150 hover:bg-surface-2"
+            >
+              <LayoutDashboard aria-hidden className="size-4 text-chrome-muted" />
+              Painel da equipe
+            </Link>
+          )}
+          {state.isAdmin && (
+            <Link
+              href="/admin/denuncias"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-chrome transition duration-150 hover:bg-surface-2"
             >
               <Flag aria-hidden className="size-4 text-chrome-muted" />
               Denúncias

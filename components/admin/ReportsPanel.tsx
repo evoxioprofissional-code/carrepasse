@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Flag, ShieldCheck } from "lucide-react";
+import { ExternalLink, Flag } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Alert } from "@/components/ui/Alert";
@@ -9,14 +9,14 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Skeleton } from "@/components/ui/Skeleton";
-import { SignInRequired } from "@/components/auth/SignInRequired";
-import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/cn";
 import { formatRelativeDate } from "@/lib/format";
 import { REPORT_REASON_LABEL } from "@/lib/labels";
 import { listingRepository } from "@/repositories/listingRepository";
 import { reportRepository } from "@/repositories/reportRepository";
 import type { ReportStatus, ReportWithListing } from "@/types/report";
+import { AdminNav } from "./AdminNav";
+import { AdminOnly } from "./AdminOnly";
 
 const TABS: { value: ReportStatus; label: string }[] = [
   { value: "aberta", label: "Abertas" },
@@ -28,18 +28,19 @@ const LISTING_STATUS_LABEL = { ativo: "Ativo", pausado: "Pausado", vendido: "Ven
 
 /** Painel de moderação: denúncias dos visitantes e ações sobre o anúncio. */
 export function ReportsPanel() {
-  const { state } = useAuth();
+  return <AdminOnly>{(userId) => <ReportsContent userId={userId} />}</AdminOnly>;
+}
+
+function ReportsContent({ userId }: { userId: string }) {
   const [tab, setTab] = useState<ReportStatus>("aberta");
   const [loaded, setLoaded] = useState<{ tab: ReportStatus; items: ReportWithListing[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
-  const isAdmin = state.status === "authenticated" && state.isAdmin;
 
   const [version, setVersion] = useState(0);
   const reload = () => setVersion((value) => value + 1);
 
   useEffect(() => {
-    if (!isAdmin) return;
     let cancelled = false;
     reportRepository
       .list(tab)
@@ -52,31 +53,8 @@ export function ReportsPanel() {
     return () => {
       cancelled = true;
     };
-  }, [isAdmin, tab, version]);
+  }, [tab, version]);
 
-  if (state.status === "loading") {
-    return (
-      <Container className="max-w-4xl py-8">
-        <Skeleton className="h-64 w-full rounded-2xl" />
-      </Container>
-    );
-  }
-  if (state.status === "anonymous") {
-    return (
-      <Container className="max-w-4xl py-16">
-        <SignInRequired />
-      </Container>
-    );
-  }
-  if (!isAdmin) {
-    return (
-      <Container className="max-w-4xl py-16">
-        <EmptyState icon={<ShieldCheck aria-hidden />} title="Acesso restrito" description="Esta página é só para a equipe do Car Repasse." />
-      </Container>
-    );
-  }
-
-  const userId = state.user.id;
   const run = async (report: ReportWithListing, action: () => Promise<void>) => {
     setBusyId(report.id);
     try {
@@ -99,7 +77,8 @@ export function ReportsPanel() {
 
   return (
     <Container className="max-w-4xl py-8 lg:py-12">
-      <h1 className="text-3xl text-chrome sm:text-4xl">Denúncias</h1>
+      <AdminNav />
+      <h1 className="mt-6 text-3xl text-chrome sm:text-4xl">Denúncias</h1>
       <p className="mt-1 text-sm text-chrome-muted">
         Pausar tira o anúncio da busca na hora; o vendedor pode reativar, então fale com ele se for golpe.
       </p>

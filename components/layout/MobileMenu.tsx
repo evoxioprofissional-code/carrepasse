@@ -1,6 +1,6 @@
 "use client";
 
-import { Flag, Heart, LogIn, LogOut, Megaphone, Menu, Plus, UserRound } from "lucide-react";
+import { Flag, Heart, LayoutDashboard, LogIn, LogOut, Megaphone, Menu, Plus, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -73,6 +73,18 @@ export function MobileMenu() {
                 </Link>
               </li>
             ))}
+            {state.status === "authenticated" && state.isAdmin && (
+              <li>
+                <Link
+                  href="/admin"
+                  onClick={close}
+                  className="flex items-center gap-2 rounded-lg px-3 py-3 text-base font-medium text-chrome transition duration-150 hover:bg-surface-2"
+                >
+                  <LayoutDashboard aria-hidden className="size-5 text-chrome-muted" />
+                  Painel da equipe
+                </Link>
+              </li>
+            )}
             {state.status === "authenticated" && state.isAdmin && (
               <li>
                 <Link
