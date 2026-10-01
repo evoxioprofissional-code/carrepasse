@@ -2,6 +2,7 @@
 
 import { CircleCheck, MessageCircle, Plus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { StoryDownloadLink } from "@/components/listing/StoryDownloadLink";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { formatBRL } from "@/lib/format";
 import { mainPrice } from "@/lib/fipe-math";
@@ -35,6 +36,11 @@ export function PublishSuccess({ listing, onNewListing }: PublishSuccessProps) {
           <MessageCircle aria-hidden className="size-5" />
           Compartilhar no WhatsApp
         </a>
+        <StoryDownloadLink
+          listingId={listing.id}
+          label="Baixar imagem para o Instagram"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-night px-5 font-bold text-white transition duration-150 hover:brightness-125"
+        />
         <ButtonLink href={`/carros/${listing.id}`} variant="secondary" size="lg" fullWidth>
           Ver anúncio
         </ButtonLink>

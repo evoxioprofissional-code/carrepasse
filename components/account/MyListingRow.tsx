@@ -3,6 +3,7 @@
 import { CalendarCheck, CheckCheck, Eye, MessageCircle, Pause, PencilLine, Play, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { ListingPhoto } from "@/components/listing/ListingPhoto";
+import { StoryDownloadLink } from "@/components/listing/StoryDownloadLink";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/cn";
 import { mainPrice } from "@/lib/fipe-math";
@@ -83,6 +84,9 @@ export function MyListingRow({ listing, busy, onStatus, onConfirm, onDelete }: M
             <CalendarCheck aria-hidden className="size-4" />
             Ainda está à venda
           </button>
+        )}
+        {listing.status === "ativo" && !expired && (
+          <StoryDownloadLink listingId={listing.id} label="Instagram" className={actionClass} />
         )}
         <Link href={`/minha-conta/anuncios/${listing.id}/editar`} className={actionClass}>
           <PencilLine aria-hidden className="size-4" />

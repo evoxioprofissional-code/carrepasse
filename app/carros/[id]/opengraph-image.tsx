@@ -1,13 +1,11 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { illustrationColorFor, renderCarSvg } from "@/lib/car-illustration";
 import { compareWithFipe, mainPrice } from "@/lib/fipe-math";
 import { formatBRL, formatKm, formatYears } from "@/lib/format";
+import { coverImage } from "@/lib/og-cover";
 import { loadExo2 } from "@/lib/og-font";
-import { LISTING_PHOTOS_BUCKET, SUPABASE_URL } from "@/lib/supabase/config";
 import { getPublicListing, getPublicListingIds } from "@/repositories/serverData";
-import type { BodyType } from "@/types/listing";
 
 export const alt = "Anúncio no Car Repasse";
 export const size = { width: 1200, height: 630 };
@@ -21,45 +19,6 @@ export async function generateStaticParams() {
 
 const BG = "#0A0A0A";
 
-const STORAGE_PREFIX = `${SUPABASE_URL}/storage/v1/object/public/${LISTING_PHOTOS_BUCKET}/`;
-
-/** Foto enviada pelo vendedor (só do nosso Storage; o gerador lê JPEG e PNG). */
-async function storagePhotoDataUrl(photo: string): Promise<string | null> {
-  try {
-    const response = await fetch(photo, { signal: AbortSignal.timeout(5000) });
-    const type = response.headers.get("content-type") ?? "";
-    if (!response.ok || !/^image\/(jpeg|png)/.test(type)) return null;
-    const data = Buffer.from(await response.arrayBuffer());
-    return `data:${type.split(";")[0]};base64,${data.toString("base64")}`;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Foto do anúncio embutida na imagem; sem foto utilizável, usa a ilustração.
- * `illustrative` liga o selo "Imagem ilustrativa" (demonstração ou desenho).
- */
-async function coverImage(
-  photo: string | undefined,
-  bodyType: BodyType,
-  color: string,
-): Promise<{ src: string; illustrative: boolean }> {
-  if (photo?.startsWith("/demo/")) {
-    try {
-      const file = await readFile(join(process.cwd(), "public", photo));
-      return { src: `data:image/jpeg;base64,${file.toString("base64")}`, illustrative: true };
-    } catch {
-      // cai na ilustração abaixo
-    }
-  }
-  if (photo?.startsWith(STORAGE_PREFIX)) {
-    const uploaded = await storagePhotoDataUrl(photo);
-    if (uploaded) return { src: uploaded, illustrative: false };
-  }
-  const svg = renderCarSvg(bodyType, illustrationColorFor(color), 1);
-  return { src: `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`, illustrative: true };
-}
 const BRAND = "#7ED321";
 
 // Imagem que aparece quando o link do anúncio é colado no WhatsApp/Instagram.
