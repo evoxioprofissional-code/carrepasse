@@ -25,7 +25,11 @@ As 8 fases do `SPEC.md` foram concluídas e o projeto foi além do protótipo:
   Entram no `sitemap.xml` e há um bloco "Navegue por marca e cidade" no rodapé de `/carros`.
   Pré-geradas no build e revalidadas a cada 1h.
 - **Conta:** foto ou logo, "Esqueci minha senha" e exclusão da própria conta (LGPD).
-- **Equipe:** denúncias em `/admin/denuncias` e números do site em `/admin`, só para administradores.
+- **Painel da equipe (`/admin`, só administradores):** shell com abas (Painel · Usuários · Anúncios ·
+  Denúncias · Faturamento), dashboard de métricas repaginado (KPIs + composição por tipo de usuário e
+  situação dos anúncios, dado real do `admin_stats`) e moderação de denúncias em `/admin/denuncias`.
+  **Em construção** (placeholders honestos, sem dado falso): Usuários (listar/banir), Anúncios (moderar)
+  e Faturamento (desenhado, mas sem pagamento conectado — "anunciar é grátis" segue valendo).
 
 Produção: https://www.carrepasse.com.br. A Vercel publica a cada push na `main`.
 

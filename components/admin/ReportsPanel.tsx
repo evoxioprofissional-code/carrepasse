@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Alert } from "@/components/ui/Alert";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/cn";
@@ -15,8 +14,8 @@ import { REPORT_REASON_LABEL } from "@/lib/labels";
 import { listingRepository } from "@/repositories/listingRepository";
 import { reportRepository } from "@/repositories/reportRepository";
 import type { ReportStatus, ReportWithListing } from "@/types/report";
-import { AdminNav } from "./AdminNav";
 import { AdminOnly } from "./AdminOnly";
+import { AdminShell } from "./AdminShell";
 
 const TABS: { value: ReportStatus; label: string }[] = [
   { value: "aberta", label: "Abertas" },
@@ -76,14 +75,11 @@ function ReportsContent({ userId }: { userId: string }) {
   const items = loaded?.tab === tab ? loaded.items : null;
 
   return (
-    <Container className="max-w-4xl py-8 lg:py-12">
-      <AdminNav />
-      <h1 className="mt-6 text-3xl text-chrome sm:text-4xl">Denúncias</h1>
-      <p className="mt-1 text-sm text-chrome-muted">
-        Pausar tira o anúncio da busca na hora; o vendedor pode reativar, então fale com ele se for golpe.
-      </p>
-
-      <div role="tablist" aria-label="Situação" className="scrollbar-none -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+    <AdminShell
+      title="Denúncias"
+      subtitle="Pausar tira o anúncio da busca na hora; o vendedor pode reativar, então fale com ele se for golpe."
+    >
+      <div role="tablist" aria-label="Situação" className="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:px-0">
         {TABS.map((item) => (
           <button
             key={item.value}
@@ -158,6 +154,6 @@ function ReportsContent({ userId }: { userId: string }) {
           </article>
         ))}
       </div>
-    </Container>
+    </AdminShell>
   );
 }
