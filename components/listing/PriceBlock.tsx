@@ -2,7 +2,8 @@ import { TrendingDown, TrendingUp } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { cn } from "@/lib/cn";
 import { compareWithFipe, mainPrice } from "@/lib/fipe-math";
-import { formatBRL } from "@/lib/format";
+import { formatBRL, formatRelativeDate } from "@/lib/format";
+import { recentPriceDrop } from "@/lib/price-drop";
 import type { Listing } from "@/types/listing";
 import { FipeComparisonBar } from "./FipeComparisonBar";
 
@@ -19,6 +20,7 @@ export function PriceBlock({ listing }: PriceBlockProps) {
   const price = mainPrice(listing);
   const comparison = compareWithFipe(listing.fipePrice, price);
   const hasBoth = listing.repassePrice !== undefined && listing.finalPrice !== undefined;
+  const priceDrop = recentPriceDrop(listing);
 
   return (
     <div className="flex flex-col gap-4">
@@ -53,6 +55,16 @@ export function PriceBlock({ listing }: PriceBlockProps) {
             {formatBRL(listing.finalPrice)}
           </p>
         </div>
+      )}
+
+      {priceDrop && listing.priceDroppedAt && (
+        <p className="flex items-center gap-2 rounded-lg bg-lime-soft px-3 py-2 text-sm text-lime-ink">
+          <TrendingDown aria-hidden className="size-4 shrink-0" />
+          <span>
+            <strong>Preço reduzido em {formatBRL(priceDrop)}</strong> {formatRelativeDate(listing.priceDroppedAt)} (antes{" "}
+            {formatBRL(listing.previousPrice ?? 0)})
+          </span>
+        </p>
       )}
 
       <div className="flex flex-col gap-3 rounded-lg border border-border p-3">

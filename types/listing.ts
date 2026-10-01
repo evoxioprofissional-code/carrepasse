@@ -55,6 +55,10 @@ export interface Listing {
   photos: string[];
   status: ListingStatus;
   views: number;
+  /** Preço principal antes da última redução (só o banco grava). */
+  previousPrice?: number;
+  /** Quando o preço caiu pela última vez (selo "Baixou" por 14 dias). */
+  priceDroppedAt?: string;
   /** Toques em "Chamar no WhatsApp" (só o banco soma). */
   contacts: number;
   createdAt: string;

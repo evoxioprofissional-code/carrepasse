@@ -6,6 +6,7 @@ import { formatBRL, formatKm, formatYears } from "@/lib/format";
 import { PRICE_MODE_LABEL } from "@/lib/labels";
 import { coverImage } from "@/lib/og-cover";
 import { loadExo2 } from "@/lib/og-font";
+import { recentPriceDrop } from "@/lib/price-drop";
 import { SITE } from "@/lib/site";
 import type { Listing } from "@/types/listing";
 
@@ -22,6 +23,7 @@ const WARNING = "#F59E0B";
 export async function renderStory(listing: Listing, siteHost: string): Promise<ImageResponse> {
   const price = mainPrice(listing);
   const comparison = compareWithFipe(listing.fipePrice, price);
+  const priceDrop = recentPriceDrop(listing);
   const [logo, cover, bold, medium] = await Promise.all([
     readFile(join(process.cwd(), "public/brand/logo-mark.png")),
     coverImage(listing.photos[0], listing.bodyType, listing.color),
@@ -84,8 +86,15 @@ export async function renderStory(listing: Listing, siteHost: string): Promise<I
         )}
 
         <div style={{ display: "flex", flexDirection: "column", marginTop: "auto", gap: 8 }}>
-          <div style={{ fontSize: 40, color: MUTED, textDecoration: comparison.kind === "below" ? "line-through" : "none" }}>
-            {`FIPE ${formatBRL(listing.fipePrice)}`}
+          <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+            <div style={{ fontSize: 40, color: MUTED, textDecoration: comparison.kind === "below" ? "line-through" : "none" }}>
+              {`FIPE ${formatBRL(listing.fipePrice)}`}
+            </div>
+            {priceDrop && (
+              <div style={{ display: "flex", fontSize: 34, fontWeight: 800, color: LIME, border: `3px solid ${LIME}`, padding: "4px 16px", borderRadius: 12 }}>
+                {`Baixou ${formatBRL(priceDrop)}`}
+              </div>
+            )}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
             <div style={{ fontSize: 128, fontWeight: 800, color: LIME, lineHeight: 1 }}>{formatBRL(price)}</div>

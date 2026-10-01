@@ -1,10 +1,11 @@
-import { ArrowRight, MapPin, TriangleAlert, UserRound } from "lucide-react";
+import { ArrowRight, MapPin, TrendingDown, TriangleAlert, UserRound } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { compareWithFipe, mainPrice } from "@/lib/fipe-math";
 import { formatBRL, formatKm } from "@/lib/format";
 import { PRICE_MODE_LABEL, SELLER_TYPE_LABEL } from "@/lib/labels";
 import { isExpired } from "@/lib/listing-expiry";
+import { recentPriceDrop } from "@/lib/price-drop";
 import type { ListingWithSeller } from "@/types/listing";
 import { FavoriteButton } from "./FavoriteButton";
 import { ListingPhoto } from "./ListingPhoto";
@@ -27,6 +28,7 @@ export function VehicleCard({ listing, priority, className }: VehicleCardProps) 
   // Favoritos podem trazer anúncios que saíram da busca: aparecem esmaecidos.
   const unavailable =
     listing.status === "vendido" ? "Vendido" : listing.status === "pausado" ? "Pausado" : isExpired(listing) ? "Indisponível" : null;
+  const priceDrop = recentPriceDrop(listing);
   const alerts = [
     listing.condition.hasAuctionHistory && "Leilão",
     listing.condition.hasAccidentHistory && "Sinistro",
@@ -88,7 +90,13 @@ export function VehicleCard({ listing, priority, className }: VehicleCardProps) 
           </p>
         )}
 
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+        {priceDrop && !unavailable && (
+          <p className="mt-2.5 inline-flex items-center gap-1 text-[13px] font-semibold text-lime-ink">
+            <TrendingDown aria-hidden className="size-4" />
+            Baixou {formatBRL(priceDrop)}
+          </p>
+        )}
+        <div className={cn("flex flex-wrap items-center gap-x-3 gap-y-1.5", priceDrop && !unavailable ? "mt-1" : "mt-3")}>
           {price > 0 ? (
             <p className="text-[26px] font-extrabold leading-none tracking-tight text-ink">{formatBRL(price)}</p>
           ) : (

@@ -52,6 +52,8 @@ export interface ListingRow {
   status: ListingStatus;
   views: number;
   contacts: number | null;
+  previous_price: number | null;
+  price_dropped_at: string | null;
   plate_prefix: string | null;
   created_at: string;
   updated_at: string;
@@ -132,6 +134,8 @@ export function toListing(row: ListingRow): Listing {
     status: row.status,
     views: row.views,
     contacts: row.contacts ?? 0,
+    previousPrice: row.previous_price ?? undefined,
+    priceDroppedAt: row.price_dropped_at ?? undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     confirmedAt: row.confirmed_at ?? row.created_at,

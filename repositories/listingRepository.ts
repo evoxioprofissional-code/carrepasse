@@ -24,7 +24,10 @@ export interface FilterOptions {
   total: number;
 }
 
-export type ListingInput = Omit<Listing, "id" | "views" | "contacts" | "createdAt" | "updatedAt" | "confirmedAt" | "status"> & {
+export type ListingInput = Omit<
+  Listing,
+  "id" | "views" | "contacts" | "previousPrice" | "priceDroppedAt" | "createdAt" | "updatedAt" | "confirmedAt" | "status"
+> & {
   status?: Listing["status"];
 };
 

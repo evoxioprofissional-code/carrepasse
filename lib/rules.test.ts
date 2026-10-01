@@ -4,6 +4,7 @@ import { formatBRL, formatKm, formatPhone, formatRelativeDate, formatThousandsIn
 import { daysUntilExpiry, isExpired, LISTING_TTL_DAYS } from "./listing-expiry";
 import { emptyListingForm, toListingFields, validateStep } from "./listing-form";
 import { parseSearchFilters, serializeSearchFilters } from "./listing-query";
+import { recentPriceDrop } from "./price-drop";
 import { formatPlateInput, isValidPlate, maskPlate, normalizePlate } from "./plate";
 import { safeRedirect } from "./redirect";
 import { whatsappLink } from "./whatsapp";
@@ -142,5 +143,18 @@ describe("formulário do anúncio", () => {
     expect(fields.km).toBe(48000);
     expect(fields.repassePrice).toBeUndefined();
     expect(fields.finalPrice).toBe(55000);
+  });
+});
+
+describe("baixou o preço", () => {
+  const now = new Date("2026-10-01T12:00:00Z");
+  const base = { fipePrice: 50000, repassePrice: 46400, previousPrice: 48400 };
+  it("mostra a redução por 14 dias", () => {
+    expect(recentPriceDrop({ ...base, priceDroppedAt: new Date(now.getTime() - 3 * DAY).toISOString() }, now)).toBe(2000);
+    expect(recentPriceDrop({ ...base, priceDroppedAt: new Date(now.getTime() - 15 * DAY).toISOString() }, now)).toBeNull();
+  });
+  it("sem preço anterior ou se o preço voltou a subir, não mostra", () => {
+    expect(recentPriceDrop({ fipePrice: 50000, repassePrice: 46400 }, now)).toBeNull();
+    expect(recentPriceDrop({ ...base, repassePrice: 49000, priceDroppedAt: now.toISOString() }, now)).toBeNull();
   });
 });
