@@ -40,6 +40,7 @@ Crie um `.env.local` só se quiser apontar para outro projeto ou domínio:
 | `NEXT_PUBLIC_VERCEL_ANALYTICS` | `1` liga o Vercel Analytics (ative antes no painel da Vercel) |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Liga o captcha (Cloudflare Turnstile) no cadastro, login e senha. Ative também na Supabase |
 | `API_PLACAS_TOKEN` | Token da API Placas (wdapi2). Só no servidor. Sem ele, a consulta de placa é simulada |
+| `SUPABASE_ACCESS_TOKEN` | Só no computador, para o `supabase/query.sh` aplicar migrações (token pessoal da Supabase) |
 
 Nunca coloque chaves secretas (`sb_secret_…`, `service_role`) no código nem em variáveis `NEXT_PUBLIC_`.
 
@@ -95,9 +96,7 @@ public/         Logo, ícones do app e fotos de demonstração (créditos em /cr
 O site tem manifesto e ícones: no Android, “Adicionar à tela inicial”; no iPhone, Compartilhar →
 “Adicionar à Tela de Início”. Ele abre em tela cheia, como app.
 
-## O que ainda falta
+## Estado atual e pendências
 
-- Consulta de placa real: integração pronta em `/api/placa`; falta o `API_PLACAS_TOKEN` na Vercel.
-- E-mail próprio (Resend como SMTP da Supabase): sem ele, a Supabase só envia 2 e-mails por hora e
-  só para a equipe do projeto — o “Esqueci minha senha” já existe, mas depende disso.
-- Revisão jurídica dos Termos e da Política de Privacidade (marcados como rascunho).
+O que já está pronto, as decisões do dono e o que falta (API Placas, e-mail próprio, captcha, revisão
+jurídica, lançamento) estão no [`STATUS.md`](./STATUS.md).

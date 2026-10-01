@@ -2,6 +2,10 @@
 
 Leia o `CLAUDE.md` antes deste arquivo. Aqui está **o que construir**; lá está **como construir**.
 
+> **Documento histórico.** Esta é a especificação do protótipo (fases 1 a 8, todas concluídas). Depois
+> dela o projeto ganhou banco e login reais (Supabase), consulta de placa real e painel da equipe. Onde
+> este texto falar em mock, `localStorage` ou autenticação mockada, valem o código atual e o `STATUS.md`.
+
 ---
 
 ## 1. Modelos de dados (`types/`)
@@ -259,11 +263,11 @@ Execute uma fase por vez. Ao final de cada uma: rode lint e build, faça commit,
 - Nenhum erro no console do navegador.
 - Todas as páginas funcionam bem em 360px, 768px e 1280px.
 - Todo fluxo principal funciona de ponta a ponta: cadastrar-se → anunciar por placa → ver o anúncio publicado na listagem → favoritar com outra conta → chamar no WhatsApp.
-- Recarregar a página não perde dados (persistência local funcionando).
-- Nenhum componente acessa `localStorage` diretamente — só os repositórios.
+- Recarregar a página não perde dados.
+- Nenhum componente acessa a Supabase ou o `localStorage` diretamente — só os repositórios.
 
 ---
 
 ## 10. Fora do escopo agora (não construir)
 
-Backend e banco de dados reais, pagamentos e planos, anúncios em destaque pagos, chat interno, notificações push, consulta de placa real, painel administrativo, integração real com vistoria cautelar. A arquitetura deve apenas não atrapalhar essas evoluções.
+Pagamentos e planos, anúncios em destaque pagos, chat interno, notificações push e integração real com vistoria cautelar. A arquitetura deve apenas não atrapalhar essas evoluções.

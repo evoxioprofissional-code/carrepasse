@@ -1,6 +1,6 @@
 # Car Repasse — Contexto do Projeto
 
-Este arquivo é lido automaticamente pelo Claude Code em toda sessão. Ele define **o que é o projeto, como ele deve parecer e como o código deve ser escrito**. A especificação funcional completa está em `SPEC.md`.
+Este arquivo é lido automaticamente pelo Claude Code em toda sessão. Ele define **o que é o projeto, como ele deve parecer e como o código deve ser escrito**. A especificação original está em `SPEC.md`. **Antes de começar, leia o `STATUS.md`**: estado atual, decisões do dono e pendências.
 
 ---
 
@@ -107,7 +107,7 @@ components/
   layout/            # Header, Footer, BottomNav mobile
   forms/             # Wizard de anúncio e seus passos
 lib/                 # format.ts, plate.ts, fipe-math.ts, cn.ts
-services/            # Integrações: fipeApi.ts, plateLookup.ts (mock)
+services/            # Integrações: fipeApi.ts, apiPlacas.ts, plateLookup.ts (chama /api/placa), plateMock.ts
 repositories/        # Persistência: listingRepository.ts, userRepository.ts...
 mocks/               # Dados iniciais (seed)
 types/               # Interfaces de domínio
@@ -125,7 +125,7 @@ public/brand/        # Logo, ícones, OG
 
 - Repositório: `https://github.com/evoxioprofissional-code/carrepasse.git`, branch principal `main`.
 - Commits pequenos e frequentes, no padrão **Conventional Commits** em português: `feat: cadastro de anúncio por placa`, `fix: formatação de km`, `chore: configura tailwind`.
-- Fazer commit ao final de cada fase do `SPEC.md` e dar push.
+- Fazer commit ao final de cada entrega e dar push. O dono autorizou subir direto na `main` (a Vercel publica a partir dela) quando as três verificações abaixo passam.
 - Antes de cada commit: `npm run lint`, `npm test` e `npm run build` precisam passar sem erros (o GitHub Actions roda os três a cada push).
 - Nunca commitar `.env`, chaves ou `node_modules`.
-- Ao terminar uma fase, resumir o que foi feito e o que falta antes de seguir para a próxima.
+- Ao terminar uma entrega, resumir o que foi feito e o que falta, e atualizar o `STATUS.md`.
